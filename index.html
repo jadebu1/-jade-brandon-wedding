@@ -439,13 +439,12 @@ table.guest-table tr:hover td{background:#FDFAF6;}
       <thead><tr><th>Vendor</th><th>Notes</th><th class="num">Suggested Tip</th></tr></thead>
       <tbody>
         <tr><td>Noteworthy DJs</td><td style="font-size:11px;color:var(--mid);">Cash envelope, hand to DJ at end of night</td><td class="num">$100–200</td></tr>
-        <tr><td>Sarah Photographs</td><td style="font-size:11px;color:var(--mid);">$100–150 per shooter (2 photographers)</td><td class="num">$200–300</td></tr>
+        <tr><td>Sarah Photographs</td><td style="font-size:11px;color:var(--mid);">Cash envelope, hand to photographer at end of night</td><td class="num">$100–150</td></tr>
         <tr><td>Hair & Makeup artists</td><td style="font-size:11px;color:var(--mid);">15–20% each; 4 people getting services = 4–8 artists</td><td class="num">$150–200</td></tr>
-        <tr><td>Beau & Bloom (florist)</td><td style="font-size:11px;color:var(--mid);">If they deliver + set up day-of</td><td class="num">$75–100</td></tr>
         <tr><td>Anton Soderquist (officiant)</td><td style="font-size:11px;color:var(--mid);">He's a friend — a gift or card is great; cash optional</td><td class="num">$50–100</td></tr>
         <tr><td>FivePine coordinator</td><td style="font-size:11px;color:var(--mid);">20% service charge already on the bill — this is extra for exceptional service</td><td class="num">$50–100</td></tr>
       </tbody>
-      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td style="font-size:11px;color:var(--mid);">FivePine catering staff covered by 20% service charge</td><td class="num">~$625–1,000</td></tr></tfoot>
+      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td style="font-size:11px;color:var(--mid);">FivePine catering staff covered by 20% service charge</td><td class="num">~$450–750</td></tr></tfoot>
     </table>
   </div>
 </div>
@@ -478,9 +477,9 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-seating">
   <div class="seating-alerts">
     <h3>📋 Seating Notes</h3>
-    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Tammy Wheeler's guest, Brian Wheeler's guest, Nick Peterson's guest, Markus Sullivan's guest, Charlotte Nash's guest — confirm names before printing place cards.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Nick Peterson's guest, Markus Sullivan's guest — confirm names before printing place cards.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct names.</div></div>
-    <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK family — not expected to attend:</strong> Hamish Robb, Val Robb, Anna Phillips, Jennifer Peterson, Rob Donelan, Lys Donelan. No seats assigned; if any confirm, they can fill freed seats from Skyler & Megan Fussner (declined).</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK guests — all declined:</strong> Hamish &amp; Val Robb, Anna Phillips, Rob &amp; Lys Donelan. Freed seats available for late RSVPs.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">✅</span><div><strong>Doris Wheeler:</strong> Uses Brian Wheeler's mailing address — no separate address needed.</div></div>
   </div>
   <div class="section-header">Table Assignments — 11 Tables + Sweetheart</div>
@@ -1325,7 +1324,7 @@ const guests=[
   {primary:'John Oja',plus:'Sara Oja',rsvp:'No Response',addr:true},
   {primary:'Robert Orleth',plus:'Sonya Orleth',rsvp:'Attending',addr:true},
   {primary:'Andres Paz',plus:'Aurora Paz',rsvp:'No Response',addr:true},
-  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true},
   {primary:'Nick Peterson',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
   {primary:'Anna Phillips',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Sean Powell',plus:'Britta Powell',rsvp:'No Response',addr:true},
@@ -1406,6 +1405,7 @@ const tables=[
     {name:'Lucy Butler'},
     {name:'Steve Butler'},
     {name:'Rosalind Scott'},
+    {name:'Bella Vasquez'},
     {name:'Brandon Blazer'},
     {name:'Mary Frances Feider-Blazer'},
     {name:'Nikki Dorrans'},
@@ -1422,7 +1422,6 @@ const tables=[
   ]},
   {name:'Mt Rainier — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
     {name:'Noah Dimit'},
-    {name:'Julia Dimit'},
     {name:'Brent Sleep'},
     {name:'Tonni Sleep'},
     {name:'Bruce Sleep'},
