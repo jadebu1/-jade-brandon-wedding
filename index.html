@@ -242,7 +242,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 .section-header{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--light-border);display:flex;align-items:center;gap:10px;}
 .section-header .zola-tag{font-size:10px;font-weight:600;background:#EDE9FE;color:#5B21B6;padding:2px 8px;border-radius:10px;}
 /* SEATING */
-.seating-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.seating-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .table-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
 .table-card-header{padding:10px 14px;font-weight:700;font-size:12px;color:white;}
 .table-header-sweetheart{background:#020C45;}
@@ -463,7 +463,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-seating">
   <div class="seating-alerts">
     <h3>📋 Seating Notes</h3>
-    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Tammy Wheeler's guest, Brian Wheeler's guest, Nick Peterson's guest, Markus Sullivan's guest — confirm names before printing place cards.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Nick Peterson's guest, Markus Sullivan's guest — confirm names before printing place cards.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct names.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK family — not expected to attend:</strong> Hamish Robb, Val Robb, Anna Phillips, Jennifer Peterson, Rob Donelan, Lys Donelan. No seats assigned; if any confirm, they can fill freed seats from Skyler & Megan Fussner (declined).</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">✅</span><div><strong>Doris Wheeler:</strong> Uses Brian Wheeler's mailing address — no separate address needed.</div></div>
@@ -1364,16 +1364,33 @@ function exportGuestsCSV(allergyOnly){
 
 // ---- SEATING CHART ----
 const tables=[
+  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Kyle Kraushaar'},
+    {name:'McKenna O\'Leary'},
+    {name:'Nick Peterson'},
+    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
+    {name:'Chandler Wooley'},
+    {name:'Nathalia Lecaros'},
+    {name:'Anton Soderquist'},
+  ]},
   {name:'Sweetheart Table — Waptus Lake',type:'sweetheart',cls:'table-header-sweetheart',seats:[
     {name:'Jade Butler',role:'Bride'},
     {name:'Brandon Wheeler',role:'Groom'},
   ]},
+  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Lauren Butler'},
+    {name:'Taylor Wood'},
+    {name:'Brooke Wheeler'},
+    {name:'Kylie Gordon'},
+    {name:'Nicholas Pribble'},
+    {name:'Taylor Scharbach'},
+    {name:'Zach Scharbach'},
+  ]},
   {name:'Lake Colchuck — Groom Family',type:'groom',cls:'table-header-groom',seats:[
     {name:'Tammy Wheeler'},
-    {name:'Tammy\'s Guest',flag:'⚠ Name needed'},
     {name:'Brian Wheeler'},
     {name:'Doris Wheeler',note:'Uses Brian\'s address'},
-    {name:'Brian\'s Guest',flag:'⚠ Name needed'},
+    {name:'Leslie Rodriguez',note:'Brian\'s guest'},
     {name:'Tom Wheeler'},
     {name:'Jere Batten'},
   ]},
@@ -1396,18 +1413,8 @@ const tables=[
     {name:'Nikki Dorrans'},
     {name:'Barry Dorrans'},
   ]},
-  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Kyle Kraushaar'},
-    {name:'McKenna O\'Leary'},
-    {name:'Nick Peterson'},
-    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
-    {name:'Chandler Wooley'},
-    {name:'Nathalia Lecaros'},
-    {name:'Anton Soderquist'},
-  ]},
   {name:'Mt Rainier — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
     {name:'Noah Dimit'},
-    {name:'Julia Dimit'},
     {name:'Brent Sleep'},
     {name:'Tonni Sleep'},
     {name:'Bruce Sleep'},
@@ -1434,15 +1441,6 @@ const tables=[
     {name:'Robert Orleth'},
     {name:'Sonya Orleth'},
   ]},
-  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Lauren Butler'},
-    {name:'Taylor Wood'},
-    {name:'Brooke Wheeler'},
-    {name:'Kylie Gordon'},
-    {name:'Nicholas Pribble'},
-    {name:'Taylor Scharbach'},
-    {name:'Zach Scharbach'},
-  ]},
   {name:'Vantage — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
     {name:'Steve Carlsen'},
     {name:'Chris Carlsen'},
@@ -1457,7 +1455,7 @@ const tables=[
     {name:'Nick Mutolo'},
     {name:'Kylie Rardin'},
     {name:'Megan Lambert'},
-    {name:"Gavin O'Donnell"},
+    {name:'Gavin O\'Donnell'},
     {name:'Sofia Stoughton'},
     {name:'Alessandro Scott'},
     {name:'Cassidy Isaacson'},
@@ -1472,17 +1470,85 @@ const tables=[
     {name:'Marcus Neiman'},
   ]},
 ];
-document.getElementById('seating-grid').innerHTML=tables.map(t=>`
-  <div class="table-card">
-    <div class="table-card-header ${t.cls}">${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length} seats)</span></div>
-    <div class="table-card-body">
-      ${t.seats.map((s,i)=>`<div class="seat-row">
-        <div class="seat-num">${i+1}</div>
-        <div style="flex:1;font-weight:${s.role?700:400};">${s.name}${s.role?` <span style="font-size:10px;color:var(--amber);font-weight:600;">${s.role}</span>`:''}${s.note?` <span style="font-size:10px;color:var(--mid);">·  ${s.note}</span>`:''}${s.flag?`<span class="seat-flag">${s.flag}</span>`:''}</div>
-      </div>`).join('')}
-    </div>
-  </div>
-`).join('');
+const tableNums={
+  'Kings Table 1 — Waptus Lake':'K1 · ',
+  'Sweetheart Table — Waptus Lake':'',
+  'Kings Table 2 — Waptus Lake':'K2 · ',
+  'Lake Colchuck — Groom Family':'1 · ',
+  'Mt Bachelor — Couple Friends':'2 · ',
+  'Park Butte — Bride Family':'3 · ',
+  'Mt Rainier — Groom Family & Friends':'4 · ',
+  'Alpental — Couple Friends':'5 · ',
+  'Deschutes River — Bride Family & Friends':'6 · ',
+  'Vantage — Groom Family & Friends':'7 · ',
+  'Orcas Island — Groom & Couple Friends':'8 · ',
+  'Blue Lake — Bride Friends':'9 · ',
+};
+
+function buildSeatOptions(allGuests, selectedName) {
+  let opts = '<option value="">— Empty —</option>';
+  for (const g of allGuests) {
+    const sel = g.name === selectedName ? ' selected' : '';
+    const noRsvp = g.rsvp === 'no_response' || g.rsvp === 'no-response' || !g.rsvp;
+    const esc = g.name.replace(/"/g,'&quot;');
+    opts += `<option value="${esc}" data-norsvp="${noRsvp?'1':'0'}"${sel}>${g.name}${noRsvp ? ' ⚬' : ''}</option>`;
+  }
+  return opts;
+}
+
+function updateSeatDot(select) {
+  const dot = select.previousElementSibling;
+  const option = select.options[select.selectedIndex];
+  dot.style.opacity = (select.value && option && option.dataset.norsvp === '1') ? '1' : '0';
+}
+
+async function initSeating() {
+  let allGuests = [];
+  const grid = document.getElementById('seating-grid');
+  if (!grid) return;
+
+  if (window.cowork && window.cowork.callMcpTool) {
+    try {
+      const r = await window.cowork.callMcpTool('mcp__zola__list_guests', {});
+      const raw = r.structuredContent ?? JSON.parse(r.content[0].text);
+      const list = raw.guests || raw;
+      if (Array.isArray(list)) {
+        allGuests = list.map(g => ({
+          name: [(g.first_name||''),(g.last_name||'')].filter(Boolean).join(' ').trim(),
+          rsvp: (g.rsvp_status || 'no_response').toLowerCase()
+        })).filter(g => g.name);
+        allGuests.sort((a,b) => a.name.localeCompare(b.name));
+      }
+    } catch(e) { console.warn('Zola list_guests error:', e); }
+  }
+
+  if (!allGuests.length) {
+    const seen = new Set();
+    tables.forEach(t => t.seats.forEach(s => {
+      if (s.name && !seen.has(s.name)) { seen.add(s.name); allGuests.push({name:s.name,rsvp:'no_response'}); }
+    }));
+    allGuests.sort((a,b) => a.name.localeCompare(b.name));
+  }
+
+  grid.innerHTML = tables.map(t => {
+    const slots = [];
+    for (let i = 0; i < 8; i++) {
+      const seat = t.seats[i];
+      const seatName = seat ? seat.name : '';
+      const seatGuest = allGuests.find(g => g.name === seatName);
+      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'no_response' || seatGuest.rsvp === 'no-response');
+      slots.push(`<div style="display:flex;align-items:center;gap:5px;margin:3px 0;">
+        <span title="No RSVP" style="color:#e74c3c;font-size:8px;min-width:10px;opacity:${noRsvp?'1':'0'};">●</span>
+        <select onchange="updateSeatDot(this)" style="flex:1;font-size:12px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);max-width:100%;">${buildSeatOptions(allGuests,seatName)}</select>
+      </div>`);
+    }
+    return `<div class="table-card">
+      <div class="table-card-header ${t.cls}">${tableNums[t.name]||''}${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length}/8)</span></div>
+      <div class="table-card-body" style="padding:8px;">${slots.join('')}</div>
+    </div>`;
+  }).join('');
+}
+initSeating();
 
 // ---- DIY CHECKLIST ----
 const diyGroups=[
