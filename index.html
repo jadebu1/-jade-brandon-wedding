@@ -299,7 +299,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div style="font-size:11px;opacity:.9;">🎊 Oct 10, 2026 · 3:30 PM · Mountain Cocktail Attire · Ceremony + Reception till 10:30 PM</div>
 </div>
 <div class="alert-bar">
-  <div class="alert-item"><div class="alert-dot"></div><span>⚠ 66 guests haven't RSVPed to the Wedding</span></div>
+  <div class="alert-item"><div class="alert-dot"></div><span>⚠ 55 guests haven't RSVPed to the Wedding</span></div>
   <div class="alert-item"><div class="alert-dot"></div><span>🥜 NUT ALLERGY: Hank Baillargeon / Katie Molloy — notify FivePine catering</span></div>
   <div class="alert-item"><div class="alert-dot"></div><span>🌾 Celiac / Gluten: Brooke Wheeler &amp; Jere — notify FivePine catering</span></div>
   
@@ -325,8 +325,8 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <!-- DASHBOARD -->
 <div class="panel active" id="tab-dashboard">
   <div class="stats-row">
-    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">66</div><div class="stat-sub">of 97 invited · Wedding</div></div>
-    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">27</div><div class="stat-sub">4 declined</div></div>
+    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">55</div><div class="stat-sub">of 97 invited · Wedding</div></div>
+    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">29</div><div class="stat-sub">13 declined</div></div>
     <div class="stat-card urgent"><div class="stat-label">Thank-Yous Pending</div><div class="stat-value">6</div><div class="stat-sub">$911.87 in gifts received</div></div>
     <div class="stat-card"><div class="stat-label">Days to Wedding</div><div class="stat-value" id="dash-days">—</div><div class="stat-sub">October 10, 2026</div></div>
     <div class="stat-card good"><div class="stat-label">Vendors Confirmed</div><div class="stat-value">7</div><div class="stat-sub">All booked ✓</div></div>
@@ -1288,11 +1288,11 @@ const guests=[
   {primary:'Brandon Blazer',plus:'Mary Frances Feider-Blazer',rsvp:'No Response',addr:true},
   {primary:'Connor Bryant',plus:'Caroline Heath',rsvp:'No Response',addr:true},
   {primary:'Lauren Butler',plus:'Taylor Wood',rsvp:'Attending',addr:true},
-  {primary:'Neill Butler',plus:'Kirsten Butler',rsvp:'No Response',addr:true},
+  {primary:'Neill Butler',plus:'Kirsten Butler',rsvp:'Declined',addr:true},
   {primary:'Steve Carlsen',plus:'Chris Carlsen',rsvp:'No Response',addr:true},
   {primary:'Kali Clark',plus:'Max Edwards',rsvp:'No Response',addr:true},
   {primary:'Noah Dimit',plus:'Julia Dimit',rsvp:'No Response',addr:true},
-  {primary:'Rob Donelan',plus:'Lys Donelan',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Rob Donelan',plus:'Lys Donelan',rsvp:'Declined',addr:true},
   {primary:'Barry Dorrans',plus:'Nikki Dorrans',rsvp:'Attending',addr:true},
   {primary:'Kylie Gordon',plus:'Nicholas Pribble',rsvp:'No Response',addr:true},
   {primary:'Cassidy Isaacson',plus:'Alex James',rsvp:'No Response',addr:true},
@@ -1310,22 +1310,22 @@ const guests=[
   {primary:'John Oja',plus:'Sara Oja',rsvp:'No Response',addr:true},
   {primary:'Robert Orleth',plus:'Sonya Orleth',rsvp:'Attending',addr:true},
   {primary:'Andres Paz',plus:'Aurora Paz',rsvp:'No Response',addr:true},
-  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true},
   {primary:'Nick Peterson',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
-  {primary:'Anna Phillips',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Anna Phillips',plus:'',rsvp:'Declined',addr:true},
   {primary:'Sean Powell',plus:'Britta Powell',rsvp:'No Response',addr:true},
-  {primary:'Hamish Robb',plus:'Val Robb',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Hamish Robb',plus:'Val Robb',rsvp:'Declined',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Zach Scharbach',plus:'Taylor Scharbach',rsvp:'Attending',addr:true},
   {primary:'Rosalind Scott',plus:'Bella Vasquez',rsvp:'Attending',addr:true},
   {primary:'Brent Sleep',plus:'Tonni Sleep',rsvp:'No Response',addr:true},
   {primary:'Bruce Sleep',plus:'Candace Sleep',rsvp:'No Response',addr:true},
   {primary:'Sofia Stoughton',plus:'Alessandro Scott',rsvp:'No Response',addr:true},
   {primary:'Markus Sullivan',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
-  {primary:'Matt Tarrant',plus:'Claire Tarrant',rsvp:'No Response',addr:true},
+  {primary:'Matt Tarrant',plus:'Claire Tarrant',rsvp:'Declined',addr:true},
   {primary:'Tim Welch',plus:'Kyleen Welch',rsvp:'No Response',addr:true},
-  {primary:'Brian Wheeler',plus:'Leslie Rodriguez',rsvp:'No Response',addr:true},
+  {primary:'Brian Wheeler',plus:'Leslie Rodriguez',rsvp:'Attending',addr:true},
   {primary:'Brooke Wheeler',plus:'',rsvp:'Attending',addr:true,allergy:'🌾 Celiac'},
-  {primary:'Tammy Wheeler',plus:'+1 (unnamed)',rsvp:'Attending',addr:true},
+  {primary:'Tammy Wheeler',plus:'',rsvp:'Attending',addr:true},
   {primary:'Tom Wheeler',plus:'',rsvp:'No Response',addr:true},
   {primary:'Chandler Wooley',plus:'Nathalia Lecaros',rsvp:'No Response',addr:true},
 ];
@@ -1535,10 +1535,14 @@ async function initSeating() {
       const groups = raw.guest_groups || [];
       const list = groups.flatMap(grp => grp.guests || []);
       if (list.length) {
-        allGuests = list.map(g => ({
-          name: [(g.first_name||''),(g.family_name||'')].filter(Boolean).join(' ').trim(),
-          rsvp: (g.rsvp || 'NO_RESPONSE').toUpperCase()
-        })).filter(g => g.name && g.rsvp !== 'DECLINED');
+        allGuests = list.map(g => {
+          const inv = (g.event_invitations || []).find(e => e.event_id === 4835005);
+          const rsvp = inv ? inv.rsvp_type : 'NO_RESPONSE';
+          return {
+            name: [(g.first_name||''),(g.family_name||'')].filter(Boolean).join(' ').trim(),
+            rsvp: rsvp.toUpperCase()
+          };
+        }).filter(g => g.name && g.rsvp !== 'DECLINED');
         allGuests.sort((a,b) => a.name.localeCompare(b.name));
       }
     } catch(e) { console.warn('Zola list_guests error:', e); }
