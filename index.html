@@ -242,7 +242,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 .section-header{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--light-border);display:flex;align-items:center;gap:10px;}
 .section-header .zola-tag{font-size:10px;font-weight:600;background:#EDE9FE;color:#5B21B6;padding:2px 8px;border-radius:10px;}
 /* SEATING */
-.seating-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.seating-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .table-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
 .table-card-header{padding:10px 14px;font-weight:700;font-size:12px;color:white;}
 .table-header-sweetheart{background:#020C45;}
@@ -299,7 +299,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div style="font-size:11px;opacity:.9;">🎊 Oct 10, 2026 · 3:30 PM · Mountain Cocktail Attire · Ceremony + Reception till 10:30 PM</div>
 </div>
 <div class="alert-bar">
-  <div class="alert-item"><div class="alert-dot"></div><span>⚠ 55 guests haven't RSVPed to the Wedding</span></div>
+  <div class="alert-item"><div class="alert-dot"></div><span>⚠ 68 guests haven't RSVPed to the Wedding</span></div>
   <div class="alert-item"><div class="alert-dot"></div><span>🥜 NUT ALLERGY: Hank Baillargeon / Katie Molloy — notify FivePine catering</span></div>
   <div class="alert-item"><div class="alert-dot"></div><span>🌾 Celiac / Gluten: Brooke Wheeler &amp; Jere — notify FivePine catering</span></div>
   
@@ -311,7 +311,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div class="tab" onclick="showTab('calendar')">📅 Calendar</div>
   <div class="tab" onclick="showTab('agendas')">🕺 Monday Nights</div>
   <div class="tab" onclick="showTab('budget')">💰 Budget</div>
-  <div class="tab" onclick="showTab('guests')">👥 Guests<span class="tab-badge">66</span></div>
+  <div class="tab" onclick="showTab('guests')">👥 Guests<span class="tab-badge">68</span></div>
   <div class="tab" onclick="showTab('seating')">🪑 Seating</div>
   <div class="tab" onclick="showTab('diy')">🔨 DIY List</div>
   <div class="tab" onclick="showTab('flowers')">🌿 Flower Guide</div>
@@ -325,8 +325,8 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <!-- DASHBOARD -->
 <div class="panel active" id="tab-dashboard">
   <div class="stats-row">
-    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">55</div><div class="stat-sub">of 97 invited · Wedding</div></div>
-    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">29</div><div class="stat-sub">13 declined</div></div>
+    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">68</div><div class="stat-sub">of 97 invited · Wedding</div></div>
+    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">27</div><div class="stat-sub">2 declined</div></div>
     <div class="stat-card urgent"><div class="stat-label">Thank-Yous Pending</div><div class="stat-value">6</div><div class="stat-sub">$911.87 in gifts received</div></div>
     <div class="stat-card"><div class="stat-label">Days to Wedding</div><div class="stat-value" id="dash-days">—</div><div class="stat-sub">October 10, 2026</div></div>
     <div class="stat-card good"><div class="stat-label">Vendors Confirmed</div><div class="stat-value">7</div><div class="stat-sub">All booked ✓</div></div>
@@ -341,7 +341,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
           <div style="font-size:11px;color:var(--mid);margin-top:3px;">Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + 1 surprise gift</div>
         </div>
         <div style="background:white;border:1px solid #FDECEA;border-left:4px solid var(--urgent);border-radius:8px;padding:12px 14px;">
-          <div style="font-size:12px;font-weight:700;">Chase RSVPs — 66 guests haven't responded</div>
+          <div style="font-size:12px;font-weight:700;">Chase RSVPs — 68 guests haven't responded</div>
           <div style="font-size:11px;color:var(--mid);margin-top:3px;">Rehearsal dinner: 17 pending · Bridal shower: 29 pending</div>
         </div>
         <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
@@ -417,10 +417,10 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-budget">
   <div class="budget-summary">
     <div class="budget-card"><div class="budget-card-label">Original Budget</div><div class="budget-card-value">$17,000</div></div>
-    <div class="budget-card"><div class="budget-card-label">Total Cost</div><div class="budget-card-value">$23,414</div></div>
-    <div class="budget-card"><div class="budget-card-label">Difference</div><div class="budget-card-value">+$6,414</div></div>
-    <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$8,872</div></div>
-    <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$14,391</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Cost (est.)</div><div class="budget-card-value">$31,801</div></div>
+    <div class="budget-card"><div class="budget-card-label">Over Budget</div><div class="budget-card-value" style="color:var(--urgent);">+$14,801</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$9,272</div></div>
+    <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$22,529</div></div>
   </div>
   <div class="budget-chart-row">
     <div class="chart-box"><h3>Actual Cost by Category</h3><canvas id="budget-pie"></canvas></div>
@@ -430,7 +430,22 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     <table class="budget-table">
       <thead><tr><th>Category</th><th class="num">Budgeted</th><th class="num">Actual</th><th class="num">Paid</th><th class="num">Balance Due</th><th class="num">Difference</th></tr></thead>
       <tbody id="budget-tbody"></tbody>
-      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td class="num">$17,000</td><td class="num">$23,414</td><td class="num">$8,872</td><td class="num">$14,391</td><td class="num">+$6,414</td></tr></tfoot>
+      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td class="num">$28,405</td><td class="num">$31,801</td><td class="num">$9,272</td><td class="num">$22,529</td><td class="num">+$3,396</td></tr></tfoot>
+    </table>
+  </div>
+  <div style="margin-top:16px;background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;">
+    <div style="background:#F0EBE3;padding:9px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);">💌 Vendor Tips Guide — Prep envelopes by Oct 8</div>
+    <table class="budget-table">
+      <thead><tr><th>Vendor</th><th>Notes</th><th class="num">Suggested Tip</th></tr></thead>
+      <tbody>
+        <tr><td>Noteworthy DJs</td><td style="font-size:11px;color:var(--mid);">Cash envelope, hand to DJ at end of night</td><td class="num">$100–200</td></tr>
+        <tr><td>Sarah Photographs</td><td style="font-size:11px;color:var(--mid);">$100–150 per shooter (2 photographers)</td><td class="num">$200–300</td></tr>
+        <tr><td>Hair & Makeup artists</td><td style="font-size:11px;color:var(--mid);">15–20% each; 4 people getting services = 4–8 artists</td><td class="num">$150–200</td></tr>
+        <tr><td>Beau & Bloom (florist)</td><td style="font-size:11px;color:var(--mid);">If they deliver + set up day-of</td><td class="num">$75–100</td></tr>
+        <tr><td>Anton Soderquist (officiant)</td><td style="font-size:11px;color:var(--mid);">He's a friend — a gift or card is great; cash optional</td><td class="num">$50–100</td></tr>
+        <tr><td>FivePine coordinator</td><td style="font-size:11px;color:var(--mid);">20% service charge already on the bill — this is extra for exceptional service</td><td class="num">$50–100</td></tr>
+      </tbody>
+      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td style="font-size:11px;color:var(--mid);">FivePine catering staff covered by 20% service charge</td><td class="num">~$625–1,000</td></tr></tfoot>
     </table>
   </div>
 </div>
@@ -439,7 +454,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-guests">
   <div class="section-header">RSVP Status by Event <span class="zola-tag">Live from Zola</span></div>
   <div class="rsvp-summary">
-    <div class="rsvp-event-card"><div class="rsvp-event-name">💍 Wedding</div><div class="rsvp-event-date">October 10, 2026 · FivePine Lodge</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:27.8%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">27</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:4.1%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">4</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:68.0%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">66</div></div></div></div>
+    <div class="rsvp-event-card"><div class="rsvp-event-name">💍 Wedding</div><div class="rsvp-event-date">October 10, 2026 · FivePine Lodge</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:27.8%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">27</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:2.1%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">2</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:70.1%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">68</div></div></div></div>
     <div class="rsvp-event-card"><div class="rsvp-event-name">🍷 Rehearsal Dinner</div><div class="rsvp-event-date">October 9, 2026 · 6–10 PM · Sisters Saloon & Ranch Grill</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:46.9%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">15</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:0%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">0</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:53.1%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">17</div></div></div></div>
     <div class="rsvp-event-card"><div class="rsvp-event-name">🌸 Bridal Shower</div><div class="rsvp-event-date">August 15, 2026 · Bothell WA · 11 AM–2:30 PM</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:9.4%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">3</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:0%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">0</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:90.6%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">29</div></div></div></div>
   </div>
@@ -463,7 +478,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-seating">
   <div class="seating-alerts">
     <h3>📋 Seating Notes</h3>
-    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Nick Peterson's guest, Markus Sullivan's guest — confirm names before printing place cards.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Tammy Wheeler's guest, Brian Wheeler's guest, Nick Peterson's guest, Markus Sullivan's guest, Charlotte Nash's guest — confirm names before printing place cards.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct names.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK family — not expected to attend:</strong> Hamish Robb, Val Robb, Anna Phillips, Jennifer Peterson, Rob Donelan, Lys Donelan. No seats assigned; if any confirm, they can fill freed seats from Skyler & Megan Fussner (declined).</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">✅</span><div><strong>Doris Wheeler:</strong> Uses Brian Wheeler's mailing address — no separate address needed.</div></div>
@@ -774,8 +789,8 @@ table.guest-table tr:hover td{background:#FDFAF6;}
             <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Sara Oja</span><span style="font-weight:700;color:var(--sage);">M</span></div>
             <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Lauren Butler</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
             <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Taylor Scharbach</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
-            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Kylie Gordon</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
-            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Dillon Wright</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Kylie Gordon</span><span style="font-weight:700;color:var(--sage);">S</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Dillon Wright</span><span style="font-weight:700;color:var(--sage);">M</span></div>
           </div>
         </div>
       </div>
@@ -986,7 +1001,7 @@ const tasks = [
   {name:'Confirm delivery window with Central Event Rentals',cat:'Rentals',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Delivery Oct 9, pickup Oct 11'},
   // GUESTS & ZOLA
   {name:'Send thank-you notes (6 pending)',cat:'Zola',owner:'Jade',priority:'Urgent',due:'2026-07-01',status:'Done',notes:'Sent July 7 ✓ · Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + surprise',zola:true},
-  {name:'Chase RSVPs — 68 guests haven\'t responded',cat:'Zola',owner:'Both',priority:'Urgent',due:'2026-08-01',status:'Not Started',notes:'Wedding: 66 pending · Rehearsal: 17 pending · Bridal shower: 29 pending',zola:true},
+  {name:'Chase RSVPs — 68 guests haven\'t responded',cat:'Zola',owner:'Both',priority:'Urgent',due:'2026-08-01',status:'Not Started',notes:'Wedding: 68 pending · Rehearsal: 17 pending · Bridal shower: 29 pending',zola:true},
   {name:'Set Rehearsal Dinner venue in Zola',cat:'Zola',owner:'Brandon',priority:'High',due:'2026-07-15',status:'Done',notes:'Sisters Saloon & Ranch Grill · 190 E Cascade Ave, Sisters OR ✓',zola:true},
   {name:'Set RSVP deadline on Zola website',cat:'Zola',owner:'Jade',priority:'High',due:'2026-07-15',status:'Done',notes:'August 1 deadline set in Zola and on invites ✓',zola:true},
   {name:'Send invitations — direct guests to Zola site',cat:'Zola',owner:'Both',priority:'High',due:'2026-07-15',status:'Not Started',notes:'Email invites or share Zola website URL',zola:true},
@@ -1247,10 +1262,10 @@ document.getElementById('agenda-list').innerHTML=agendas.map(a=>`
 
 // ---- BUDGET ----
 const budgetItems=[
-  {cat:'Venue & Catering',budgeted:17000,actual:12000,paid:6200},
+  {cat:'Venue & Catering',budgeted:17000,actual:20300,paid:6200},
   {cat:'Photographer',budgeted:3150,actual:2800,paid:700},
-  {cat:'Band & DJ',budgeted:2210,actual:2200,paid:0},
-  {cat:'Tips',budgeted:1700,actual:1700,paid:0},
+  {cat:'Band & DJ',budgeted:2210,actual:2200,paid:400},
+  {cat:'Tips',budgeted:1700,actual:1000,paid:0},
   {cat:'Attire',budgeted:750,actual:1400,paid:1300},
   {cat:'Florist — Beau & Bloom',budgeted:1870,actual:2037,paid:0},
   {cat:'Hair & Makeup',budgeted:575,actual:875,paid:100},
@@ -1288,11 +1303,11 @@ const guests=[
   {primary:'Brandon Blazer',plus:'Mary Frances Feider-Blazer',rsvp:'No Response',addr:true},
   {primary:'Connor Bryant',plus:'Caroline Heath',rsvp:'No Response',addr:true},
   {primary:'Lauren Butler',plus:'Taylor Wood',rsvp:'Attending',addr:true},
-  {primary:'Neill Butler',plus:'Kirsten Butler',rsvp:'Declined',addr:true},
+  {primary:'Neill Butler',plus:'Kirsten Butler',rsvp:'No Response',addr:true},
   {primary:'Steve Carlsen',plus:'Chris Carlsen',rsvp:'No Response',addr:true},
   {primary:'Kali Clark',plus:'Max Edwards',rsvp:'No Response',addr:true},
   {primary:'Noah Dimit',plus:'Julia Dimit',rsvp:'No Response',addr:true},
-  {primary:'Rob Donelan',plus:'Lys Donelan',rsvp:'Declined',addr:true},
+  {primary:'Rob Donelan',plus:'Lys Donelan',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Barry Dorrans',plus:'Nikki Dorrans',rsvp:'Attending',addr:true},
   {primary:'Kylie Gordon',plus:'Nicholas Pribble',rsvp:'No Response',addr:true},
   {primary:'Cassidy Isaacson',plus:'Alex James',rsvp:'No Response',addr:true},
@@ -1305,27 +1320,27 @@ const guests=[
   {primary:'Nate Lynch',plus:'Sandy Nguyen',rsvp:'Attending',addr:true},
   {primary:'Brenda McGuire-Brown',plus:'',rsvp:'No Response',addr:true},
   {primary:'Nick Mutolo',plus:'Kylie Rardin',rsvp:'No Response',addr:true},
-  {primary:'Charlotte Nash',plus:'+1 (unnamed)',rsvp:'Declined',addr:true},
+  {primary:'Charlotte Nash',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
   {primary:'Tiffany Neiman',plus:'Marcus Neiman',rsvp:'No Response',addr:true},
   {primary:'John Oja',plus:'Sara Oja',rsvp:'No Response',addr:true},
   {primary:'Robert Orleth',plus:'Sonya Orleth',rsvp:'Attending',addr:true},
   {primary:'Andres Paz',plus:'Aurora Paz',rsvp:'No Response',addr:true},
-  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true},
+  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Nick Peterson',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
-  {primary:'Anna Phillips',plus:'',rsvp:'Declined',addr:true},
+  {primary:'Anna Phillips',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Sean Powell',plus:'Britta Powell',rsvp:'No Response',addr:true},
-  {primary:'Hamish Robb',plus:'Val Robb',rsvp:'Declined',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Hamish Robb',plus:'Val Robb',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
   {primary:'Zach Scharbach',plus:'Taylor Scharbach',rsvp:'Attending',addr:true},
   {primary:'Rosalind Scott',plus:'Bella Vasquez',rsvp:'Attending',addr:true},
   {primary:'Brent Sleep',plus:'Tonni Sleep',rsvp:'No Response',addr:true},
   {primary:'Bruce Sleep',plus:'Candace Sleep',rsvp:'No Response',addr:true},
   {primary:'Sofia Stoughton',plus:'Alessandro Scott',rsvp:'No Response',addr:true},
   {primary:'Markus Sullivan',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
-  {primary:'Matt Tarrant',plus:'Claire Tarrant',rsvp:'Declined',addr:true},
+  {primary:'Matt Tarrant',plus:'Claire Tarrant',rsvp:'No Response',addr:true},
   {primary:'Tim Welch',plus:'Kyleen Welch',rsvp:'No Response',addr:true},
-  {primary:'Brian Wheeler',plus:'Leslie Rodriguez',rsvp:'Attending',addr:true},
+  {primary:'Brian Wheeler',plus:'Leslie Rodriguez',rsvp:'No Response',addr:true},
   {primary:'Brooke Wheeler',plus:'',rsvp:'Attending',addr:true,allergy:'🌾 Celiac'},
-  {primary:'Tammy Wheeler',plus:'',rsvp:'Attending',addr:true},
+  {primary:'Tammy Wheeler',plus:'+1 (unnamed)',rsvp:'Attending',addr:true},
   {primary:'Tom Wheeler',plus:'',rsvp:'No Response',addr:true},
   {primary:'Chandler Wooley',plus:'Nathalia Lecaros',rsvp:'No Response',addr:true},
 ];
@@ -1364,33 +1379,16 @@ function exportGuestsCSV(allergyOnly){
 
 // ---- SEATING CHART ----
 const tables=[
-  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Kyle Kraushaar'},
-    {name:'McKenna O\'Leary'},
-    {name:'Nick Peterson'},
-    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
-    {name:'Chandler Wooley'},
-    {name:'Nathalia Lecaros'},
-    {name:'Anton Soderquist'},
-  ]},
   {name:'Sweetheart Table — Waptus Lake',type:'sweetheart',cls:'table-header-sweetheart',seats:[
     {name:'Jade Butler',role:'Bride'},
     {name:'Brandon Wheeler',role:'Groom'},
   ]},
-  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Lauren Butler'},
-    {name:'Taylor Wood'},
-    {name:'Brooke Wheeler'},
-    {name:'Kylie Gordon'},
-    {name:'Nicholas Pribble'},
-    {name:'Taylor Scharbach'},
-    {name:'Zach Scharbach'},
-  ]},
   {name:'Lake Colchuck — Groom Family',type:'groom',cls:'table-header-groom',seats:[
     {name:'Tammy Wheeler'},
+    {name:'Tammy\'s Guest',flag:'⚠ Name needed'},
     {name:'Brian Wheeler'},
     {name:'Doris Wheeler',note:'Uses Brian\'s address'},
-    {name:'Leslie Rodriguez',note:'Brian\'s guest'},
+    {name:'Brian\'s Guest',flag:'⚠ Name needed'},
     {name:'Tom Wheeler'},
     {name:'Jere Batten'},
   ]},
@@ -1413,8 +1411,18 @@ const tables=[
     {name:'Nikki Dorrans'},
     {name:'Barry Dorrans'},
   ]},
+  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Kyle Kraushaar'},
+    {name:'McKenna O\'Leary'},
+    {name:'Nick Peterson'},
+    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
+    {name:'Chandler Wooley'},
+    {name:'Nathalia Lecaros'},
+    {name:'Anton Soderquist'},
+  ]},
   {name:'Mt Rainier — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
     {name:'Noah Dimit'},
+    {name:'Julia Dimit'},
     {name:'Brent Sleep'},
     {name:'Tonni Sleep'},
     {name:'Bruce Sleep'},
@@ -1441,6 +1449,15 @@ const tables=[
     {name:'Robert Orleth'},
     {name:'Sonya Orleth'},
   ]},
+  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Lauren Butler'},
+    {name:'Taylor Wood'},
+    {name:'Brooke Wheeler'},
+    {name:'Kylie Gordon'},
+    {name:'Nicholas Pribble'},
+    {name:'Taylor Scharbach'},
+    {name:'Zach Scharbach'},
+  ]},
   {name:'Vantage — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
     {name:'Steve Carlsen'},
     {name:'Chris Carlsen'},
@@ -1455,7 +1472,7 @@ const tables=[
     {name:'Nick Mutolo'},
     {name:'Kylie Rardin'},
     {name:'Megan Lambert'},
-    {name:'Gavin O\'Donnell'},
+    {name:"Gavin O'Donnell"},
     {name:'Sofia Stoughton'},
     {name:'Alessandro Scott'},
     {name:'Cassidy Isaacson'},
@@ -1466,124 +1483,23 @@ const tables=[
     {name:'Shamber Safai'},
     {name:'Cameron Safai'},
     {name:'Julia James'},
+    {name:'Charlotte Nash'},
+    {name:'Charlotte\'s Guest',flag:'⚠ Name needed'},
     {name:'Tiffany Neiman'},
     {name:'Marcus Neiman'},
   ]},
 ];
-const tableNums={
-  'Kings Table 1 — Waptus Lake':'K1 · ',
-  'Sweetheart Table — Waptus Lake':'',
-  'Kings Table 2 — Waptus Lake':'K2 · ',
-  'Lake Colchuck — Groom Family':'1 · ',
-  'Mt Bachelor — Couple Friends':'2 · ',
-  'Park Butte — Bride Family':'3 · ',
-  'Mt Rainier — Groom Family & Friends':'4 · ',
-  'Alpental — Couple Friends':'5 · ',
-  'Deschutes River — Bride Family & Friends':'6 · ',
-  'Vantage — Groom Family & Friends':'7 · ',
-  'Orcas Island — Groom & Couple Friends':'8 · ',
-  'Blue Lake — Bride Friends':'9 · ',
-};
-
-let _allSeatingGuests = [];
-
-function buildSeatOptions(allGuests, selectedName, usedSet) {
-  let opts = '<option value="">— Empty —</option>';
-  for (const g of allGuests) {
-    if (usedSet && usedSet.has(g.name) && g.name !== selectedName) continue;
-    const sel = g.name === selectedName ? ' selected' : '';
-    const noRsvp = g.rsvp === 'NO_RESPONSE' || !g.rsvp;
-    const esc = g.name.replace(/"/g,'&quot;');
-    opts += `<option value="${esc}" data-norsvp="${noRsvp?'1':'0'}"${sel}>${g.name}${noRsvp ? ' ⚬' : ''}</option>`;
-  }
-  return opts;
-}
-
-function getUsedSeats() {
-  const used = new Set();
-  document.querySelectorAll('.seat-select').forEach(s => { if (s.value) used.add(s.value); });
-  return used;
-}
-
-function refreshAllSeatDropdowns() {
-  const used = getUsedSeats();
-  document.querySelectorAll('.seat-select').forEach(sel => {
-    const cur = sel.value;
-    sel.innerHTML = buildSeatOptions(_allSeatingGuests, cur, used);
-    const dot = sel.previousElementSibling;
-    const opt = sel.options[sel.selectedIndex];
-    dot.style.opacity = (cur && opt && opt.dataset.norsvp === '1') ? '1' : '0';
-  });
-}
-
-function updateSeatDot(select) {
-  const dot = select.previousElementSibling;
-  const option = select.options[select.selectedIndex];
-  dot.style.opacity = (select.value && option && option.dataset.norsvp === '1') ? '1' : '0';
-  refreshAllSeatDropdowns();
-}
-
-async function initSeating() {
-  let allGuests = [];
-  const grid = document.getElementById('seating-grid');
-  if (!grid) return;
-
-  if (window.cowork && window.cowork.callMcpTool) {
-    try {
-      const r = await window.cowork.callMcpTool('mcp__zola__list_guests', {});
-      const raw = r.structuredContent ?? JSON.parse(r.content[0].text);
-      const groups = raw.guest_groups || [];
-      const list = groups.flatMap(grp => grp.guests || []);
-      if (list.length) {
-        allGuests = list.map(g => {
-          const inv = (g.event_invitations || []).find(e => e.event_id === 4835005);
-          const rsvp = inv ? inv.rsvp_type : 'NO_RESPONSE';
-          return {
-            name: [(g.first_name||''),(g.family_name||'')].filter(Boolean).join(' ').trim(),
-            rsvp: rsvp.toUpperCase()
-          };
-        }).filter(g => g.name && g.rsvp !== 'DECLINED');
-        allGuests.sort((a,b) => a.name.localeCompare(b.name));
-      }
-    } catch(e) { console.warn('Zola list_guests error:', e); }
-  }
-
-  if (!allGuests.length) {
-    const seen = new Set();
-    tables.forEach(t => t.seats.forEach(s => {
-      if (s.name && !seen.has(s.name)) { seen.add(s.name); allGuests.push({name:s.name,rsvp:'NO_RESPONSE'}); }
-    }));
-    allGuests.sort((a,b) => a.name.localeCompare(b.name));
-  }
-
-  _allSeatingGuests = allGuests;
-
-  // Collect all pre-assigned names for initial exclusion
-  const allAssigned = new Set();
-  tables.forEach(t => t.seats.forEach(s => { if (s.name) allAssigned.add(s.name); }));
-
-  grid.innerHTML = tables.map(t => {
-    const slots = [];
-    for (let i = 0; i < 8; i++) {
-      const seat = t.seats[i];
-      const seatName = seat ? seat.name : '';
-      // Build usedSet for this slot: all assigned names except this slot's own name
-      const usedExceptThis = new Set(allAssigned);
-      if (seatName) usedExceptThis.delete(seatName);
-      const seatGuest = allGuests.find(g => g.name === seatName);
-      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'NO_RESPONSE');
-      slots.push(`<div style="display:flex;align-items:center;gap:5px;margin:3px 0;">
-        <span title="No RSVP" style="color:#e74c3c;font-size:8px;min-width:10px;opacity:${noRsvp?'1':'0'};">●</span>
-        <select class="seat-select" onchange="updateSeatDot(this)" style="flex:1;font-size:12px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);max-width:100%;">${buildSeatOptions(allGuests,seatName,usedExceptThis)}</select>
-      </div>`);
-    }
-    return `<div class="table-card">
-      <div class="table-card-header ${t.cls}">${tableNums[t.name]||''}${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length}/8)</span></div>
-      <div class="table-card-body" style="padding:8px;">${slots.join('')}</div>
-    </div>`;
-  }).join('');
-}
-initSeating();
+document.getElementById('seating-grid').innerHTML=tables.map(t=>`
+  <div class="table-card">
+    <div class="table-card-header ${t.cls}">${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length} seats)</span></div>
+    <div class="table-card-body">
+      ${t.seats.map((s,i)=>`<div class="seat-row">
+        <div class="seat-num">${i+1}</div>
+        <div style="flex:1;font-weight:${s.role?700:400};">${s.name}${s.role?` <span style="font-size:10px;color:var(--amber);font-weight:600;">${s.role}</span>`:''}${s.note?` <span style="font-size:10px;color:var(--mid);">·  ${s.note}</span>`:''}${s.flag?`<span class="seat-flag">${s.flag}</span>`:''}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+`).join('');
 
 // ---- DIY CHECKLIST ----
 const diyGroups=[
@@ -1646,7 +1562,7 @@ function updateDiyCount(gid,total,saved){
 // ---- BACHELORETTE ----
 const bachItems=[
   {name:'Book the Airbnb',notes:'Deschutes River Woods, Bend OR · Aug 21–23 · confirm beds for everyone'},
-  {name:'Finalize guest list + collect sizes for shirts',notes:'Sizes so far: Jade — M · Megan Fussner — S · Sara Oja — M · still need: Lauren Butler, Taylor Scharbach, Kylie Gordon, Dillon Wright'},
+  {name:'Finalize guest list + collect sizes for shirts',notes:'Sizes so far: Jade — M · Megan Fussner — S · Sara Oja — M · Kylie Gordon — S · Dillon Wright — M · still need: Lauren Butler, Taylor Scharbach'},
   {name:'Order t-shirts',notes:'Theme: Wagon Whore\'s Last Rodeo · order 1-2 weeks before the weekend · confirm all sizes first'},
   {name:'Source small gift for all guests',notes:'Cowboy hat, koozie, bandana, hangover kit — something rodeo-themed'},
   {name:'Source special gift for Lauren, Taylor & Kylie (MOH + BMs)',notes:'Lauren Butler (MOH), Taylor Scharbach, Kylie Gordon · jewelry, custom item, or bridesmaid gift preview'},
