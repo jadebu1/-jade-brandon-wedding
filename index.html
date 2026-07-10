@@ -1485,21 +1485,42 @@ const tableNums={
   'Blue Lake — Bride Friends':'9 · ',
 };
 
-function buildSeatOptions(allGuests, selectedName) {
+let _allSeatingGuests = [];
+
+function buildSeatOptions(allGuests, selectedName, usedSet) {
   let opts = '<option value="">— Empty —</option>';
   for (const g of allGuests) {
+    if (usedSet && usedSet.has(g.name) && g.name !== selectedName) continue;
     const sel = g.name === selectedName ? ' selected' : '';
-    const noRsvp = g.rsvp === 'no_response' || g.rsvp === 'no-response' || !g.rsvp;
+    const noRsvp = g.rsvp === 'no_response' || g.rsvp === 'no-response' || g.rsvp === 'no answer' || !g.rsvp;
     const esc = g.name.replace(/"/g,'&quot;');
     opts += `<option value="${esc}" data-norsvp="${noRsvp?'1':'0'}"${sel}>${g.name}${noRsvp ? ' ⚬' : ''}</option>`;
   }
   return opts;
 }
 
+function getUsedSeats() {
+  const used = new Set();
+  document.querySelectorAll('.seat-select').forEach(s => { if (s.value) used.add(s.value); });
+  return used;
+}
+
+function refreshAllSeatDropdowns() {
+  const used = getUsedSeats();
+  document.querySelectorAll('.seat-select').forEach(sel => {
+    const cur = sel.value;
+    sel.innerHTML = buildSeatOptions(_allSeatingGuests, cur, used);
+    const dot = sel.previousElementSibling;
+    const opt = sel.options[sel.selectedIndex];
+    dot.style.opacity = (cur && opt && opt.dataset.norsvp === '1') ? '1' : '0';
+  });
+}
+
 function updateSeatDot(select) {
   const dot = select.previousElementSibling;
   const option = select.options[select.selectedIndex];
   dot.style.opacity = (select.value && option && option.dataset.norsvp === '1') ? '1' : '0';
+  refreshAllSeatDropdowns();
 }
 
 async function initSeating() {
@@ -1516,7 +1537,7 @@ async function initSeating() {
         allGuests = list.map(g => ({
           name: [(g.first_name||''),(g.last_name||'')].filter(Boolean).join(' ').trim(),
           rsvp: (g.rsvp_status || 'no_response').toLowerCase()
-        })).filter(g => g.name);
+        })).filter(g => g.name && g.rsvp !== 'declined' && g.rsvp !== 'no' && g.rsvp !== 'not_attending');
         allGuests.sort((a,b) => a.name.localeCompare(b.name));
       }
     } catch(e) { console.warn('Zola list_guests error:', e); }
@@ -1530,16 +1551,25 @@ async function initSeating() {
     allGuests.sort((a,b) => a.name.localeCompare(b.name));
   }
 
+  _allSeatingGuests = allGuests;
+
+  // Collect all pre-assigned names for initial exclusion
+  const allAssigned = new Set();
+  tables.forEach(t => t.seats.forEach(s => { if (s.name) allAssigned.add(s.name); }));
+
   grid.innerHTML = tables.map(t => {
     const slots = [];
     for (let i = 0; i < 8; i++) {
       const seat = t.seats[i];
       const seatName = seat ? seat.name : '';
+      // Build usedSet for this slot: all assigned names except this slot's own name
+      const usedExceptThis = new Set(allAssigned);
+      if (seatName) usedExceptThis.delete(seatName);
       const seatGuest = allGuests.find(g => g.name === seatName);
-      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'no_response' || seatGuest.rsvp === 'no-response');
+      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'no_response' || seatGuest.rsvp === 'no-response' || seatGuest.rsvp === 'no answer');
       slots.push(`<div style="display:flex;align-items:center;gap:5px;margin:3px 0;">
         <span title="No RSVP" style="color:#e74c3c;font-size:8px;min-width:10px;opacity:${noRsvp?'1':'0'};">●</span>
-        <select onchange="updateSeatDot(this)" style="flex:1;font-size:12px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);max-width:100%;">${buildSeatOptions(allGuests,seatName)}</select>
+        <select class="seat-select" onchange="updateSeatDot(this)" style="flex:1;font-size:12px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);max-width:100%;">${buildSeatOptions(allGuests,seatName,usedExceptThis)}</select>
       </div>`);
     }
     return `<div class="table-card">
