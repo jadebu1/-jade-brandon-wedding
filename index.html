@@ -1492,7 +1492,7 @@ function buildSeatOptions(allGuests, selectedName, usedSet) {
   for (const g of allGuests) {
     if (usedSet && usedSet.has(g.name) && g.name !== selectedName) continue;
     const sel = g.name === selectedName ? ' selected' : '';
-    const noRsvp = g.rsvp === 'no_response' || g.rsvp === 'no-response' || g.rsvp === 'no answer' || !g.rsvp;
+    const noRsvp = g.rsvp === 'NO_RESPONSE' || !g.rsvp;
     const esc = g.name.replace(/"/g,'&quot;');
     opts += `<option value="${esc}" data-norsvp="${noRsvp?'1':'0'}"${sel}>${g.name}${noRsvp ? ' ⚬' : ''}</option>`;
   }
@@ -1532,12 +1532,13 @@ async function initSeating() {
     try {
       const r = await window.cowork.callMcpTool('mcp__zola__list_guests', {});
       const raw = r.structuredContent ?? JSON.parse(r.content[0].text);
-      const list = raw.guests || raw;
-      if (Array.isArray(list)) {
+      const groups = raw.guest_groups || [];
+      const list = groups.flatMap(grp => grp.guests || []);
+      if (list.length) {
         allGuests = list.map(g => ({
-          name: [(g.first_name||''),(g.last_name||'')].filter(Boolean).join(' ').trim(),
-          rsvp: (g.rsvp_status || 'no_response').toLowerCase()
-        })).filter(g => g.name && g.rsvp !== 'declined' && g.rsvp !== 'no' && g.rsvp !== 'not_attending');
+          name: [(g.first_name||''),(g.family_name||'')].filter(Boolean).join(' ').trim(),
+          rsvp: (g.rsvp || 'NO_RESPONSE').toUpperCase()
+        })).filter(g => g.name && g.rsvp !== 'DECLINED');
         allGuests.sort((a,b) => a.name.localeCompare(b.name));
       }
     } catch(e) { console.warn('Zola list_guests error:', e); }
@@ -1546,7 +1547,7 @@ async function initSeating() {
   if (!allGuests.length) {
     const seen = new Set();
     tables.forEach(t => t.seats.forEach(s => {
-      if (s.name && !seen.has(s.name)) { seen.add(s.name); allGuests.push({name:s.name,rsvp:'no_response'}); }
+      if (s.name && !seen.has(s.name)) { seen.add(s.name); allGuests.push({name:s.name,rsvp:'NO_RESPONSE'}); }
     }));
     allGuests.sort((a,b) => a.name.localeCompare(b.name));
   }
@@ -1566,7 +1567,7 @@ async function initSeating() {
       const usedExceptThis = new Set(allAssigned);
       if (seatName) usedExceptThis.delete(seatName);
       const seatGuest = allGuests.find(g => g.name === seatName);
-      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'no_response' || seatGuest.rsvp === 'no-response' || seatGuest.rsvp === 'no answer');
+      const noRsvp = seatName && (!seatGuest || seatGuest.rsvp === 'NO_RESPONSE');
       slots.push(`<div style="display:flex;align-items:center;gap:5px;margin:3px 0;">
         <span title="No RSVP" style="color:#e74c3c;font-size:8px;min-width:10px;opacity:${noRsvp?'1':'0'};">●</span>
         <select class="seat-select" onchange="updateSeatDot(this)" style="flex:1;font-size:12px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);max-width:100%;">${buildSeatOptions(allGuests,seatName,usedExceptThis)}</select>
