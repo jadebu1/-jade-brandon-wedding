@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{"name":"Wedding Command Center","schemaVersion":1,"description":"Jade & Brandon's Wedding Command Center — RSVPs, seating, DIY, Monday agendas, budget, vendors, gifts."}
+</script>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jade & Brandon — Wedding Command Center</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{color-scheme:light;--amber:#9F3E1F;--amber-light:#E8C4A8;--sage:#60613A;--sage-light:#C4C59A;--cream:#FAF7F2;--dark:#020C45;--mid:#4A5280;--light-border:#E0D8CE;--urgent:#C0392B;--high:#652601;--normal:#2980B9;--low:#7F8C8D;--done-bg:#EEF0E2;--done-text:#3D4020;--inprog-bg:#FFF0EA;--inprog-text:#9F3E1F;--notstart-bg:#F5F5F5;--notstart-text:#555;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--cream);color:var(--dark);font-size:13px;}
+.header-title,.section-header{font-family:Georgia,'Times New Roman',serif;}
+.header{background:#020C45;color:white;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+.header-title{font-size:17px;font-weight:700;letter-spacing:0.3px;}
+.header-title span{color:var(--amber-light);}
+.countdown-bar{background:var(--amber);color:white;padding:8px 24px;font-size:12px;display:flex;gap:32px;align-items:center;}
+.countdown-num{font-size:20px;font-weight:800;line-height:1;}
+.countdown-label{font-size:10px;opacity:.85;text-transform:uppercase;letter-spacing:.5px;}
+.alert-bar{background:#020C45;color:white;padding:8px 24px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.alert-item{display:flex;align-items:center;gap:5px;}
+.alert-dot{width:6px;height:6px;background:var(--amber);border-radius:50%;flex-shrink:0;}
+.tabs{display:flex;background:white;border-bottom:2px solid var(--light-border);padding:0 24px;gap:2px;overflow-x:auto;}
+.tab{padding:10px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--mid);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s;}
+.tab:hover{color:var(--amber);}
+.tab.active{color:var(--amber);border-bottom-color:var(--amber);}
+.tab-badge{display:inline-block;background:var(--urgent);color:white;border-radius:10px;padding:0 5px;font-size:9px;margin-left:4px;vertical-align:middle;}
+.panel{display:none;padding:20px 24px;}
+.panel.active{display:block;}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.stat-card{background:white;border:1px solid var(--light-border);border-radius:8px;padding:14px 16px;}
+.stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mid);margin-bottom:4px;}
+.stat-value{font-size:22px;font-weight:800;color:var(--dark);line-height:1;}
+.stat-sub{font-size:10px;color:var(--mid);margin-top:3px;}
+.stat-card.urgent{border-color:var(--urgent);}
+.stat-card.urgent .stat-value{color:var(--urgent);}
+.stat-card.good{border-color:var(--sage);}
+.stat-card.good .stat-value{color:var(--sage);}
+.kanban-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start;}
+.kanban-col{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.kanban-col-header{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;justify-content:space-between;}
+.kanban-col-header.jade{background:#FDF0E8;color:#8B4513;border-bottom:2px solid #D2691E;}
+.kanban-col-header.brandon{background:#E8EFF8;color:#1A3A5C;border-bottom:2px solid #2E6DA4;}
+.kanban-col-header.both{background:#EEEFD8;color:#3D4020;border-bottom:2px solid #60613A;}
+.kanban-col-header.done{background:#F5F5F5;color:#555;border-bottom:2px solid #CCC;}
+.kanban-col-body{padding:10px;display:flex;flex-direction:column;gap:8px;}
+.kanban-card{background:var(--cream);border-radius:6px;padding:9px 10px;border:1px solid var(--light-border);position:relative;}
+.kanban-card.zola-card{border-left:3px solid #8B5CF6;}
+.kanban-card.is-done{opacity:0.55;}
+.task-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--light-border);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;vertical-align:middle;transition:all .15s;}
+.task-check.checked{background:var(--sage);border-color:var(--sage);color:white;}
+.task-check:hover{border-color:var(--sage);}
+.card-name{font-size:12px;font-weight:600;color:var(--dark);line-height:1.3;margin-bottom:5px;}
+.card-meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:10px;font-weight:600;}
+.badge-cat{background:#EEE;color:#555;}
+.badge-urgent{background:#FDECEA;color:var(--urgent);}
+.badge-high{background:#FEF9E7;color:var(--high);}
+.badge-normal{background:#EBF5FB;color:var(--normal);}
+.badge-low{background:#F4F4F4;color:var(--low);}
+.badge-zola{background:#EDE9FE;color:#5B21B6;}
+.badge-done{background:var(--done-bg);color:var(--done-text);}
+.card-due{font-size:10px;color:var(--mid);margin-top:4px;}
+.card-due.overdue{color:var(--urgent);font-weight:600;}
+.card-due.soon{color:#D68910;font-weight:600;}
+.card-status{font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;}
+.status-done{background:var(--done-bg);color:var(--done-text);}
+.status-inprog{background:var(--inprog-bg);color:var(--inprog-text);}
+.status-notstart{background:var(--notstart-bg);color:var(--notstart-text);}
+.col-count{background:rgba(0,0,0,.12);color:inherit;border-radius:10px;padding:1px 7px;font-size:10px;}
+.task-filters{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.task-filters input,.task-filters select{padding:6px 10px;border:1px solid var(--light-border);border-radius:6px;font-size:12px;background:white;}
+.task-filters input{flex:1;min-width:160px;}
+table.task-table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;border:1px solid var(--light-border);}
+table.task-table th{background:#F0EBE3;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);cursor:pointer;white-space:nowrap;}
+table.task-table td{padding:8px 12px;border-top:1px solid var(--light-border);font-size:12px;vertical-align:middle;}
+table.task-table tr:hover td{background:#FDFAF6;}
+.task-name-cell{font-weight:600;color:var(--dark);}
+.task-notes{font-size:11px;color:var(--mid);margin-top:2px;font-weight:400;}
+.cal-month{background:white;border:1px solid var(--light-border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.cal-month-header{background:#020C45;color:white;padding:10px 16px;font-size:13px;font-weight:700;}
+.cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);background:#F0EBE3;}
+.cal-day-label{padding:6px;text-align:center;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-day{min-height:64px;padding:4px;border:1px solid #F0EBE3;position:relative;}
+.cal-day-num{font-size:11px;font-weight:600;color:var(--mid);margin-bottom:2px;}
+.cal-day.today .cal-day-num{background:var(--amber);color:white;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;}
+.cal-day.other-month{background:#FAFAFA;}
+.cal-day.other-month .cal-day-num{color:#CCC;}
+.cal-event{font-size:9px;font-weight:600;padding:1px 4px;border-radius:3px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cal-event.urgent{background:#FDECEA;color:var(--urgent);}
+.cal-event.high{background:#FEF9E7;color:var(--high);}
+.cal-event.normal{background:#EBF5FB;color:var(--normal);}
+.cal-event.done{background:var(--done-bg);color:var(--done-text);}
+.cal-event.wedding{background:#020C45;color:white;}
+.cal-event.agenda{background:#EDE9FE;color:#5B21B6;}
+.cal-event.party{background:#FCE4EC;color:#C2185B;}
+.budget-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;}
+.budget-card{background:white;border-radius:8px;border:1px solid var(--light-border);padding:14px 16px;}
+.budget-card-label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+.budget-card-value{font-size:24px;font-weight:800;color:var(--dark);}
+.budget-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.chart-box{background:white;border-radius:8px;border:1px solid var(--light-border);padding:16px;height:260px;}
+.chart-box h3{font-size:12px;font-weight:700;margin-bottom:12px;color:var(--dark);}
+.budget-table-wrap{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+table.budget-table{width:100%;border-collapse:collapse;}
+table.budget-table th{background:#F0EBE3;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);}
+table.budget-table td{padding:8px 12px;border-top:1px solid var(--light-border);font-size:12px;}
+table.budget-table tr:hover td{background:#FDFAF6;}
+.num{text-align:right;font-variant-numeric:tabular-nums;}
+.rsvp-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.rsvp-event-card{background:white;border-radius:8px;border:1px solid var(--light-border);padding:16px;}
+.rsvp-event-name{font-size:13px;font-weight:700;margin-bottom:4px;}
+.rsvp-event-date{font-size:11px;color:var(--mid);margin-bottom:12px;}
+.rsvp-bars{display:flex;flex-direction:column;gap:6px;}
+.rsvp-bar-row{display:flex;align-items:center;gap:8px;font-size:11px;}
+.rsvp-bar-label{width:90px;color:var(--mid);}
+.rsvp-bar-track{flex:1;background:#F0EBE3;border-radius:4px;height:10px;}
+.rsvp-bar-fill{height:10px;border-radius:4px;}
+.rsvp-bar-fill.attending{background:var(--sage);}
+.rsvp-bar-fill.declined{background:var(--urgent);}
+.rsvp-bar-fill.pending{background:var(--amber-light);}
+.rsvp-bar-count{width:24px;text-align:right;font-weight:700;}
+.guest-table-wrap{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;margin-top:20px;}
+table.guest-table{width:100%;border-collapse:collapse;}
+table.guest-table th{background:#F0EBE3;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);cursor:pointer;}
+table.guest-table td{padding:7px 12px;border-top:1px solid var(--light-border);font-size:12px;}
+table.guest-table tr:hover td{background:#FDFAF6;}
+.rsvp-pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;}
+.rsvp-attending{background:var(--done-bg);color:var(--done-text);}
+.rsvp-declined{background:#FDECEA;color:var(--urgent);}
+.rsvp-pending{background:#F5F5F5;color:#777;}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px;}
+.event-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.event-card-header{padding:14px 16px;font-size:14px;font-weight:700;color:white;}
+.event-card-header.bridal{background:#D4668A;}
+.event-card-header.rehearsal{background:var(--amber);}
+.event-card-header.wedding{background:#020C45;}
+.event-card-header.shower{background:#7B68EE;}
+.event-card-header.bach{background:#C2185B;}
+.bach-banner{background:linear-gradient(135deg,#3D1F00,#652601);border-radius:8px;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;color:white;}
+.bach-banner-text h2{font-size:18px;font-weight:700;font-family:Georgia,serif;margin:0 0 4px;}
+.bach-banner-text p{font-size:12px;opacity:.8;margin:0;}
+.bach-night{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;margin-bottom:16px;}
+.bach-night-header{padding:12px 16px;font-size:13px;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
+.bach-night-header.fri{background:#652601;}
+.bach-night-header.sat{background:#9F3E1F;}
+.bach-night-header.sun{background:#60613A;}
+.bach-night-body{padding:14px 16px;font-size:12px;color:var(--dark);line-height:1.7;}
+.bach-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.bach-checklist-section{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.bach-checklist-header{padding:10px 16px;font-size:12px;font-weight:700;background:#FDF0E8;color:#652601;display:flex;justify-content:space-between;align-items:center;}
+.bach-item{display:flex;align-items:flex-start;gap:10px;padding:9px 16px;border-top:1px solid var(--light-border);font-size:12px;}
+.bach-check{width:20px;height:20px;border:2px solid #9F3E1F;border-radius:4px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;margin-top:1px;}
+.bach-check.checked{background:#9F3E1F;border-color:#9F3E1F;}
+.bach-item-label{flex:1;}
+.bach-item-name{font-weight:600;color:var(--dark);}
+.bach-item-notes{font-size:11px;color:var(--mid);margin-top:2px;}
+.gift-card{background:white;border-radius:8px;border:2px solid #E8C4A8;padding:14px 16px;margin-bottom:12px;}
+.gift-card-title{font-size:12px;font-weight:700;color:#652601;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.gift-card-body{font-size:12px;color:var(--mid);line-height:1.6;}
+.fl-day{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;margin-bottom:20px;}
+.fl-day-header{padding:12px 18px;font-size:13px;font-weight:700;color:white;display:flex;align-items:center;gap:10px;}
+.fl-day-header.oct7{background:#020C45;}
+.fl-day-header.oct8{background:#60613A;}
+.fl-day-header.venue{background:#9F3E1F;}
+.fl-steps{padding:0;margin:0;list-style:none;}
+.fl-step{display:flex;gap:12px;padding:10px 18px;border-top:1px solid var(--light-border);font-size:12px;align-items:flex-start;}
+.fl-step:first-child{border-top:none;}
+.fl-step-num{width:22px;height:22px;border-radius:50%;background:var(--cream);border:2px solid var(--light-border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--mid);flex-shrink:0;margin-top:1px;}
+.fl-step-body{flex:1;}
+.fl-step-title{font-weight:700;color:var(--dark);margin-bottom:2px;}
+.fl-step-note{font-size:11px;color:var(--mid);}
+.fl-tip{background:#FFF8E7;border-left:3px solid #F59E0B;padding:8px 12px;font-size:11px;margin:0 18px 14px;border-radius:0 4px 4px 0;}
+.fl-recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px;}
+.fl-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.fl-card-header{padding:12px 16px;color:white;display:flex;align-items:center;justify-content:space-between;}
+.fl-card-header.bridal{background:#652601;}
+.fl-card-header.moh{background:#9F3E1F;}
+.fl-card-header.bm{background:#C06030;}
+.fl-card-header.bout{background:#60613A;}
+.fl-card-header.arch{background:#020C45;}
+.fl-card-header.bud{background:#4A5280;}
+.fl-card-header.garland{background:#3D4020;}
+.fl-card-header.dog{background:#8B4513;}
+.fl-card-title{font-size:13px;font-weight:700;}
+.fl-card-count{font-size:11px;opacity:.85;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px;}
+.fl-ingredient{display:flex;justify-content:space-between;align-items:center;padding:7px 14px;border-top:1px solid var(--light-border);font-size:12px;}
+.fl-ingredient:first-child{border-top:none;}
+.fl-ing-name{color:var(--dark);}
+.fl-ing-amt{font-weight:700;color:var(--amber);font-size:11px;white-space:nowrap;margin-left:8px;}
+.fl-ing-shared{font-weight:600;color:var(--mid);font-size:11px;font-style:italic;white-space:nowrap;margin-left:8px;}
+.fl-card-note{background:#F9F6F2;padding:8px 14px;font-size:11px;color:var(--mid);border-top:2px solid var(--light-border);}
+.fl-bucket-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fl-bucket{background:white;border-radius:8px;border:1px solid var(--light-border);padding:14px 16px;}
+.fl-bucket-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);margin-bottom:10px;}
+.fl-bucket-item{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--light-border);}
+.fl-bucket-item:last-child{border-bottom:none;}
+.bs-section{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;margin-bottom:20px;}
+.bs-section-header{padding:12px 16px;font-size:13px;font-weight:700;background:#F9EEF3;color:#8B2252;display:flex;align-items:center;justify-content:space-between;}
+.bs-checklist{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.bs-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--light-border);}
+.bs-item:last-child{border-bottom:none;}
+.bs-check{width:20px;height:20px;border:2px solid #D4668A;border-radius:4px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;margin-top:1px;}
+.bs-check.checked{background:#D4668A;border-color:#D4668A;}
+.bs-label{flex:1;}
+.bs-name{font-size:12px;font-weight:600;color:var(--dark);}
+.bs-notes{font-size:11px;color:var(--mid);margin-top:2px;}
+.bs-status-needed{background:#FFF0EA;color:#9F3E1F;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.bs-status-done{background:var(--done-bg);color:var(--done-text);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.game-card{background:white;border-radius:8px;border:2px solid #F2C4D8;padding:16px;display:flex;flex-direction:column;gap:8px;}
+.game-title{font-size:13px;font-weight:700;color:#8B2252;display:flex;align-items:center;gap:8px;}
+.game-how{font-size:12px;color:var(--mid);line-height:1.5;}
+.event-card-body{padding:14px 16px;}
+.event-detail{display:flex;gap:8px;margin-bottom:8px;font-size:12px;}
+.event-detail-label{font-weight:700;color:var(--mid);min-width:70px;}
+.event-rsvp-mini{display:flex;gap:8px;margin-top:12px;}
+.event-rsvp-chip{flex:1;text-align:center;padding:8px 4px;border-radius:6px;font-size:11px;}
+.chip-attending{background:var(--done-bg);}
+.chip-declined{background:#FDECEA;}
+.chip-pending{background:#F5F5F5;}
+.chip-num{font-size:20px;font-weight:800;display:block;}
+.registry-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.gift-section{background:white;border-radius:8px;border:1px solid var(--light-border);padding:16px;}
+.gift-section h3{font-size:13px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--light-border);display:flex;align-items:center;justify-content:space-between;}
+.gift-count-badge{background:var(--urgent);color:white;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.gift-count-badge.good{background:var(--sage);}
+.thank-you-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--light-border);}
+.thank-you-info{flex:1;}
+.thank-you-name{font-size:12px;font-weight:700;}
+.thank-you-gift{font-size:11px;color:var(--mid);}
+.thank-you-value{font-size:12px;font-weight:700;color:var(--amber);white-space:nowrap;}
+.thank-you-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.ty-done{background:var(--done-bg);color:var(--done-text);}
+.ty-pending{background:#FDECEA;color:var(--urgent);}
+.vendor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.vendor-card{background:white;border-radius:8px;border:1px solid var(--sage-light);padding:14px;}
+.vendor-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mid);margin-bottom:4px;}
+.vendor-name{font-size:13px;font-weight:700;margin-bottom:4px;}
+.vendor-location{font-size:11px;color:var(--mid);}
+.vendor-contact{font-size:11px;color:var(--normal);margin-top:6px;word-break:break-all;}
+.vendor-confirmed{font-size:10px;font-weight:600;color:var(--done-text);background:var(--done-bg);padding:2px 8px;border-radius:10px;display:inline-block;margin-top:6px;}
+.section-header{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--light-border);display:flex;align-items:center;gap:10px;}
+.section-header .zola-tag{font-size:10px;font-weight:600;background:#EDE9FE;color:#5B21B6;padding:2px 8px;border-radius:10px;}
+/* SEATING */
+.seating-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.table-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.table-card-header{padding:10px 14px;font-weight:700;font-size:12px;color:white;}
+.table-header-sweetheart{background:#020C45;}
+.table-header-groom{background:#2E6DA4;}
+.table-header-bride{background:#D4668A;}
+.table-header-friends{background:var(--amber);}
+.table-header-kings{background:#5B21B6;}
+.table-card-body{padding:10px 14px;}
+.seat-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-top:1px solid #F5F2EE;font-size:12px;}
+.seat-row:first-child{border-top:none;}
+.seat-num{width:18px;height:18px;border-radius:50%;background:#F0EBE3;color:var(--mid);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.seat-note{font-size:10px;color:var(--mid);margin-left:auto;}
+.seat-flag{font-size:10px;color:var(--urgent);font-weight:600;margin-left:4px;}
+.seating-alerts{background:white;border:1px solid var(--light-border);border-radius:8px;padding:16px;margin-bottom:16px;}
+.seating-alerts h3{font-size:13px;font-weight:700;margin-bottom:10px;}
+.seating-alert-row{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-top:1px solid #F5F2EE;font-size:12px;}
+.seating-alert-row:first-of-type{border-top:none;}
+/* DIY */
+.diy-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.diy-section{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.diy-section-header{padding:10px 16px;font-size:12px;font-weight:700;background:#F0EBE3;display:flex;align-items:center;justify-content:space-between;}
+.diy-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-top:1px solid var(--light-border);}
+.diy-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--light-border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.diy-check.checked{background:var(--sage);border-color:var(--sage);color:white;}
+.diy-text{flex:1;}
+.diy-name{font-size:12px;font-weight:600;}
+.diy-notes{font-size:11px;color:var(--mid);margin-top:2px;}
+/* AGENDAS */
+.agenda-grid{display:flex;flex-direction:column;gap:12px;}
+.agenda-card{background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;}
+.agenda-card-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:#020C45;color:white;}
+.agenda-date{font-size:13px;font-weight:700;}
+.agenda-weeks{font-size:11px;opacity:.8;}
+.agenda-body{padding:12px 16px;display:flex;flex-direction:column;gap:6px;}
+.agenda-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;}
+.agenda-icon{font-size:13px;flex-shrink:0;width:20px;}
+.agenda-dance{color:var(--amber);font-weight:600;}
+@media(max-width:900px){.kanban-grid{grid-template-columns:1fr 1fr;}.budget-chart-row{grid-template-columns:1fr;}.rsvp-summary{grid-template-columns:1fr;}.registry-grid{grid-template-columns:1fr;}.diy-grid{grid-template-columns:1fr;}}
+</style></head><body>
+<div class="header">
+  <div>
+    <div class="header-title">💍 <span>Jade & Brandon</span> — Wedding Command Center</div>
+    <div style="font-size:11px;color:#aaa;margin-top:2px;">FivePine Lodge · Sisters, OR · October 10, 2026</div>
+  </div>
+  <div style="text-align:right;font-size:11px;color:#aaa;">
+    <div id="today-date"></div>
+    <div style="color:#8BC34A;font-size:10px;">● Zola Connected</div>
+  </div>
+</div>
+<div class="countdown-bar">
+  <div style="display:flex;flex-direction:column;align-items:center;"><div class="countdown-num" id="days-left">—</div><div class="countdown-label">Days</div></div>
+  <div style="display:flex;flex-direction:column;align-items:center;"><div class="countdown-num" id="weeks-left">—</div><div class="countdown-label">Weeks</div></div>
+  <div style="flex:1"></div>
+  <div style="font-size:11px;opacity:.9;">🎊 Oct 10, 2026 · 3:30 PM · Mountain Cocktail Attire · Ceremony + Reception till 10:30 PM</div>
+</div>
+<div class="alert-bar">
+  <div class="alert-item"><div class="alert-dot"></div><span>⚠ 68 guests haven't RSVPed to the Wedding</span></div>
+  <div class="alert-item"><div class="alert-dot"></div><span>🥜 NUT ALLERGY: Hank Baillargeon / Katie Molloy — notify FivePine catering</span></div>
+  <div class="alert-item"><div class="alert-dot"></div><span>🌾 Celiac / Gluten: Brooke Wheeler &amp; Jere — notify FivePine catering</span></div>
+  
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="showTab('dashboard')">📊 Dashboard</div>
+  <div class="tab" onclick="showTab('kanban')">🗂 Kanban</div>
+  <div class="tab" onclick="showTab('tasks')">✅ All Tasks</div>
+  <div class="tab" onclick="showTab('calendar')">📅 Calendar</div>
+  <div class="tab" onclick="showTab('agendas')">🕺 Monday Nights</div>
+  <div class="tab" onclick="showTab('budget')">💰 Budget</div>
+  <div class="tab" onclick="showTab('guests')">👥 Guests<span class="tab-badge">68</span></div>
+  <div class="tab" onclick="showTab('seating')">🪑 Seating</div>
+  <div class="tab" onclick="showTab('diy')">🔨 DIY List</div>
+  <div class="tab" onclick="showTab('flowers')">🌿 Flower Guide</div>
+  <div class="tab" onclick="showTab('shower')">🌸 Bridal Shower</div>
+  <div class="tab" onclick="showTab('bach')">🤠 Bachelorette</div>
+  <div class="tab" onclick="showTab('events')">🎉 Events</div>
+  <div class="tab" onclick="showTab('registry')">🎁 Registry<span class="tab-badge">6</span></div>
+  <div class="tab" onclick="showTab('vendors')">🤝 Vendors</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="panel active" id="tab-dashboard">
+  <div class="stats-row">
+    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">68</div><div class="stat-sub">of 97 invited · Wedding</div></div>
+    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">27</div><div class="stat-sub">2 declined</div></div>
+    <div class="stat-card urgent"><div class="stat-label">Thank-Yous Pending</div><div class="stat-value">6</div><div class="stat-sub">$911.87 in gifts received</div></div>
+    <div class="stat-card"><div class="stat-label">Days to Wedding</div><div class="stat-value" id="dash-days">—</div><div class="stat-sub">October 10, 2026</div></div>
+    <div class="stat-card good"><div class="stat-label">Vendors Confirmed</div><div class="stat-value">7</div><div class="stat-sub">All booked ✓</div></div>
+    <div class="stat-card"><div class="stat-label">Gifts Received</div><div class="stat-value">9</div><div class="stat-sub">$911.87 total value</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div>
+      <div class="section-header">🚨 Urgent Actions</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:white;border:1px solid #FDECEA;border-left:4px solid var(--urgent);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">Send thank-you notes — 6 pending</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + 1 surprise gift</div>
+        </div>
+        <div style="background:white;border:1px solid #FDECEA;border-left:4px solid var(--urgent);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">Chase RSVPs — 68 guests haven't responded</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Rehearsal dinner: 17 pending · Bridal shower: 29 pending</div>
+        </div>
+        <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">🌸 Florist confirmed — Beau & Bloom Florals ✓</div>
+          <div style="font-size:11px;color:var(--done-text);margin-top:3px;">Going with Beau & Bloom proposal — FiftyFlowers removed</div>
+        </div>
+        <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">👟 Get wedding shoes</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Need before dress hem appointment</div>
+        </div>
+        <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">📐 Schedule dress hem / alterations</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Book after you have your shoes</div>
+        </div>
+        <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">🏦 FivePine 2nd payment — $6,000 due Jul 12</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Make sure funds are ready</div>
+        </div>
+        <div style="background:white;border:1px solid #FEF9E7;border-left:4px solid var(--high);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:12px;font-weight:700;">💌 Help Brian Wheeler book hotel for wedding weekend</div>
+          <div style="font-size:11px;color:var(--mid);margin-top:3px;">Cabin block releases Aug 26 — book before then</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-header">📅 Upcoming Deadlines</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">FivePine 2nd payment ($6,000)</div><div style="font-size:11px;color:var(--urgent);font-weight:700;">Jul 12, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">🌸 Bridal Shower — Bothell WA</div><div style="font-size:11px;color:var(--high);font-weight:700;">Aug 15, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">💜 Couples Shower — Bend</div><div style="font-size:11px;color:var(--high);font-weight:700;">Aug 20, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">🎉 Bachelorette Party — Bend</div><div style="font-size:11px;color:var(--high);font-weight:700;">Aug 21–23, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">Cabin block release (FivePine)</div><div style="font-size:11px;color:var(--high);font-weight:700;">Aug 26, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">FivePine menu selections due</div><div style="font-size:11px;color:var(--normal);font-weight:700;">Aug 25, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">Final guest count to FivePine</div><div style="font-size:11px;color:var(--normal);font-weight:700;">Sep 19, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">FivePine 3rd deposit</div><div style="font-size:11px;color:var(--normal);font-weight:700;">Sep 30, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">🌸 Flower assembly day (Jade PTO)</div><div style="font-size:11px;color:var(--normal);font-weight:700;">Oct 8, 2026</div></div>
+        <div style="background:white;border:1px solid var(--light-border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:600;">Central Event Rentals final payment</div><div style="font-size:11px;color:var(--normal);font-weight:700;">Oct 7, 2026</div></div>
+        <div style="background:#020C45;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:12px;font-weight:700;color:white;">💍 WEDDING DAY</div><div style="font-size:11px;color:var(--amber-light);font-weight:700;">Oct 10, 2026</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KANBAN -->
+<div class="panel" id="tab-kanban"><div class="kanban-grid" id="kanban-grid"></div></div>
+
+<!-- ALL TASKS -->
+<div class="panel" id="tab-tasks">
+  <div class="task-filters">
+    <input type="text" id="task-search" placeholder="Search tasks…" oninput="filterTasks()">
+    <select id="task-owner-filter" onchange="filterTasks()"><option value="">All Owners</option><option>Jade</option><option>Brandon</option><option>Both</option></select>
+    <select id="task-cat-filter" onchange="filterTasks()"><option value="">All Categories</option><option>Venue</option><option>Flowers</option><option>Attire</option><option>Catering</option><option>Music</option><option>Photography</option><option>Guests</option><option>Rentals</option><option>Admin</option><option>Registry</option><option>Zola</option><option>DIY</option></select>
+    <select id="task-status-filter" onchange="filterTasks()"><option value="">All Statuses</option><option>Not Started</option><option>In Progress</option><option>Done</option></select>
+    <select id="task-priority-filter" onchange="filterTasks()"><option value="">All Priorities</option><option>Urgent</option><option>High</option><option>Normal</option><option>Low</option></select>
+  </div>
+  <table class="task-table" id="task-table">
+    <thead><tr><th onclick="sortTasks('name')">Task ↕</th><th onclick="sortTasks('cat')">Category ↕</th><th onclick="sortTasks('owner')">Owner ↕</th><th onclick="sortTasks('priority')">Priority ↕</th><th onclick="sortTasks('due')">Due ↕</th><th onclick="sortTasks('status')">Status ↕</th></tr></thead>
+    <tbody id="task-tbody"></tbody>
+  </table>
+  <div style="margin-top:8px;font-size:11px;color:var(--mid);text-align:right;" id="task-count"></div>
+</div>
+
+<!-- CALENDAR -->
+<div class="panel" id="tab-calendar"><div id="cal-container"></div></div>
+
+<!-- MONDAY NIGHT AGENDAS -->
+<div class="panel" id="tab-agendas">
+  <div class="section-header">🕺 Monday Night Planning Sessions <span style="font-size:10px;font-weight:400;color:var(--mid);">Jun 16 – Oct 5, 2026 · 2–3 tasks + dance practice + the dip every week</span></div>
+  <div class="agenda-grid" id="agenda-list"></div>
+</div>
+
+<!-- BUDGET -->
+<div class="panel" id="tab-budget">
+  <div class="budget-summary">
+    <div class="budget-card"><div class="budget-card-label">Original Budget</div><div class="budget-card-value">$17,000</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Cost</div><div class="budget-card-value">$23,414</div></div>
+    <div class="budget-card"><div class="budget-card-label">Difference</div><div class="budget-card-value">+$6,414</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$8,872</div></div>
+    <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$14,391</div></div>
+  </div>
+  <div class="budget-chart-row">
+    <div class="chart-box"><h3>Actual Cost by Category</h3><canvas id="budget-pie"></canvas></div>
+    <div class="chart-box"><h3>Budgeted vs. Actual</h3><canvas id="budget-bar"></canvas></div>
+  </div>
+  <div class="budget-table-wrap">
+    <table class="budget-table">
+      <thead><tr><th>Category</th><th class="num">Budgeted</th><th class="num">Actual</th><th class="num">Paid</th><th class="num">Balance Due</th><th class="num">Difference</th></tr></thead>
+      <tbody id="budget-tbody"></tbody>
+      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td class="num">$17,000</td><td class="num">$23,414</td><td class="num">$8,872</td><td class="num">$14,391</td><td class="num">+$6,414</td></tr></tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- GUESTS -->
+<div class="panel" id="tab-guests">
+  <div class="section-header">RSVP Status by Event <span class="zola-tag">Live from Zola</span></div>
+  <div class="rsvp-summary">
+    <div class="rsvp-event-card"><div class="rsvp-event-name">💍 Wedding</div><div class="rsvp-event-date">October 10, 2026 · FivePine Lodge</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:27.8%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">27</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:2.1%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">2</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:70.1%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">68</div></div></div></div>
+    <div class="rsvp-event-card"><div class="rsvp-event-name">🍷 Rehearsal Dinner</div><div class="rsvp-event-date">October 9, 2026 · 6–10 PM · Sisters Saloon & Ranch Grill</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:46.9%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">15</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:0%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">0</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:53.1%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">17</div></div></div></div>
+    <div class="rsvp-event-card"><div class="rsvp-event-name">🌸 Bridal Shower</div><div class="rsvp-event-date">August 15, 2026 · Bothell WA · 11 AM–2:30 PM</div><div class="rsvp-bars"><div class="rsvp-bar-row"><div class="rsvp-bar-label">Attending</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill attending" style="width:9.4%"></div></div><div class="rsvp-bar-count" style="color:var(--sage)">3</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">Declined</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill declined" style="width:0%"></div></div><div class="rsvp-bar-count" style="color:var(--urgent)">0</div></div><div class="rsvp-bar-row"><div class="rsvp-bar-label">No Response</div><div class="rsvp-bar-track"><div class="rsvp-bar-fill pending" style="width:90.6%"></div></div><div class="rsvp-bar-count" style="color:var(--amber)">29</div></div></div></div>
+  </div>
+  <div class="section-header">Guest List — 54 Parties · 97 Individuals <span class="zola-tag">Live from Zola</span></div>
+  <div class="task-filters">
+    <input type="text" id="guest-search" placeholder="Search guests…" oninput="filterGuests()">
+    <select id="guest-rsvp-filter" onchange="filterGuests()"><option value="">All Statuses</option><option>Attending</option><option>Declined</option><option>No Response</option></select>
+    <select id="guest-allergy-filter" onchange="filterGuests()"><option value="">All Guests</option><option value="allergy">Has Allergy / Restriction</option></select>
+    <button onclick="exportGuestsCSV(false)" style="padding:6px 12px;background:var(--sage);color:white;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">⬇ Export All CSV</button>
+    <button onclick="exportGuestsCSV(true)" style="padding:6px 12px;background:var(--amber);color:white;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">🥜 Export Allergy List</button>
+  </div>
+  <div class="guest-table-wrap">
+    <table class="guest-table">
+      <thead><tr><th onclick="sortGuests('primary')">Primary Guest</th><th onclick="sortGuests('plus')">Plus-One / Partner</th><th onclick="sortGuests('rsvp')">Wedding RSVP</th><th>Address</th><th onclick="sortGuests('allergy')">Allergy / Restriction</th></tr></thead>
+      <tbody id="guest-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SEATING CHART -->
+<div class="panel" id="tab-seating">
+  <div class="seating-alerts">
+    <h3>📋 Seating Notes</h3>
+    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Tammy Wheeler's guest, Brian Wheeler's guest, Nick Peterson's guest, Markus Sullivan's guest, Charlotte Nash's guest — confirm names before printing place cards.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct names.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK family — not expected to attend:</strong> Hamish Robb, Val Robb, Anna Phillips, Jennifer Peterson, Rob Donelan, Lys Donelan. No seats assigned; if any confirm, they can fill freed seats from Skyler & Megan Fussner (declined).</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">✅</span><div><strong>Doris Wheeler:</strong> Uses Brian Wheeler's mailing address — no separate address needed.</div></div>
+  </div>
+  <div class="section-header">Table Assignments — 11 Tables + Sweetheart</div>
+  <div class="seating-grid" id="seating-grid"></div>
+</div>
+
+<!-- DIY CHECKLIST -->
+<div class="panel" id="tab-diy">
+  <div class="section-header">🔨 DIY Wedding Checklist</div>
+  <div class="diy-grid">
+    <div class="diy-section">
+      <div class="diy-section-header"><span>🌿 Day-Of Decor & Setup</span><span style="font-size:11px;color:var(--mid);" id="diy-count-1"></span></div>
+      <div id="diy-group-1"></div>
+    </div>
+    <div class="diy-section">
+      <div class="diy-section-header"><span>✉️ Stationery & Signage</span><span style="font-size:11px;color:var(--mid);" id="diy-count-2"></span></div>
+      <div id="diy-group-2"></div>
+    </div>
+    <div class="diy-section">
+      <div class="diy-section-header"><span>🪴 Cricut Projects</span><span style="font-size:11px;color:var(--mid);" id="diy-count-3"></span></div>
+      <div id="diy-group-3"></div>
+    </div>
+    <div class="diy-section">
+      <div class="diy-section-header"><span>🌸 Flowers & Assembly</span><span style="font-size:11px;color:var(--mid);" id="diy-count-4"></span></div>
+      <div id="diy-group-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<!-- FLOWER GUIDE -->
+<div class="panel" id="tab-flowers">
+  <div class="section-header">🌿 Flower Assembly Guide — Oct 7 & 8</div>
+
+  <!-- DAY 1: AIRPORT -->
+  <div class="fl-day">
+    <div class="fl-day-header oct7">📦 Wednesday, Oct 7 — Airport Pickup & Conditioning</div>
+    <div class="fl-tip">🚗 Bring: all buckets (16 regular + 7 short), water jugs, a tarp or trash bags for the car. Jackie's number: 888.462.9374</div>
+    <ul class="fl-steps">
+      <li class="fl-step"><div class="fl-step-num">1</div><div class="fl-step-body"><div class="fl-step-title">Drive to Redmond Municipal Airport (RDM)</div><div class="fl-step-note">Pick up Delta Airlines shipment — this is the main flower order. Confirm tracking with Jackie if anything is unclear.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">2</div><div class="fl-step-body"><div class="fl-step-title">Check FedEx for garland delivery (separate)</div><div class="fl-step-note">3×8' eucalyptus garlands ship separately via FedEx — should arrive same day or day before. Track via FedEx number once Lauren sends it.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">3</div><div class="fl-step-body"><div class="fl-step-title">Get home and fill all buckets with cool water immediately</div><div class="fl-step-note">Use the bucket list below — one type of flower per bucket so you can find things easily tomorrow.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">4</div><div class="fl-step-body"><div class="fl-step-title">Unbox everything right away — flowers need water ASAP</div><div class="fl-step-note">Don't leave them boxed up. Get them in water within 30 minutes of getting home.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">5</div><div class="fl-step-body"><div class="fl-step-title">Cut every stem at a 45° angle before placing in water</div><div class="fl-step-note">Cut about 1 inch off. Angle = more surface area = more water uptake. Do this under water if you can.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">6</div><div class="fl-step-body"><div class="fl-step-title">Strip leaves that would sit below the waterline</div><div class="fl-step-note">Leaves in water = bacteria = dead flowers faster. Keep the pretty stuff above water only.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">7</div><div class="fl-step-body"><div class="fl-step-title">Store overnight in a cool, dark space — NOT the fridge</div><div class="fl-step-note">A garage, laundry room, or cool basement is perfect. Avoid direct sunlight or heat.</div></div></li>
+    </ul>
+  </div>
+
+  <!-- DAY 2: ASSEMBLY -->
+  <div class="fl-day">
+    <div class="fl-day-header oct8">✂️ Thursday, Oct 8 — Assembly Day (Your PTO Day)</div>
+    <div class="fl-tip">☕ Set up before you start: large cleared table or floor with tarp · clippers · floral tape · bind wire · ribbon · boutonniere pins · water tubes · zip ties · wet paper towels for wrapping finished pieces</div>
+    <ul class="fl-steps">
+      <li class="fl-step"><div class="fl-step-num">1</div><div class="fl-step-body"><div class="fl-step-title">Make the 4 Boutonnieres first</div><div class="fl-step-note">Small, easy, good warm-up. Wrap with boutonniere tape → cover with ribbon. Lauren is providing the magnets.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">2</div><div class="fl-step-body"><div class="fl-step-title">Make the Dog Collar</div><div class="fl-step-note">Lauren will send the pre-made frame. Use clippings/scraps from the boutonnieres. Affix blooms to frame per her tutorial.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">3</div><div class="fl-step-body"><div class="fl-step-title">Make the 2 Bridesmaid Bouquets</div><div class="fl-step-note">Make both at the same time so they match. Wrap stems with bind wire → cover with ribbon.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">4</div><div class="fl-step-body"><div class="fl-step-title">Make the MOH Bouquet</div><div class="fl-step-note">Slightly larger than bridesmaid bouquets. Pulls from the same bunches as the Bride — these are shared bunches, not separate ones.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">5</div><div class="fl-step-body"><div class="fl-step-title">Make YOUR Bridal Bouquet — save the best for last 👰</div><div class="fl-step-note">This is the hero piece. Take your time. Wrap with bind wire, cover bind wire with ribbon. When done, put it in water in a tall vase immediately.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">6</div><div class="fl-step-body"><div class="fl-step-title">Make the 2 Arch/Altar Sprays</div><div class="fl-step-note">Two cages for one side, one cage for the opposite offset side. Zip ties go on at the venue. Use remaining clippings to fill out the sprays.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">7</div><div class="fl-step-body"><div class="fl-step-title">Make the 66 Bud Vases (put on a show, this takes a while)</div><div class="fl-step-note">36 for round guest tables (4 per table × 9 tables) + 30 for head table (10 per 8' section × 3). Keep each vase simple — 2-3 stems each. Pack into Taylor's bankers boxes by table.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">8</div><div class="fl-step-body"><div class="fl-step-title">Wrap & store everything for transport</div><div class="fl-step-note">Bouquets + boutonnieres: wet paper towel around stems, in water for the car. Bud vases: pack in bankers boxes. Garlands: keep in box until head table setup.</div></div></li>
+    </ul>
+  </div>
+
+  <!-- VENUE -->
+  <div class="fl-day">
+    <div class="fl-day-header venue">🏔️ At the Venue — Morning of Oct 10 (FivePine has an event Oct 9)</div>
+    <ul class="fl-steps">
+      <li class="fl-step"><div class="fl-step-num">1</div><div class="fl-step-body"><div class="fl-step-title">Head table garlands (Taylor Wood sets up Oct 10)</div><div class="fl-step-note">Lay 3 garlands side by side for a continuous 24' look. Tuck bud vases on both sides (10 per 8' section). Alternatively, tuck hearty blooms directly into garland with water tubes.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">2</div><div class="fl-step-body"><div class="fl-step-title">Arch sprays — zip tie cages to arch before ceremony</div><div class="fl-step-note">After the ceremony, bridal party transfers the arch sprays to the reception area (probably Tater Tot per the run of show).</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">3</div><div class="fl-step-body"><div class="fl-step-title">Round table bud vases — Taylor unpacks from boxes</div><div class="fl-step-note">Each bankers box = one table. Taylor places per the table diagram. 4 bud vases per round table.</div></div></li>
+      <li class="fl-step"><div class="fl-step-num">4</div><div class="fl-step-body"><div class="fl-step-title">Bouquets + boutonnieres travel with you, stay in water until ceremony</div><div class="fl-step-note">Don't take them out until you're dressed and ready. Lauren (MOH) keeps them cool and hands them out.</div></div></li>
+    </ul>
+  </div>
+
+  <!-- RECIPES -->
+  <div class="section-header" style="margin-bottom:16px;">📋 Arrangement Recipes — What Goes in Each One</div>
+  <div style="font-size:12px;color:var(--mid);margin-bottom:16px;">💡 <strong>b = whole bunch</strong> as it came in the box &nbsp;|&nbsp; <strong>st = individual stems</strong> counted out &nbsp;|&nbsp; <em>shared</em> = pull from the same bunch you already opened for another arrangement — no separate bunch needed</div>
+  <div class="fl-recipe-grid">
+
+    <!-- BRIDAL BOUQUET -->
+    <div class="fl-card">
+      <div class="fl-card-header bridal"><span class="fl-card-title">👰 Bridal Bouquet</span><span class="fl-card-count">Make 1 · ~75 stems total</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Hero blooms — the stars</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Chocolate Ranunculus</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Rust Butterfly Ranunculus</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burnt Orange Ball Dahlia</span><span class="fl-ing-amt">5 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Golden Mustard Garden Rose</span><span class="fl-ing-amt">5 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Hanging Amaranthus</span><span class="fl-ing-amt">4 stems (trailing)</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Supporting blooms — the body</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Coffee Break Rose</span><span class="fl-ing-amt">4 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Rose</span><span class="fl-ing-amt">4 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Antique Terracotta Carnation</span><span class="fl-ing-amt">4 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Latte Bahlia Cremon</span><span class="fl-ing-amt">4 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Copper Pom Mums</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Bronze Button Spray Mums</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Toffee Garden Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Spray Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Ivory Majolica Spray Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Astilbe</span><span class="fl-ing-amt">3 stems</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Greenery — the frame</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Parvafolia Eucalyptus</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Seeded Eucalyptus</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">True Blue Eucalyptus</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Leather Leaf Fern</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Italian Ruscus</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Love Grass</span><span class="fl-ing-amt">3 stems (wispy texture)</span></div>
+      <div class="fl-card-note">⭐ Build greenery frame first, then add hero blooms, fill in with supporting blooms · wrap stems with bind wire · cover bind wire with ribbon · save leftover stems for MOH & bud vases</div>
+    </div>
+
+    <!-- MOH BOUQUET -->
+    <div class="fl-card">
+      <div class="fl-card-header moh"><span class="fl-card-title">💐 MOH Bouquet (Lauren)</span><span class="fl-card-count">Make 1 · ~45 stems total</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Hero blooms</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Hanging Amaranthus</span><span class="fl-ing-amt">3 stems (own bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Chocolate Ranunculus</span><span class="fl-ing-amt">4 stems (from Bride's bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Rust Butterfly Ranunculus</span><span class="fl-ing-amt">4 stems (from Bride's bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burnt Orange Ball Dahlia</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Golden Mustard Garden Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Supporting blooms</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Coffee Break Rose</span><span class="fl-ing-amt">3 stems (from Bride's bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Toffee Garden Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Spray Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Latte Bahlia Cremon</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Ivory Majolica Spray Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Astilbe</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Copper Pom Mums</span><span class="fl-ing-amt">2 stems (from Bride's bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Bronze Button Spray Mums</span><span class="fl-ing-amt">2 stems (from Bride's bunch)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Antique Terracotta Carnation</span><span class="fl-ing-amt">3 stems (from Bride's bunch)</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Greenery</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Parvafolia, Seeded, True Blue Euc</span><span class="fl-ing-amt">2 stems each (from Bride's bunches)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Leather Leaf, Italian Ruscus, Love Grass</span><span class="fl-ing-amt">2 stems each (from Bride's bunches)</span></div>
+      <div class="fl-card-note">Wrap with bind wire · cover with ribbon · should be slightly smaller than bridal bouquet</div>
+    </div>
+
+    <!-- BRIDESMAIDS -->
+    <div class="fl-card">
+      <div class="fl-card-header bm"><span class="fl-card-title">💐 Bridesmaid Bouquets</span><span class="fl-card-count">Make 2 · ~25 stems each</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Per bouquet (make 2 identical)</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Chocolate Ranunculus</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Rust Butterfly Ranunculus</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burnt Orange Ball Dahlia</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Golden Mustard Garden Rose</span><span class="fl-ing-amt">3 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Bronze Button Spray Mums</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Spray Rose</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Toffee Garden Rose</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Latte Bahlia Cremon</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Astilbe</span><span class="fl-ing-amt">2 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Ivory Majolica Spray Rose</span><span class="fl-ing-amt">1 stem</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Italian Ruscus</span><span class="fl-ing-amt">1 stem</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Parvafolia or Seeded Euc</span><span class="fl-ing-amt">1 stem (from Bride's bunches)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Leather Leaf Fern</span><span class="fl-ing-amt">1 stem (from Bride's bunch)</span></div>
+      <div class="fl-card-note">Make both at the same time side by side so they match · wrap with bind wire · cover with ribbon</div>
+    </div>
+
+    <!-- BOUTONNIERES -->
+    <div class="fl-card">
+      <div class="fl-card-header bout"><span class="fl-card-title">🌿 Boutonnieres</span><span class="fl-card-count">Make 4 · ~6 stems each</span></div>
+      <div style="padding:6px 14px;font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Per boutonniere (make 4 identical)</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Rust Butterfly Ranunculus</span><span class="fl-ing-amt">1 stem (hero bloom)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Bronze Button Spray Mum</span><span class="fl-ing-amt">1 stem (texture)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Astilbe</span><span class="fl-ing-amt">1 stem (color pop)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Parvafolia Eucalyptus</span><span class="fl-ing-amt">1 stem</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Seeded Eucalyptus</span><span class="fl-ing-amt">1 stem</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Leather Leaf Fern</span><span class="fl-ing-amt">1 small piece (base layer)</span></div>
+      <div class="fl-card-note">Leather Leaf goes on the back as a base · build forward with euc → astilbe → ranunculus on top · wrap tight with boutonniere tape → cover with ribbon · Lauren provides magnets</div>
+    </div>
+
+    <!-- ARCH SPRAYS -->
+    <div class="fl-card">
+      <div class="fl-card-header arch"><span class="fl-card-title">🌸 Arch / Altar Sprays</span><span class="fl-card-count">Make 2</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Burgundy Hanging Amaranthus</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Chocolate Ranunculus</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Copper Pom Mums</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Coffee Break Rose</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Rust Butterfly Ranunculus</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Rose</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Antique Terracotta Carnation</span><span class="fl-ing-amt">1 bunch</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Golden Mustard Garden Rose</span><span class="fl-ing-amt">10 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Sahara Spray Rose</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Toffee Garden Rose</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Latte Bahlia Cremon</span><span class="fl-ing-amt">8 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Ivory Majolica Spray Rose</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Italian Ruscus</span><span class="fl-ing-amt">6 stems</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Parvafolia, Seeded, True Blue Euc</span><span class="fl-ing-amt">1 bunch each</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Love Grass</span><span class="fl-ing-amt">2 bunches</span></div>
+      <div class="fl-card-note">2 cages on one side · 1 cage on opposite offset side · zip tie cages to arch at venue · after ceremony, bridal party moves to reception (Tater Tot)</div>
+    </div>
+
+    <!-- BUD VASES -->
+    <div class="fl-card">
+      <div class="fl-card-header bud"><span class="fl-card-title">🫙 Bud Vases</span><span class="fl-card-count">30–50 total</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">10 guest tables</span><span class="fl-ing-amt">4 per table = 40</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Gift table, dessert, bar</span><span class="fl-ing-amt">a few each as needed</span></div>
+      <div style="padding:8px 14px;font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;">Per vase — pick 2–3 stems total:</div>
+      <div class="fl-ingredient"><span class="fl-ing-name">1 stem: Ivory Majolica Spray Rose</span><span class="fl-ing-shared">or Astilbe (adds height)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">1 stem: Chocolate or Rust Ranunculus</span><span class="fl-ing-shared">the "hero" bloom</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">1 stem: any greenery</span><span class="fl-ing-shared">Ruscus, Parvafolia, or Seeded Euc</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Optional: 1 stem Carnation or Pom Mum</span><span class="fl-ing-shared">filler if vase looks sparse</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Clippings from altar arrangements</span><span class="fl-ing-shared">→ Coffee Break + Sahara Rose scraps</span></div>
+      <div class="fl-card-note">Each vase = 2–3 stems only — simple is better · spread flower types across all vases so they look varied but cohesive · head table vases tuck into garland on both sides</div>
+    </div>
+
+    <!-- GARLANDS -->
+    <div class="fl-card">
+      <div class="fl-card-header garland"><span class="fl-card-title">🌿 Head Table Garlands</span><span class="fl-card-count">3 × 8' (pre-made by Mayesh)</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Silver Dollar Eucalyptus</span><span class="fl-ing-shared">pre-made ✓</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Seeded Eucalyptus</span><span class="fl-ing-shared">pre-made ✓</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Willow Eucalyptus</span><span class="fl-ing-shared">pre-made ✓</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Baby Blue Eucalyptus</span><span class="fl-ing-shared">pre-made ✓</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Gunni Eucalyptus</span><span class="fl-ing-shared">pre-made ✓</span></div>
+      <div class="fl-card-note">Arrives via FedEx (separate from main order). You don't assemble these — just unbox and lay 3 side by side down the head table for a continuous 24' look. Tuck bud vases on both sides. Taylor sets this up day-of.</div>
+    </div>
+
+    <!-- DOG COLLAR -->
+    <div class="fl-card">
+      <div class="fl-card-header dog"><span class="fl-card-title">🐾 Dog Floral Collar</span><span class="fl-card-count">Make 1</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Clippings from boutonnieres</span><span class="fl-ing-shared">→ use scraps</span></div>
+      <div class="fl-ingredient"><span class="fl-ing-name">Extra clippings from bouquets</span><span class="fl-ing-shared">→ use scraps</span></div>
+      <div class="fl-card-note">Lauren sends the pre-made frame. Affix flower clippings to frame per her tutorial link. Make this right after boutonnieres while you have small clippings everywhere.</div>
+    </div>
+
+  </div>
+
+  <!-- BUCKET GUIDE -->
+  <div class="section-header" style="margin-bottom:16px;">🪣 Bucket Setup — Sort Flowers Into These on Oct 7</div>
+  <div class="fl-bucket-grid">
+    <div class="fl-bucket">
+      <div class="fl-bucket-title">Regular Buckets (16 total)</div>
+      <div class="fl-bucket-item"><span>Burgundy Hanging Amaranthus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Chocolate Ranunculus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Copper Pom Mums</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Coffee Break Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Rust Butterfly Ranunculus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Golden Mustard Garden Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Antique Terracotta Carnation</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Toffee Garden Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Sahara Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Ivory Majolica Spray Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Leather Leaf Fern</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Parvafolia Eucalyptus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Seeded Eucalyptus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>True Blue Eucalyptus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Italian Ruscus</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Love Grass (Explosion)</span><span>1</span></div>
+    </div>
+    <div class="fl-bucket">
+      <div class="fl-bucket-title">Short Buckets (7 total)</div>
+      <div class="fl-bucket-item"><span>Burnt Orange Ball Dahlia</span><span>2</span></div>
+      <div class="fl-bucket-item"><span>Sahara Spray Rose</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Latte Bahlia Cremon</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Bronze Button Spray Mums</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Burgundy Astilbe</span><span>1</span></div>
+      <div class="fl-bucket-item"><span>Pompon Button Lexy Bronze</span><span>1</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BACHELORETTE -->
+<div class="panel" id="tab-bach">
+
+  <div class="bach-banner">
+    <div style="font-size:40px;">🤠</div>
+    <div class="bach-banner-text">
+      <h2>Wagon Whore's Last Rodeo</h2>
+      <p>August 21–23, 2026 · Deschutes River Woods Airbnb · Bend, OR</p>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+    <!-- Schedule -->
+    <div>
+      <div class="section-header" style="margin-bottom:14px;">📅 The Weekend</div>
+      <div class="bach-night">
+        <div class="bach-night-header fri">🌮 Friday Aug 21 — Night 1</div>
+        <div class="bach-night-body">
+          <strong>Marg & Taco Bar at the Airbnb</strong><br>
+          Arrive, settle in, set up the spread. Build-your-own tacos + margarita station. Low key, get everyone together, vibe out at the house.
+        </div>
+      </div>
+      <div class="bach-night">
+        <div class="bach-night-header sat">🍻 Saturday Aug 22 — Night 2</div>
+        <div class="bach-night-body">
+          <strong>Go out in Bend</strong><br>
+          Hit the town — bars, dancing, the full rodeo experience. Cowboy hats and t-shirts required.
+        </div>
+      </div>
+      <div class="bach-night">
+        <div class="bach-night-header sun">☀️ Sunday Aug 23 — Checkout</div>
+        <div class="bach-night-body">
+          Recovery morning · brunch · pack up · head home. Local Bend friends can come for brunch before everyone splits.
+        </div>
+      </div>
+    </div>
+
+    <!-- Gifts -->
+    <div>
+      <div class="section-header" style="margin-bottom:14px;">🎁 Gifts & Merch</div>
+      <div class="gift-card">
+        <div class="gift-card-title">👕 T-Shirts — Wagon Whore's Last Rodeo</div>
+        <div class="gift-card-body">Western font, cowboy hat graphic. Order 1–2 weeks before Aug 21. Get all sizes before ordering.
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Jade (Bride 👑)</span><span style="font-weight:700;color:var(--sage);">M</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Megan Fussner</span><span style="font-weight:700;color:var(--sage);">S</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#F5F0EB;border-radius:4px;display:flex;justify-content:space-between;"><span>Sara Oja</span><span style="font-weight:700;color:var(--sage);">M</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Lauren Butler</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Taylor Scharbach</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Kylie Gordon</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
+            <div style="font-size:11px;padding:5px 8px;background:#FFF3EE;border-radius:4px;display:flex;justify-content:space-between;"><span>Dillon Wright</span><span style="font-weight:700;color:var(--amber);">TBD</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="gift-card">
+        <div class="gift-card-title">🎀 Small Gift — All Guests</div>
+        <div class="gift-card-body">Something fun that fits the rodeo theme. Ideas: cowboy hat, bandana, custom koozie, lip balm set, hangover kit. Keep it simple — the shirt is already the main thing.</div>
+      </div>
+      <div class="gift-card">
+        <div class="gift-card-title">💐 Special Gift — Bridesmaids & MOH (4)</div>
+        <div class="gift-card-body">Something more personal for <strong>Lauren Butler (MOH), Taylor Scharbach, Kylie Gordon</strong> — jewelry, a custom item, a heartfelt card + experience, or a preview of their bridesmaid gift.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Planning checklist -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div class="bach-checklist-section">
+      <div class="bach-checklist-header">✅ Planning Checklist <span id="bach-count" style="font-size:11px;color:var(--mid);"></span></div>
+      <div id="bach-checklist"></div>
+    </div>
+
+    <div class="bach-checklist-section">
+      <div class="bach-checklist-header">🌮 Marg & Taco Bar — Night 1</div>
+      <div style="padding:14px 16px;font-size:12px;color:var(--dark);line-height:1.8;">
+        <div style="font-weight:700;margin-bottom:6px;">Taco Bar:</div>
+        Ground beef or shredded chicken · corn + flour tortillas · shredded cheese · sour cream · guac · pico · salsa · lettuce · jalapeños<br><br>
+        <div style="font-weight:700;margin-bottom:6px;">Margarita Station:</div>
+        Tequila (blanco + reposado) · triple sec · fresh lime juice · simple syrup · tajín for rims · sparkling water for mocktails · frozen option if you want<br><br>
+        <div style="font-weight:700;margin-bottom:6px;">Nice to have:</div>
+        Chips & queso to start · festive cups · paper straws · playlist on speaker
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRIDAL SHOWER -->
+<div class="panel" id="tab-shower">
+  <div class="section-header">🌸 Bridal Shower — August 15, 2026</div>
+
+  <!-- Overview card -->
+  <div class="bs-section" style="margin-bottom:20px;">
+    <div class="bs-section-header">📍 Event Details</div>
+    <div style="padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+      <div style="font-size:12px;"><div style="font-weight:700;color:var(--mid);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Date & Time</div>Saturday, August 15, 2026 · 11:00 AM – 2:30 PM</div>
+      <div style="font-size:12px;"><div style="font-weight:700;color:var(--mid);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Location</div>2511 171st ST SE, Bothell, WA 98012</div>
+      <div style="font-size:12px;"><div style="font-weight:700;color:var(--mid);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">RSVPs</div><span style="color:#D4668A;font-weight:700;">3 attending</span> · 0 declined · 29 pending</div>
+      <div style="font-size:12px;"><div style="font-weight:700;color:var(--mid);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Hosted by</div>Tammy Wheeler (future MIL) · co-hosted by Lucy Butler (mom) · at Tammy's home</div>
+      <div style="font-size:12px;"><div style="font-weight:700;color:var(--mid);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Theme</div>💙 Something Blue Before I Do</div>
+    </div>
+  </div>
+
+  <!-- Theme banner -->
+  <div style="background:linear-gradient(135deg,#DBEAFE,#EFF6FF);border:1px solid #BFDBFE;border-radius:8px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+    <div style="font-size:28px;">💙</div>
+    <div>
+      <div style="font-size:15px;font-weight:700;color:#1E3A8A;">Something Blue Before I Do</div>
+      <div style="font-size:12px;color:#3B82F6;margin-top:2px;">Blue palette throughout — florals, decor, mimosa bar</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+
+    <!-- Games -->
+    <div>
+      <div class="section-header" style="margin-bottom:14px;">🎮 Games & Activities</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="game-card">
+          <div class="game-title">🎰 Scratch Off Perfect Match</div>
+          <div class="game-how">Each guest gets a scratch-off card to match symbols with Jade's card. Matches win a small prize. Fun icebreaker and doubles as a favor guests take home.</div>
+        </div>
+        <div class="game-card">
+          <div class="game-title">💍 Collect the Ring Game</div>
+          <div class="game-how">Every guest wears a ring at the start of the shower. Anyone who says the word "wedding" loses their ring to the person who caught them. Whoever has the most rings at the end wins. Keep a jar of extra rings at the entrance.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Planning Checklist -->
+    <div>
+      <div class="section-header" style="margin-bottom:14px;">✅ Planning Checklist</div>
+      <div class="bs-section">
+        <div class="bs-checklist" id="bs-checklist"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Still Needed -->
+  <div class="bs-section">
+    <div class="bs-section-header">🛒 Still Needed / Open Questions</div>
+    <div class="bs-checklist" id="bs-needed"></div>
+  </div>
+</div>
+
+<div class="panel" id="tab-events">
+  <div class="section-header">Your Wedding Events <span class="zola-tag">Live from Zola</span></div>
+  <div class="events-grid">
+    <div class="event-card"><div class="event-card-header bridal">🌸 Bridal Shower — Seattle</div><div class="event-card-body"><div class="event-detail"><span class="event-detail-label">Date</span><span>Saturday, August 15, 2026</span></div><div class="event-detail"><span class="event-detail-label">Time</span><span>11:00 AM – 2:30 PM</span></div><div class="event-detail"><span class="event-detail-label">Location</span><span>2511 171st ST SE, Bothell, WA 98012</span></div><div class="event-rsvp-mini"><div class="event-rsvp-chip chip-attending"><span class="chip-num">3</span>Attending</div><div class="event-rsvp-chip chip-declined"><span class="chip-num">0</span>Declined</div><div class="event-rsvp-chip chip-pending"><span class="chip-num">29</span>Pending</div></div></div></div>
+    <div class="event-card"><div class="event-card-header shower">💜 Couples Shower — Bend</div><div class="event-card-body"><div class="event-detail"><span class="event-detail-label">Date</span><span>Thursday, August 20, 2026</span></div><div class="event-detail"><span class="event-detail-label">Location</span><span>Bend, OR</span></div><div class="event-detail"><span class="event-detail-label">Notes</span><span>With friends · the Thursday after Bridal Shower weekend</span></div></div></div>
+    <div class="event-card"><div class="event-card-header bach">🎉 Bachelorette Party</div><div class="event-card-body"><div class="event-detail"><span class="event-detail-label">Dates</span><span>Friday Aug 21 – Sunday Aug 23, 2026</span></div><div class="event-detail"><span class="event-detail-label">Location</span><span>Bend, OR</span></div><div class="event-detail"><span class="event-detail-label">Notes</span><span>Weekend in Bend with the girls</span></div></div></div>
+    <div class="event-card"><div class="event-card-header rehearsal">🍷 Rehearsal Dinner</div><div class="event-card-body"><div class="event-detail"><span class="event-detail-label">Date</span><span>Friday, October 9, 2026</span></div><div class="event-detail"><span class="event-detail-label">Time</span><span>6:00 PM – 10:00 PM</span></div><div class="event-detail"><span class="event-detail-label">Location</span><span>Sisters Saloon & Ranch Grill · 190 E Cascade Ave, Sisters OR</span></div><div class="event-detail"><span class="event-detail-label">Dress</span><span>Western Cocktail Attire 🤠</span></div><div class="event-rsvp-mini"><div class="event-rsvp-chip chip-attending"><span class="chip-num">15</span>Attending</div><div class="event-rsvp-chip chip-declined"><span class="chip-num">0</span>Declined</div><div class="event-rsvp-chip chip-pending"><span class="chip-num">17</span>Pending</div></div></div></div>
+    <div class="event-card"><div class="event-card-header wedding">💍 Wedding Day</div><div class="event-card-body"><div class="event-detail"><span class="event-detail-label">Date</span><span>Saturday, October 10, 2026</span></div><div class="event-detail"><span class="event-detail-label">Time</span><span>3:30 PM Ceremony · Reception till 10:30 PM</span></div><div class="event-detail"><span class="event-detail-label">Location</span><span>FivePine Lodge & Event Center, Sisters OR</span></div><div class="event-detail"><span class="event-detail-label">Dress</span><span>Mountain Cocktail Attire</span></div><div class="event-rsvp-mini"><div class="event-rsvp-chip chip-attending"><span class="chip-num">27</span>Attending</div><div class="event-rsvp-chip chip-declined"><span class="chip-num">2</span>Declined</div><div class="event-rsvp-chip chip-pending"><span class="chip-num">68</span>Pending</div></div></div></div>
+  </div>
+</div>
+
+<!-- REGISTRY & THANK YOUS -->
+<div class="panel" id="tab-registry">
+  <div class="registry-grid">
+    <div class="gift-section">
+      <h3>🎁 Gifts Received <span class="gift-count-badge">6 thank-yous needed</span></h3>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Barry & Nikki Dorrans</div><div class="thank-you-gift">Cash gift</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Mary Frances Feider</div><div class="thank-you-gift">Registry item</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Susan Kearnes</div><div class="thank-you-gift">Registry item</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Sonya Orleth</div><div class="thank-you-gift">Registry item</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Christie Streit</div><div class="thank-you-gift">Registry item</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+      <div class="thank-you-row"><div class="thank-you-info"><div class="thank-you-name">Surprise Gift</div><div class="thank-you-gift">Unidentified sender</div></div><div class="thank-you-status ty-pending">Thank-You Needed</div></div>
+    </div>
+    <div class="gift-section">
+      <h3>📋 Registry Stats <span class="gift-count-badge good">Zola</span></h3>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--cream);border-radius:6px;font-size:12px;"><span>Thank-yous sent</span><strong style="color:var(--urgent);">0 of 6</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--cream);border-radius:6px;font-size:12px;"><span>Vow book ordered?</span><strong style="color:var(--done-text);">✓ Ordered</strong></div>
+        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--cream);border-radius:6px;font-size:12px;"><span>Guest book ordered?</span><strong style="color:var(--done-text);">✓ Ordered</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VENDORS -->
+<div class="panel" id="tab-vendors">
+  <div class="section-header">Confirmed Vendors — All Booked ✓</div>
+  <div class="vendor-grid" id="vendor-grid"></div>
+</div>
+
+<script>
+// ---- TAB SWITCHING ----
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(id==='budget') initBudgetCharts();
+}
+
+// ---- COUNTDOWN ----
+const wedding = new Date('2026-10-10T15:30:00');
+function updateCountdown() {
+  const now = new Date();
+  const diff = wedding - now;
+  const days = Math.ceil(diff/86400000);
+  const weeks = Math.floor(days/7);
+  document.getElementById('days-left').textContent = days;
+  document.getElementById('weeks-left').textContent = weeks;
+  document.getElementById('dash-days').textContent = days;
+  document.getElementById('today-date').textContent = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+}
+updateCountdown();
+
+// ---- TASKS ----
+const tasks = [
+  // VENUE
+  {name:'FivePine 2nd payment — $6,000',cat:'Venue',owner:'Both',priority:'Urgent',due:'2026-07-12',status:'Done',notes:'Paid July 7 ✓'},
+  {name:'FivePine 3rd deposit',cat:'Venue',owner:'Both',priority:'High',due:'2026-09-30',status:'Not Started',notes:''},
+  {name:'FivePine final payment (day of)',cat:'Venue',owner:'Both',priority:'High',due:'2026-10-10',status:'Not Started',notes:''},
+  {name:'Confirm menu selections with FivePine',cat:'Catering',owner:'Jade',priority:'High',due:'2026-08-25',status:'Not Started',notes:'Due 45 days prior'},
+  {name:'Submit final guest count to FivePine',cat:'Venue',owner:'Jade',priority:'High',due:'2026-09-19',status:'Not Started',notes:'Due 21 days prior'},
+  {name:'Confirm cabin block details with guests',cat:'Venue',owner:'Both',priority:'High',due:'2026-08-01',status:'Not Started',notes:'Cabin block releases Aug 26 — guests must book before then'},
+  // FLOWERS
+  {name:'Assemble all flowers (Jade PTO day)',cat:'Flowers',owner:'Jade',priority:'Urgent',due:'2026-10-08',status:'Not Started',notes:'Bridal bouquet, MOH, 2 BM, 4 boutonnieres, 11 euc runners, 36 bud vases, 6 low arrangements'},
+  {name:'Finalize flower arrangement plan & quantities',cat:'Flowers',owner:'Jade',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:''},
+  {name:'Source flowers — Beau & Bloom Florals',cat:'Flowers',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Confirmed with Beau & Bloom ✓'},
+  // ATTIRE
+  {name:'Confirm dress alterations complete',cat:'Attire',owner:'Jade',priority:'High',due:'2026-09-15',status:'Not Started',notes:''},
+  {name:'Confirm groomsmen attire',cat:'Attire',owner:'Brandon',priority:'High',due:'2026-08-01',status:'Not Started',notes:''},
+  {name:'Bridesmaid dress fittings',cat:'Attire',owner:'Jade',priority:'Normal',due:'2026-08-15',status:'Not Started',notes:''},
+  {name:'Get wedding shoes broken in',cat:'Attire',owner:'Jade',priority:'Low',due:'2026-09-15',status:'Not Started',notes:''},
+  {name:'Pick up decorations + veil from Megan Fussner',cat:'DIY',owner:'Jade',priority:'High',due:'2026-09-01',status:'Not Started',notes:'Megan Fussner declined wedding — coordinate pickup'},
+  // PHOTOGRAPHY
+  {name:'Pay Sarah Photographs remaining balance',cat:'Photography',owner:'Both',priority:'High',due:'2026-09-10',status:'Not Started',notes:'$700 paid · $2,100 remaining, due Sep 10'},
+  {name:'Beau & Bloom Florals — confirmed ✓',cat:'Flowers',owner:'Jade',priority:'High',due:'2026-07-10',status:'Done',notes:'Going with Beau & Bloom proposal — FiftyFlowers removed'},
+  {name:'Get wedding shoes',cat:'Attire',owner:'Jade',priority:'High',due:'2026-07-31',status:'Done',notes:'Bought July 9 ✓ — now schedule dress hem'},
+  {name:'Schedule dress hem / alterations',cat:'Attire',owner:'Jade',priority:'High',due:'2026-08-15',status:'Not Started',notes:'Waiting for shoe delivery first · book ASAP once they arrive'},
+  {name:'FivePine food tasting',cat:'Venue',owner:'Both',priority:'High',due:'2026-07-18',status:'Not Started',notes:'July 18 — confirm menu selections: mixed greens, au gratin, broccolini, marinated tri-tip, prawns, chicken'},
+  {name:'Buy wedding jewelry',cat:'Attire',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Bought ✓'},
+  {name:'Buy hair pins / accessories',cat:'Attire',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Bought July 9 ✓'},
+  {name:'Get bridal shower dress',cat:'Attire',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Bought ✓'},
+  {name:'Get rehearsal dinner dress',cat:'Attire',owner:'Jade',priority:'High',due:'2026-07-31',status:'Not Started',notes:'Oct 9 rehearsal dinner · Western Cocktail Attire 🤠'},
+  {name:'Follow up with H&M for trial dates',cat:'Attire',owner:'Jade',priority:'High',due:'2026-07-15',status:'Done',notes:'Trial booked: July 24 · time TBD · Brilliant Beauty by Bri ✓'},
+  {name:'Gather photos for in memoriam table',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:'Collect photos of family members who have passed'},
+  {name:'Get picture frames for in memoriam table',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:'One frame per photo'},
+  {name:'Make in memoriam sign',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Sign for the memorial table — set up by bride, MOH Lauren teardown'},
+  {name:'Create table mock-up for Taylor Wood',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-08-15',status:'Not Started',notes:'Taylor Wood (brother-in-law) assembles tables on the day — needs visual reference'},
+  {name:'Finalize music / playlist',cat:'Music',owner:'Both',priority:'High',due:'2026-09-01',status:'Not Started',notes:'Missing: bridal processional, bridesmaid entrance, mother-son dance, last song'},
+  {name:'Build photography shot list',cat:'Photography',owner:'Jade',priority:'High',due:'2026-09-01',status:'Not Started',notes:'Share with Sarah Photographs — sheet is currently blank'},
+  {name:'Plan rest of bridal shower',cat:'Admin',owner:'Both',priority:'High',due:'2026-07-31',status:'Not Started',notes:'Aug 15, Bothell WA — what\'s still needed?'},
+  {name:'Pick up flowers at Redmond Airport (RDM)',cat:'Flowers',owner:'Both',priority:'Urgent',due:'2026-10-07',status:'Not Started',notes:'Beau & Bloom delivery via Delta Airlines — Oct 7. Contact: Jackie Wojnowski 888.462.9374'},
+  {name:'Share shot list with Sarah',cat:'Photography',owner:'Jade',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:''},
+  {name:'Confirm day-of timeline with Sarah',cat:'Photography',owner:'Jade',priority:'High',due:'2026-09-15',status:'Not Started',notes:''},
+  // MUSIC
+  {name:'Finalize ceremony music playlist',cat:'Music',owner:'Both',priority:'High',due:'2026-08-15',status:'Not Started',notes:''},
+  {name:'Finalize reception playlist with Noteworthy DJs',cat:'Music',owner:'Both',priority:'High',due:'2026-09-01',status:'Not Started',notes:''},
+  {name:'Share do-not-play list with DJ',cat:'Music',owner:'Both',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:''},
+  {name:'Confirm sound equipment with DJ',cat:'Music',owner:'Brandon',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Musicians must bring own equipment per FivePine policy'},
+  // HAIR & MAKEUP
+  {name:'Confirm hair/makeup timeline with Bri',cat:'Attire',owner:'Jade',priority:'High',due:'2026-09-01',status:'Not Started',notes:'$875 total · $100 paid'},
+  {name:'Schedule hair & makeup trial',cat:'Attire',owner:'Jade',priority:'Normal',due:'2026-08-01',status:'Done',notes:'Trial: July 24 · time TBD · Brilliant Beauty by Bri ✓'},
+  // RENTALS
+  {name:'Central Event Rentals final payment ($305.37)',cat:'Rentals',owner:'Both',priority:'High',due:'2026-10-07',status:'Not Started',notes:'Total $610.75 · deposit $305.38 paid'},
+  {name:'Confirm delivery window with Central Event Rentals',cat:'Rentals',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Delivery Oct 9, pickup Oct 11'},
+  // GUESTS & ZOLA
+  {name:'Send thank-you notes (6 pending)',cat:'Zola',owner:'Jade',priority:'Urgent',due:'2026-07-01',status:'Done',notes:'Sent July 7 ✓ · Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + surprise',zola:true},
+  {name:'Chase RSVPs — 68 guests haven\'t responded',cat:'Zola',owner:'Both',priority:'Urgent',due:'2026-08-01',status:'Not Started',notes:'Wedding: 68 pending · Rehearsal: 17 pending · Bridal shower: 29 pending',zola:true},
+  {name:'Set Rehearsal Dinner venue in Zola',cat:'Zola',owner:'Brandon',priority:'High',due:'2026-07-15',status:'Done',notes:'Sisters Saloon & Ranch Grill · 190 E Cascade Ave, Sisters OR ✓',zola:true},
+  {name:'Set RSVP deadline on Zola website',cat:'Zola',owner:'Jade',priority:'High',due:'2026-07-15',status:'Done',notes:'August 1 deadline set in Zola and on invites ✓',zola:true},
+  {name:'Send invitations — direct guests to Zola site',cat:'Zola',owner:'Both',priority:'High',due:'2026-07-15',status:'Not Started',notes:'Email invites or share Zola website URL',zola:true},
+  {name:'Build seating chart in Zola',cat:'Zola',owner:'Both',priority:'High',due:'2026-09-19',status:'Not Started',notes:'After RSVPs are in',zola:true},
+  // SPEECHES & VOWS
+  {name:'Choose who will give speeches',cat:'Admin',owner:'Both',priority:'High',due:'2026-07-21',status:'Done',notes:'MOH (Lauren), Best Man (Kyle), FOG, FOB, Jade & Brandon ✓'},
+  {name:'Write speeches',cat:'Admin',owner:'Both',priority:'High',due:'2026-09-01',status:'Not Started',notes:'Speakers: MOH Lauren · Best Man Kyle · Father of the Groom · Father of the Bride · Jade & Brandon'},
+  {name:'Brandon write his vows',cat:'Admin',owner:'Brandon',priority:'High',due:'2026-09-15',status:'Not Started',notes:''},
+  {name:'Jade write her vows',cat:'Admin',owner:'Jade',priority:'High',due:'2026-09-15',status:'Done',notes:''},
+  {name:'Order vow book (Etsy)',cat:'Registry',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Ordered ✓'},
+  {name:'Order guest book (Etsy)',cat:'Registry',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Ordered ✓'},
+  // ADMIN
+  {name:'Help Brian Wheeler book hotel for wedding weekend',cat:'Admin',owner:'Brandon',priority:'High',due:'2026-08-01',status:'Not Started',notes:'Cabin block releases Aug 26 — book before then'},
+  {name:'Get marriage license',cat:'Admin',owner:'Both',priority:'Urgent',due:'2026-09-15',status:'Not Started',notes:'Oregon: apply within 60 days, valid 60 days — Sep 15 is safe window'},
+  {name:'Book honeymoon',cat:'Admin',owner:'Both',priority:'Normal',due:'2026-08-01',status:'Not Started',notes:''},
+  {name:'Arrange transportation / shuttle for guests',cat:'Admin',owner:'Brandon',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:''},
+  {name:'Day-of emergency kit',cat:'Admin',owner:'Jade',priority:'Normal',due:'2026-09-30',status:'Not Started',notes:'Safety pins, fashion tape, stain remover, pain reliever, etc.'},
+  {name:'Write out vendor tips in envelopes',cat:'Admin',owner:'Both',priority:'High',due:'2026-10-08',status:'Not Started',notes:'$1,700 budgeted for tips'},
+  {name:'Confirm run of show with all vendors',cat:'Admin',owner:'Jade',priority:'Urgent',due:'2026-10-01',status:'Not Started',notes:''},
+  {name:'Rehearsal dinner planning',cat:'Admin',owner:'Both',priority:'High',due:'2026-08-01',status:'Done',notes:'Venue locked down ✓'},
+  {name:'Request PTO — week of Oct 5–9',cat:'Admin',owner:'Jade',priority:'High',due:'2026-08-01',status:'Done',notes:'Take M–F off for wedding week · flower assembly Oct 8'},
+  // DIY
+  {name:'Make rehearsal dinner cards',cat:'DIY',owner:'Jade',priority:'High',due:'2026-09-15',status:'Not Started',notes:'Cricut project'},
+  {name:'Build test table & take photo',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-08',status:'Not Started',notes:'Set up a full mock table to confirm look before wedding day'},
+  {name:'Pack bankers boxes — one per table with diagram',cat:'DIY',owner:'Jade',priority:'High',due:'2026-10-05',status:'Not Started',notes:'Each box: linens, centerpiece items, place cards, diagram of table setup'},
+  {name:'Set up guest book station',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-10-08',status:'Not Started',notes:''},
+  {name:'Set up dessert table',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-10-09',status:'Not Started',notes:'Nothing Bundt Cakes + DIY display'},
+  {name:'Make welcome sign',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Cricut vinyl on mirror or cardstock'},
+  {name:'Make bar sign',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Two sections: Cocktail Hour (Marionberry Mule · Amaretto Whiskey Sour) + Reception (Beer · Wine · Bubbly · Seltzers · Cider) · Cardstock in frame'},
+  {name:'Set up in memoriam table',cat:'DIY',owner:'Jade',priority:'Normal',due:'2026-10-09',status:'Not Started',notes:'Photos and display items'},
+  {name:'Place Nothing Bundt Cakes order',cat:'Catering',owner:'Jade',priority:'High',due:'2026-08-11',status:'Not Started',notes:'Cannot order until 60 days before · earliest Aug 11 · ~120 bundtinis · Bend OR'},
+  // DONE
+  {name:'Sign FivePine venue contract',cat:'Venue',owner:'Both',priority:'Urgent',due:'2025-11-14',status:'Done',notes:'Signed Nov 14 2025 · $12,200 total'},
+  {name:'Pay FivePine 1st deposit ($6,200)',cat:'Venue',owner:'Both',priority:'Urgent',due:'2025-11-28',status:'Done',notes:'Paid'},
+  {name:'Book photographer (Sarah Photographs)',cat:'Photography',owner:'Both',priority:'Urgent',due:'2026-01-01',status:'Done',notes:'$2,800 total · $700 paid'},
+  {name:'Book Noteworthy DJs',cat:'Music',owner:'Both',priority:'High',due:'2026-03-01',status:'Done',notes:'$2,200 · Confirmed'},
+  {name:'Book Brilliant Beauty by Bri (hair & makeup)',cat:'Attire',owner:'Jade',priority:'High',due:'2026-03-01',status:'Done',notes:'$875 · Confirmed'},
+  {name:'Confirm Anton Soderquist as officiant',cat:'Admin',owner:'Both',priority:'High',due:'2026-06-01',status:'Done',notes:'Anton Soderquist · Confirmed'},
+  {name:'Book Nothing Bundt Cakes',cat:'Catering',owner:'Jade',priority:'Normal',due:'2026-04-01',status:'Done',notes:'Bend OR · $353'},
+  {name:'Order save-the-dates',cat:'Guests',owner:'Jade',priority:'High',due:'2026-02-01',status:'Done',notes:'$167 paid'},
+  {name:'Book Central Event Rentals',cat:'Rentals',owner:'Both',priority:'High',due:'2026-05-01',status:'Done',notes:'$610.75 · A-frame arch + 20 benches · deposit $305.38 paid'},
+  {name:'Set up Zola wedding website',cat:'Zola',owner:'Jade',priority:'High',due:'2026-02-01',status:'Done',notes:'Live with events, registry, RSVP',zola:true},
+];
+
+// ---- TASK CHECK PERSISTENCE ----
+const taskChecks = JSON.parse(localStorage.getItem('task-checks')||'{}');
+tasks.forEach((t,i)=>{ if(taskChecks[i]) t.status='Done'; });
+
+function toggleTask(i){
+  if(tasks[i].status==='Done'){
+    tasks[i].status = tasks[i]._prev||'Not Started';
+    delete taskChecks[i];
+  } else {
+    tasks[i]._prev = tasks[i].status;
+    tasks[i].status='Done';
+    taskChecks[i]=true;
+  }
+  localStorage.setItem('task-checks',JSON.stringify(taskChecks));
+  renderKanban();
+  filterTasks();
+}
+
+// ---- KANBAN ----
+function renderKanban() {
+  const cols = {jade:[],brandon:[],both:[],done:[]};
+  tasks.forEach((t,i) => {
+    t._idx=i;
+    if(t.status==='Done'){cols.done.push(t);return;}
+    const m = {Jade:'jade',Brandon:'brandon',Both:'both'};
+    cols[m[t.owner]||'both'].push(t);
+  });
+  const defs = [
+    {key:'jade',label:'👰 Jade',cls:'jade'},
+    {key:'brandon',label:'🤵 Brandon',cls:'brandon'},
+    {key:'both',label:'💑 Both',cls:'both'},
+    {key:'done',label:'✅ Done',cls:'done'},
+  ];
+  document.getElementById('kanban-grid').innerHTML = defs.map(col=>{
+    const items = cols[col.key];
+    return `<div class="kanban-col">
+      <div class="kanban-col-header ${col.cls}">${col.label}<span class="col-count">${items.length}</span></div>
+      <div class="kanban-col-body">
+        ${items.map(t=>{
+          const done=t.status==='Done';
+          const priCls={Urgent:'badge-urgent',High:'badge-high',Normal:'badge-normal',Low:'badge-low'}[t.priority]||'badge-normal';
+          const dueD=t.due?new Date(t.due+'T12:00:00'):null;
+          const now=new Date();
+          const dueCls=dueD&&!done?(dueD<now?'overdue':dueD-now<30*86400000?'soon':''):'';
+          const dueStr=dueD?'Due '+dueD.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'';
+          return `<div class="kanban-card${t.zola?' zola-card':''}${done?' is-done':''}">
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div class="task-check${done?' checked':''}" onclick="toggleTask(${t._idx})" title="${done?'Mark incomplete':'Mark done'}">${done?'✓':''}</div>
+              <div style="flex:1;">
+                <div class="card-name" style="${done?'text-decoration:line-through;':''}">${t.name}</div>
+                <div class="card-meta">
+                  <span class="badge badge-cat">${t.cat}</span>
+                  <span class="badge ${priCls}">${t.priority}</span>
+                  ${t.zola?'<span class="badge badge-zola">Zola</span>':''}
+                </div>
+                ${dueStr?`<div class="card-due ${dueCls}">${dueStr}</div>`:''}
+                ${t.notes?`<div class="card-due">${t.notes}</div>`:''}
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+renderKanban();
+
+// ---- TASK TABLE ----
+let taskSort={col:'due',dir:1};
+function renderTasks(list){
+  list=list||tasks;
+  const now=new Date();
+  document.getElementById('task-tbody').innerHTML=list.map((t,i)=>{
+    const done=t.status==='Done';
+    const priCls={Urgent:'badge-urgent',High:'badge-high',Normal:'badge-normal',Low:'badge-low'}[t.priority]||'badge-normal';
+    const stCls={Done:'status-done','In Progress':'status-inprog','Not Started':'status-notstart'}[t.status]||'status-notstart';
+    const dueD=t.due?new Date(t.due+'T12:00:00'):null;
+    const dueStr=dueD?dueD.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+    const dueCls=dueD&&!done?(dueD<now?'overdue':dueD-now<30*86400000?'soon':''):'';
+    const idx=t._idx!==undefined?t._idx:tasks.indexOf(t);
+    return `<tr style="${done?'opacity:0.6;':''}">
+      <td><div style="display:flex;align-items:flex-start;gap:8px;">
+        <div class="task-check${done?' checked':''}" onclick="toggleTask(${idx})" title="${done?'Mark incomplete':'Mark done'}">${done?'✓':''}</div>
+        <div><div class="task-name-cell" style="${done?'text-decoration:line-through;':''}">${t.name}${t.zola?' <span class="badge badge-zola" style="font-size:9px;">Zola</span>':''}</div>${t.notes?`<div class="task-notes">${t.notes}</div>`:''}</div>
+      </div></td>
+      <td><span class="badge badge-cat">${t.cat}</span></td>
+      <td>${t.owner}</td>
+      <td><span class="badge ${priCls}">${t.priority}</span></td>
+      <td class="card-due ${dueCls}">${dueStr}</td>
+      <td><span class="card-status ${stCls}">${t.status}</span></td></tr>`;
+  }).join('');
+  document.getElementById('task-count').textContent=`Showing ${list.length} of ${tasks.length} tasks`;
+}
+function filterTasks(){
+  const s=document.getElementById('task-search').value.toLowerCase();
+  const o=document.getElementById('task-owner-filter').value;
+  const c=document.getElementById('task-cat-filter').value;
+  const st=document.getElementById('task-status-filter').value;
+  const p=document.getElementById('task-priority-filter').value;
+  renderTasks(tasks.filter(t=>(!s||t.name.toLowerCase().includes(s)||(t.notes||'').toLowerCase().includes(s))&&(!o||t.owner===o)&&(!c||t.cat===c)&&(!st||t.status===st)&&(!p||t.priority===p)));
+}
+function sortTasks(col){
+  if(taskSort.col===col)taskSort.dir*=-1;else{taskSort.col=col;taskSort.dir=1;}
+  tasks.sort((a,b)=>(a[col]||'')<(b[col]||'')?-taskSort.dir:(a[col]||'')>(b[col]||'')?taskSort.dir:0);
+  filterTasks();
+}
+renderTasks();
+
+// ---- CALENDAR ----
+function buildCalendar(){
+  const deadlines=[
+    {date:'2026-07-01',label:'Thank-Yous Due',cls:'urgent'},
+    {date:'2026-07-12',label:'FivePine $6k',cls:'urgent'},
+    {date:'2026-07-18',label:'🍽️ FivePine Food Tasting',cls:'high'},
+    {date:'2026-07-24',label:'💄 H&M Trial — Brilliant Beauty by Bri',cls:'high'},
+    {date:'2026-08-11',label:'🎂 Place Nothing Bundt Cakes order (opens today)',cls:'high'},
+    {date:'2026-08-11',label:'💍 Marriage License window opens — Deschutes County Courthouse',cls:'high'},
+    {date:'2026-08-25',label:'💍 ⚠ Get marriage license by today (window closes)',cls:'urgent'},
+    {date:'2026-07-15',label:'RSVP Setup',cls:'high'},
+    {date:'2026-08-01',label:'Chase RSVPs',cls:'urgent'},
+    {date:'2026-08-15',label:'🌸 Bridal Shower',cls:'wedding'},
+    {date:'2026-08-20',label:'💜 Couples Shower',cls:'party'},
+    {date:'2026-08-21',label:'🎉 Bachelorette',cls:'party'},
+    {date:'2026-08-25',label:'FivePine Menu Due',cls:'high'},
+    {date:'2026-08-26',label:'Cabin Block Release',cls:'urgent'},
+    {date:'2026-09-01',label:'Finalize Playlists',cls:'high'},
+    {date:'2026-09-10',label:'📷 Photographer Final Payment',cls:'high'},
+    {date:'2026-09-15',label:'Confirm Vendors',cls:'high'},
+    {date:'2026-09-19',label:'Final Guest Count',cls:'high'},
+    {date:'2026-09-30',label:'FivePine 3rd Deposit',cls:'high'},
+    {date:'2026-10-05',label:'🕺 Last Monday Night! 🎉',cls:'agenda'},
+    {date:'2026-10-07',label:'Rentals Payment',cls:'high'},
+    {date:'2026-10-07',label:'🌸 Pick up flowers @ RDM airport',cls:'urgent'},
+    {date:'2026-10-08',label:'🌸 Flower Assembly',cls:'high'},
+    {date:'2026-10-09',label:'🍷 Rehearsal Dinner',cls:'wedding'},
+    {date:'2026-10-10',label:'💍 WEDDING DAY!',cls:'wedding'},
+    // Monday nights
+    {date:'2026-06-15',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-06-22',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-06-29',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-07-06',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-07-13',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-07-20',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-07-27',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-08-03',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-08-10',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-08-17',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-08-24',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-08-31',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-09-07',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-09-14',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-09-21',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-09-28',label:'🕺 Monday Night',cls:'agenda'},
+    {date:'2026-10-05',label:'🕺 Monday Night',cls:'agenda'},
+  ];
+  const byDate={};
+  deadlines.forEach(d=>{if(!byDate[d.date])byDate[d.date]=[];byDate[d.date].push(d);});
+  const months=[{y:2026,m:6},{y:2026,m:7},{y:2026,m:8},{y:2026,m:9},{y:2026,m:10}];
+  const mNames=['','Jan','Feb','Mar','Apr','May','June','July','August','September','October','Nov','Dec'];
+  const mFull=['','January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const todayStr=new Date().toISOString().slice(0,10);
+  document.getElementById('cal-container').innerHTML=months.map(({y,m})=>{
+    const first=new Date(y,m-1,1).getDay();
+    const dim=new Date(y,m,0).getDate();
+    const prev=new Date(y,m-1,0).getDate();
+    let cells='';
+    for(let i=0;i<first;i++)cells+=`<div class="cal-day other-month"><div class="cal-day-num">${prev-first+i+1}</div></div>`;
+    for(let d=1;d<=dim;d++){
+      const ds=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const evs=byDate[ds]||[];
+      cells+=`<div class="cal-day${ds===todayStr?' today':''}"><div class="cal-day-num">${d}</div>${evs.map(e=>`<div class="cal-event ${e.cls}">${e.label}</div>`).join('')}</div>`;
+    }
+    const rem=(7-(first+dim)%7)%7;
+    for(let i=1;i<=rem;i++)cells+=`<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+    return `<div class="cal-month"><div class="cal-month-header">${mFull[m]} ${y}</div><div class="cal-days-header">${dNames.map(d=>`<div class="cal-day-label">${d}</div>`).join('')}</div><div class="cal-days">${cells}</div></div>`;
+  }).join('');
+}
+buildCalendar();
+
+// ---- MONDAY NIGHT AGENDAS ----
+const agendas=[
+  {date:'June 15',weeks:17,tasks:['Send all 6 thank-you notes (Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + surprise gift)','Set RSVP deadline on Zola website (recommend Aug 15)','Direct guests to your Zola site — share the link!']},
+  {date:'June 22',weeks:16,tasks:['Send email/text invites to all guests — link to Zola site','Pay Sarah Photographs 2nd installment ($700 due)','Review rehearsal dinner venue options']},
+  {date:'June 29',weeks:15,tasks:['Finalize rehearsal dinner venue — enter in Zola once confirmed','Create initial run-of-show draft','Review outstanding RSVPs — follow up with close family']},
+  {date:'July 6',weeks:14,tasks:['Confirm FivePine $6k payment ready (due Jul 12)','Confirm groomsmen attire plan with Brandon','Choose who will give speeches']},
+  {date:'July 13',weeks:13,tasks:['Email all guests about cabin block — MUST book before Aug 26','Schedule hair & makeup trial with Bri','Help Brian Wheeler look at hotel options']},
+  {date:'July 20',weeks:12,tasks:['Help Brian Wheeler finalize hotel booking','Order vow book on Etsy (Jade has links)','Order guest book on Etsy (Jade has links)']},
+  {date:'July 27',weeks:11,tasks:['Schedule bridesmaid dress fittings','Finalize ceremony music playlist — walk-in, processional, recessional','Confirm attire for all groomsmen is ordered']},
+  {date:'August 3',weeks:10,tasks:['Share photography shot list with Sarah','Begin writing speeches (Lauren, Kyle, FOG, FOB, Jade & Brandon)','Start flower arrangement research & plan']},
+  {date:'August 10',weeks:9,tasks:['Hair & makeup trial (if not done yet)','Follow up with Lauren, Kyle, FOG & FOB on speech drafts','Confirm flower supplier and quantities']},
+  {date:'August 17',weeks:8,tasks:['Finalize flower arrangement plan (quantities, colors, vessels)','Source any remaining DIY decor supplies','Review seating chart draft — confirm name spellings']},
+  {date:'August 24',weeks:7,tasks:['🍽 Menu selections DUE to FivePine Aug 25','Finalize reception playlist with Noteworthy DJs','Pick up decorations + veil from Megan Fussner']},
+  {date:'August 31',weeks:6,tasks:['Brandon write his vows','Finalize seating chart — confirm all names correct','Confirm dress alterations are on track']},
+  {date:'September 7',weeks:5,tasks:['Build test table — full mock setup, take photo','Begin making rehearsal dinner cards (Cricut)','Confirm dress alterations are complete']},
+  {date:'September 14',weeks:4,tasks:['Get marriage license (Oregon — valid 60 days, apply by Sep 14)','Confirm day-of timeline with Sarah Photographs','Confirm sound equipment with Noteworthy DJs']},
+  {date:'September 21',weeks:3,tasks:['Submit final guest count to FivePine','Share do-not-play list with DJ','Build day-of emergency kit (safety pins, fashion tape, stain remover, Advil)']},
+  {date:'September 28',weeks:2,tasks:['FivePine 3rd deposit (due Sep 30)','Write out vendor tips in envelopes ($1,700 budgeted)','Confirm full run of show with all vendors']},
+  {date:'October 5',weeks:1,tasks:['Central Event Rentals final payment ($305.37 due Oct 7)','Pack all bankers boxes — one per table with layout diagram','Final walk-through of day-of timeline']},
+];
+document.getElementById('agenda-list').innerHTML=agendas.map(a=>`
+  <div class="agenda-card">
+    <div class="agenda-card-header">
+      <div class="agenda-date">Monday, ${a.date}</div>
+      <div class="agenda-weeks">${a.weeks} week${a.weeks!==1?'s':''} to wedding</div>
+    </div>
+    <div class="agenda-body">
+      ${a.tasks.map((t,i)=>`<div class="agenda-item"><div class="agenda-icon">📋</div><div>${t}</div></div>`).join('')}
+      <div class="agenda-item agenda-dance"><div class="agenda-icon">💃</div><div>Dance practice — full song run-through</div></div>
+      <div class="agenda-item agenda-dance"><div class="agenda-icon">🕺</div><div>Practice the dip!</div></div>
+    </div>
+  </div>
+`).join('');
+
+// ---- BUDGET ----
+const budgetItems=[
+  {cat:'Venue & Catering',budgeted:17000,actual:12000,paid:6200},
+  {cat:'Photographer',budgeted:3150,actual:2800,paid:700},
+  {cat:'Band & DJ',budgeted:2210,actual:2200,paid:0},
+  {cat:'Tips',budgeted:1700,actual:1700,paid:0},
+  {cat:'Attire',budgeted:750,actual:1400,paid:1300},
+  {cat:'Florist — Beau & Bloom',budgeted:1870,actual:2037,paid:0},
+  {cat:'Hair & Makeup',budgeted:575,actual:875,paid:100},
+  {cat:'Rentals/Decor',budgeted:660,actual:611,paid:305},
+  {cat:'Cake & Desserts',budgeted:340,actual:353,paid:0},
+  {cat:'Save the Dates',budgeted:150,actual:150,paid:167},
+  {cat:'Invitations',budgeted:0,actual:75,paid:100},
+];
+let budgetInit=false;
+function initBudgetCharts(){
+  if(budgetInit)return;budgetInit=true;
+  document.getElementById('budget-tbody').innerHTML=budgetItems.map(b=>{
+    const diff=b.actual-b.budgeted;
+    const sign=diff>=0?'+':'';
+    return `<tr><td>${b.cat}</td><td class="num">$${b.budgeted.toLocaleString()}</td><td class="num">$${b.actual.toLocaleString()}</td><td class="num">$${b.paid.toLocaleString()}</td><td class="num">$${(b.actual-b.paid).toLocaleString()}</td><td class="num">${sign}$${diff.toLocaleString()}</td></tr>`;
+  }).join('');
+  const colors=['#020C45','#9F3E1F','#60613A','#652601','#D4668A','#5B8FA8','#8B5CF6','#E07B54','#4A90D9','#C0392B','#7F8C8D'];
+  new Chart(document.getElementById('budget-pie'),{type:'doughnut',data:{labels:budgetItems.map(b=>b.cat),datasets:[{data:budgetItems.map(b=>b.actual),backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:12}}}}});
+  new Chart(document.getElementById('budget-bar'),{type:'bar',data:{labels:budgetItems.map(b=>b.cat.length>12?b.cat.slice(0,12)+'…':b.cat),datasets:[{label:'Budgeted',data:budgetItems.map(b=>b.budgeted),backgroundColor:'#C4C59A'},{label:'Actual',data:budgetItems.map(b=>b.actual),backgroundColor:'#9F3E1F'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10}}}},scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString(),font:{size:9}}},x:{ticks:{font:{size:8}}}}}});
+}
+
+// ---- GUESTS ----
+const guests=[
+  {primary:'Jade Butler',plus:'Brandon Wheeler',rsvp:'Attending',addr:true},
+  {primary:'Steve Butler',plus:'Lucy Butler',rsvp:'Attending',addr:true},
+  {primary:'Kathy Goldstein',plus:'',rsvp:'Attending',addr:true},
+  {primary:'Shamber Safai',plus:'Cameron Safai',rsvp:'Attending',addr:true},
+  {primary:'Anton Soderquist',plus:'',rsvp:'Attending',addr:true},
+  {primary:'Doris Wheeler',plus:'',rsvp:'Attending',addr:true,note:'Uses Brian Wheeler\'s address'},
+  {primary:'Skyler Fussner',plus:'Megan Fussner',rsvp:'Declined',addr:true},
+  {primary:'Jeremiah Andrick',plus:'Rebecca Andrick',rsvp:'No Response',addr:true},
+  {primary:'Hank Baillargeon',plus:'Katie Molloy',rsvp:'Attending',addr:true,allergy:'🥜 Nut allergy (both)'},
+  {primary:'Jere Batten',plus:'',rsvp:'No Response',addr:true,allergy:'🌾 Celiac'},
+  {primary:'Nikolai Bjorner',plus:'Bodil Bjorner',rsvp:'No Response',addr:true},
+  {primary:'Brandon Blazer',plus:'Mary Frances Feider-Blazer',rsvp:'No Response',addr:true},
+  {primary:'Connor Bryant',plus:'Caroline Heath',rsvp:'No Response',addr:true},
+  {primary:'Lauren Butler',plus:'Taylor Wood',rsvp:'Attending',addr:true},
+  {primary:'Neill Butler',plus:'Kirsten Butler',rsvp:'No Response',addr:true},
+  {primary:'Steve Carlsen',plus:'Chris Carlsen',rsvp:'No Response',addr:true},
+  {primary:'Kali Clark',plus:'Max Edwards',rsvp:'No Response',addr:true},
+  {primary:'Noah Dimit',plus:'Julia Dimit',rsvp:'No Response',addr:true},
+  {primary:'Rob Donelan',plus:'Lys Donelan',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Barry Dorrans',plus:'Nikki Dorrans',rsvp:'Attending',addr:true},
+  {primary:'Kylie Gordon',plus:'Nicholas Pribble',rsvp:'No Response',addr:true},
+  {primary:'Cassidy Isaacson',plus:'Alex James',rsvp:'No Response',addr:true},
+  {primary:'Julia James',plus:'',rsvp:'No Response',addr:true},
+  {primary:'Nick Keim',plus:'Dillon Wright',rsvp:'Attending',addr:true},
+  {primary:'Ashley Kirby',plus:'Sam Nepali',rsvp:'No Response',addr:true},
+  {primary:'Cliff Kraushaar',plus:'Susan Kraushaar',rsvp:'No Response',addr:true},
+  {primary:'Kyle Kraushaar',plus:"McKenna O'Leary",rsvp:'No Response',addr:true},
+  {primary:'Megan Lambert',plus:"Gavin O'Donnell",rsvp:'No Response',addr:true},
+  {primary:'Nate Lynch',plus:'Sandy Nguyen',rsvp:'Attending',addr:true},
+  {primary:'Brenda McGuire-Brown',plus:'',rsvp:'No Response',addr:true},
+  {primary:'Nick Mutolo',plus:'Kylie Rardin',rsvp:'No Response',addr:true},
+  {primary:'Charlotte Nash',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
+  {primary:'Tiffany Neiman',plus:'Marcus Neiman',rsvp:'No Response',addr:true},
+  {primary:'John Oja',plus:'Sara Oja',rsvp:'No Response',addr:true},
+  {primary:'Robert Orleth',plus:'Sonya Orleth',rsvp:'Attending',addr:true},
+  {primary:'Andres Paz',plus:'Aurora Paz',rsvp:'No Response',addr:true},
+  {primary:'Jennifer Peterson',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Nick Peterson',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
+  {primary:'Anna Phillips',plus:'',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Sean Powell',plus:'Britta Powell',rsvp:'No Response',addr:true},
+  {primary:'Hamish Robb',plus:'Val Robb',rsvp:'No Response',addr:true,note:'UK family — likely unable to attend'},
+  {primary:'Zach Scharbach',plus:'Taylor Scharbach',rsvp:'Attending',addr:true},
+  {primary:'Rosalind Scott',plus:'Bella Vasquez',rsvp:'Attending',addr:true},
+  {primary:'Brent Sleep',plus:'Tonni Sleep',rsvp:'No Response',addr:true},
+  {primary:'Bruce Sleep',plus:'Candace Sleep',rsvp:'No Response',addr:true},
+  {primary:'Sofia Stoughton',plus:'Alessandro Scott',rsvp:'No Response',addr:true},
+  {primary:'Markus Sullivan',plus:'+1 (unnamed)',rsvp:'No Response',addr:true},
+  {primary:'Matt Tarrant',plus:'Claire Tarrant',rsvp:'No Response',addr:true},
+  {primary:'Tim Welch',plus:'Kyleen Welch',rsvp:'No Response',addr:true},
+  {primary:'Brian Wheeler',plus:'Leslie Rodriguez',rsvp:'No Response',addr:true},
+  {primary:'Brooke Wheeler',plus:'',rsvp:'Attending',addr:true,allergy:'🌾 Celiac'},
+  {primary:'Tammy Wheeler',plus:'+1 (unnamed)',rsvp:'Attending',addr:true},
+  {primary:'Tom Wheeler',plus:'',rsvp:'No Response',addr:true},
+  {primary:'Chandler Wooley',plus:'Nathalia Lecaros',rsvp:'No Response',addr:true},
+];
+let guestSort={col:'primary',dir:1};
+function renderGuests(list){
+  list=list||guests;
+  document.getElementById('guest-tbody').innerHTML=list.map(g=>{
+    const cls={Attending:'rsvp-attending',Declined:'rsvp-declined','No Response':'rsvp-pending'}[g.rsvp];
+    const allergyCell=g.allergy?`<td style="color:var(--urgent);font-weight:600;">${g.allergy}</td>`:'<td style="color:#ccc;">—</td>';
+    return `<tr><td style="font-weight:600;">${g.primary}${g.note?` <span style="font-size:10px;color:var(--mid);font-weight:400;">(${g.note})</span>`:''}</td><td>${g.plus||'—'}</td><td><span class="rsvp-pill ${cls}">${g.rsvp}</span></td><td><span style="color:var(--sage);">✓</span></td>${allergyCell}</tr>`;
+  }).join('');
+}
+function filterGuests(){
+  const s=document.getElementById('guest-search').value.toLowerCase();
+  const r=document.getElementById('guest-rsvp-filter').value;
+  const a=document.getElementById('guest-allergy-filter').value;
+  renderGuests(guests.filter(g=>(!s||g.primary.toLowerCase().includes(s)||(g.plus||'').toLowerCase().includes(s))&&(!r||g.rsvp===r)&&(!a||g.allergy)));
+}
+function sortGuests(col){
+  if(guestSort.col===col)guestSort.dir*=-1;else{guestSort.col=col;guestSort.dir=1;}
+  guests.sort((a,b)=>(a[col]||'')<(b[col]||'')?-guestSort.dir:(a[col]||'')>(b[col]||'')?guestSort.dir:0);
+  filterGuests();
+}
+renderGuests();
+
+function exportGuestsCSV(allergyOnly){
+  const list=allergyOnly?guests.filter(g=>g.allergy):guests;
+  const rows=[['Primary Guest','Plus-One / Partner','RSVP','Address On File','Allergy / Restriction']];
+  list.forEach(g=>rows.push([g.primary,g.plus||'',g.rsvp,g.addr?'Yes':'No',g.allergy||'']));
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=allergyOnly?'wedding_allergy_list.csv':'wedding_guest_list.csv';
+  a.click();
+}
+
+// ---- SEATING CHART ----
+const tables=[
+  {name:'Sweetheart Table — Waptus Lake',type:'sweetheart',cls:'table-header-sweetheart',seats:[
+    {name:'Jade Butler',role:'Bride'},
+    {name:'Brandon Wheeler',role:'Groom'},
+  ]},
+  {name:'Lake Colchuck — Groom Family',type:'groom',cls:'table-header-groom',seats:[
+    {name:'Tammy Wheeler'},
+    {name:'Tammy\'s Guest',flag:'⚠ Name needed'},
+    {name:'Brian Wheeler'},
+    {name:'Doris Wheeler',note:'Uses Brian\'s address'},
+    {name:'Brian\'s Guest',flag:'⚠ Name needed'},
+    {name:'Tom Wheeler'},
+    {name:'Jere Batten'},
+  ]},
+  {name:'Mt Bachelor — Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+    {name:'Connor Bryant'},
+    {name:'Caroline Heath'},
+    {name:'Dillon Wright'},
+    {name:'Nick Keim'},
+    {name:'Sara Oja'},
+    {name:'John Oja'},
+    {name:'Sam Nepali'},
+    {name:'Ashley Kirby'},
+  ]},
+  {name:'Park Butte — Bride Family',type:'bride',cls:'table-header-bride',seats:[
+    {name:'Lucy Butler'},
+    {name:'Steve Butler'},
+    {name:'Rosalind Scott'},
+    {name:'Brandon Blazer'},
+    {name:'Mary Frances Feider-Blazer'},
+    {name:'Nikki Dorrans'},
+    {name:'Barry Dorrans'},
+  ]},
+  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Kyle Kraushaar'},
+    {name:'McKenna O\'Leary'},
+    {name:'Nick Peterson'},
+    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
+    {name:'Chandler Wooley'},
+    {name:'Nathalia Lecaros'},
+    {name:'Anton Soderquist'},
+  ]},
+  {name:'Mt Rainier — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
+    {name:'Noah Dimit'},
+    {name:'Julia Dimit'},
+    {name:'Brent Sleep'},
+    {name:'Tonni Sleep'},
+    {name:'Bruce Sleep'},
+    {name:'Candace Sleep'},
+    {name:'Brenda McGuire-Brown'},
+  ]},
+  {name:'Alpental — Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+    {name:'Kali Clark'},
+    {name:'Max Edwards'},
+    {name:'Hank Baillargeon',note:'Spreadsheet: "Balargeon"'},
+    {name:'Katie Molloy',note:'Spreadsheet: "Katie Mountain"'},
+    {name:'Nate Lynch'},
+    {name:'Sandy Nguyen',note:'Spreadsheet: "Sandy Lynch"'},
+    {name:'Sean Powell'},
+    {name:'Britta Powell'},
+  ]},
+  {name:'Deschutes River — Bride Family & Friends',type:'bride',cls:'table-header-bride',seats:[
+    {name:'Aurora Paz'},
+    {name:'Andres Paz'},
+    {name:'Jeremiah Andrick'},
+    {name:'Rebecca Andrick'},
+    {name:'Nikolai Bjorner'},
+    {name:'Bodil Bjorner'},
+    {name:'Robert Orleth'},
+    {name:'Sonya Orleth'},
+  ]},
+  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
+    {name:'Lauren Butler'},
+    {name:'Taylor Wood'},
+    {name:'Brooke Wheeler'},
+    {name:'Kylie Gordon'},
+    {name:'Nicholas Pribble'},
+    {name:'Taylor Scharbach'},
+    {name:'Zach Scharbach'},
+  ]},
+  {name:'Vantage — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
+    {name:'Steve Carlsen'},
+    {name:'Chris Carlsen'},
+    {name:'Tim Welch'},
+    {name:'Kyleen Welch'},
+    {name:'Cliff Kraushaar'},
+    {name:'Susan Kraushaar'},
+    {name:'Markus Sullivan'},
+    {name:'Markus\'s Guest',flag:'⚠ Name needed'},
+  ]},
+  {name:'Orcas Island — Groom & Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+    {name:'Nick Mutolo'},
+    {name:'Kylie Rardin'},
+    {name:'Megan Lambert'},
+    {name:"Gavin O'Donnell"},
+    {name:'Sofia Stoughton'},
+    {name:'Alessandro Scott'},
+    {name:'Cassidy Isaacson'},
+    {name:'Alex James'},
+  ]},
+  {name:'Blue Lake — Bride Friends',type:'bride',cls:'table-header-bride',seats:[
+    {name:'Kathy Goldstein'},
+    {name:'Shamber Safai'},
+    {name:'Cameron Safai'},
+    {name:'Julia James'},
+    {name:'Charlotte Nash'},
+    {name:'Charlotte\'s Guest',flag:'⚠ Name needed'},
+    {name:'Tiffany Neiman'},
+    {name:'Marcus Neiman'},
+  ]},
+];
+document.getElementById('seating-grid').innerHTML=tables.map(t=>`
+  <div class="table-card">
+    <div class="table-card-header ${t.cls}">${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length} seats)</span></div>
+    <div class="table-card-body">
+      ${t.seats.map((s,i)=>`<div class="seat-row">
+        <div class="seat-num">${i+1}</div>
+        <div style="flex:1;font-weight:${s.role?700:400};">${s.name}${s.role?` <span style="font-size:10px;color:var(--amber);font-weight:600;">${s.role}</span>`:''}${s.note?` <span style="font-size:10px;color:var(--mid);">·  ${s.note}</span>`:''}${s.flag?`<span class="seat-flag">${s.flag}</span>`:''}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+`).join('');
+
+// ---- DIY CHECKLIST ----
+const diyGroups=[
+  {id:1,items:[
+    {name:'Build test table — full mock setup',notes:'Confirm look before the wedding day · take a photo for reference'},
+    {name:'Pack bankers boxes — one per table',notes:'Each box: linens, centerpiece items, place cards, and a layout diagram'},
+    {name:'Set up guest book station',notes:'Order from Etsy first — have book and pen ready'},
+    {name:'Set up dessert table',notes:'Nothing Bundt Cakes display + any DIY signage'},
+    {name:'Set up in memoriam table',notes:'Collect photos and display items in advance'},
+    {name:'Pick up decorations + veil from Megan Fussner',notes:'Coordinate timing — Megan & Skyler declined the wedding'},
+  ]},
+  {id:2,items:[
+    {name:'Gather photos for in memoriam table',notes:'Collect photos of family members who have passed — print & frame'},
+    {name:'Make in memoriam sign',notes:'Cardstock or acrylic · "In Loving Memory" style'},
+    {name:'Make rehearsal dinner cards',notes:'Cricut project · materials: cardstock 8.5x11 cream'},
+    {name:'Make welcome sign',notes:'Vinyl lettering on mirror or large cardstock in frame'},
+    {name:'Make bar sign',notes:'Two sections: Cocktail Hour (Marionberry Mule · Amaretto Whiskey Sour) + Reception (Beer · Wine · Bubbly · Seltzers · Cider) · Cardstock in frame'},
+    {name:'Make place cards (all guests)',notes:'Cricut pen on cardstock · mount on sticks'},
+    {name:'Make table name cards / images',notes:'Cardstock on wood rounds from Christmas trees · landscape names'},
+  ]},
+  {id:3,items:[
+    {name:'Bridal party hangers',notes:'Wooden or acrylic · vinyl name letters'},
+    {name:'Bridal party champagne glasses',notes:'Glass flutes · permanent vinyl decals'},
+    {name:'Small embellishments & cutouts',notes:'Accent pieces for tables, frames, invites'},
+  ]},
+  {id:4,items:[
+    {name:'Finalize flower arrangement plan',notes:'Main order via Delta → RDM Oct 7 ($1,604.13) · Garlands via FedEx ($432.56) · Pieces: 1 bridal bouquet, 1 MOH, 2 BM bouquets, 4 boutonnieres, 36 bud vases (9 tables × 4), arch florals, 3×8\' eucalyptus head table garlands (silver dollar/seeded/willow/baby blue/gunni), dog collar'},
+    {name:'Pick up flowers at Redmond Airport (RDM)',notes:'Oct 7 via Delta Airlines · Contact: Jackie Wojnowski 888.462.9374 · FedEx garlands arriving separately'},
+    {name:'Assemble all flowers (Jade PTO — Oct 8)',notes:'Full day before the wedding · bouquets, bud vases, arch, head table garlands'},
+    {name:'Flower arrangement for in memoriam table',notes:'Small coordinating arrangement'},
+  ]},
+];
+diyGroups.forEach(g=>{
+  const saved=JSON.parse(localStorage.getItem('diy-checks-'+g.id)||'{}');
+  const el=document.getElementById('diy-group-'+g.id);
+  el.innerHTML=g.items.map((item,i)=>`
+    <div class="diy-item" id="diy-${g.id}-${i}">
+      <div class="diy-check${saved[i]?' checked':''}" onclick="toggleDiy(${g.id},${i})">${saved[i]?'✓':''}</div>
+      <div class="diy-text"><div class="diy-name" style="${saved[i]?'text-decoration:line-through;color:var(--mid);':''}">${item.name}</div><div class="diy-notes">${item.notes}</div></div>
+    </div>`).join('');
+  updateDiyCount(g.id,g.items.length,saved);
+});
+function toggleDiy(gid,idx){
+  const saved=JSON.parse(localStorage.getItem('diy-checks-'+gid)||'{}');
+  saved[idx]=!saved[idx];
+  localStorage.setItem('diy-checks-'+gid,JSON.stringify(saved));
+  const g=diyGroups.find(x=>x.id===gid);
+  document.getElementById('diy-group-'+gid).innerHTML=g.items.map((item,i)=>`
+    <div class="diy-item">
+      <div class="diy-check${saved[i]?' checked':''}" onclick="toggleDiy(${gid},${i})">${saved[i]?'✓':''}</div>
+      <div class="diy-text"><div class="diy-name" style="${saved[i]?'text-decoration:line-through;color:var(--mid);':''}">${item.name}</div><div class="diy-notes">${item.notes}</div></div>
+    </div>`).join('');
+  updateDiyCount(gid,g.items.length,saved);
+}
+function updateDiyCount(gid,total,saved){
+  const done=Object.values(saved).filter(Boolean).length;
+  document.getElementById('diy-count-'+gid).textContent=`${done}/${total} done`;
+}
+
+// ---- BACHELORETTE ----
+const bachItems=[
+  {name:'Book the Airbnb',notes:'Deschutes River Woods, Bend OR · Aug 21–23 · confirm beds for everyone'},
+  {name:'Finalize guest list + collect sizes for shirts',notes:'Sizes so far: Jade — M · Megan Fussner — S · Sara Oja — M · still need: Lauren Butler, Taylor Scharbach, Kylie Gordon, Dillon Wright'},
+  {name:'Order t-shirts',notes:'Theme: Wagon Whore\'s Last Rodeo · order 1-2 weeks before the weekend · confirm all sizes first'},
+  {name:'Source small gift for all guests',notes:'Cowboy hat, koozie, bandana, hangover kit — something rodeo-themed'},
+  {name:'Source special gift for Lauren, Taylor & Kylie (MOH + BMs)',notes:'Lauren Butler (MOH), Taylor Scharbach, Kylie Gordon · jewelry, custom item, or bridesmaid gift preview'},
+  {name:'Plan night out in Bend — bars & reservations',notes:'Look up spots: Astro Lounge, Craft Kitchen, Crux? Make a dinner res for Saturday if doing dinner first'},
+  {name:'Groceries for marg & taco bar',notes:'Tequila, triple sec, limes, tajín, tortillas, proteins, toppings — see the list on this tab'},
+  {name:'Coordinate with Bend friends',notes:'Local friends joining — confirm who\'s coming which nights, who\'s staying vs. day tripping'},
+  {name:'Make a playlist',notes:'Country + bangers · Zach Bryan · Morgan Wallen · some classics for the bars'},
+  {name:'Pack day-of kit',notes:'Cowboy hats, boots, sashes, anything extra for Night 2 out'},
+];
+const bachSaved=JSON.parse(localStorage.getItem('bach-checks')||'{}');
+function renderBach(){
+  const saved=JSON.parse(localStorage.getItem('bach-checks')||'{}');
+  const done=Object.values(saved).filter(Boolean).length;
+  document.getElementById('bach-count').textContent=`${done}/${bachItems.length} done`;
+  document.getElementById('bach-checklist').innerHTML=bachItems.map((item,i)=>`
+    <div class="bach-item">
+      <div class="bach-check${saved[i]?' checked':''}" onclick="toggleBach(${i})">${saved[i]?'✓':''}</div>
+      <div class="bach-item-label">
+        <div class="bach-item-name" style="${saved[i]?'text-decoration:line-through;color:var(--mid);':''}">${item.name}</div>
+        <div class="bach-item-notes">${item.notes}</div>
+      </div>
+    </div>`).join('');
+}
+function toggleBach(i){
+  const saved=JSON.parse(localStorage.getItem('bach-checks')||'{}');
+  saved[i]=!saved[i];
+  localStorage.setItem('bach-checks',JSON.stringify(saved));
+  renderBach();
+}
+renderBach();
+
+// ---- BRIDAL SHOWER ----
+const bsItems=[
+  {name:'Print & mail bridal shower invites',notes:'Printed July 6 · mailed July 7 ✓',done:true},
+  {name:'Ask Tammy to order tables & chairs',notes:'Tammy\'s house — she\'s coordinating the rental for the space',done:false},
+  {name:'Order food',notes:'Jade handling — brunch bites, finger foods, something sweet · confirm headcount first',done:false},
+  {name:'Source champagne flutes / mimosa cups',notes:'Need for the mimosa bar — plastic flutes work, ideally blue or gold to match theme',done:false},
+  {name:'Source blue ribbon',notes:'For decorating, florals, wrapping — lean into the Something Blue palette',done:false},
+  {name:'Buy rings for the ring game',notes:'Cheap plastic rings in a jar · 2–3 per guest · blue rings if you can find them',done:false},
+  {name:'Order scratch off Perfect Match cards',notes:'Print or order online — one per guest + extras · lean into the blue theme',done:false},
+  {name:'Buy flowers from Trader Joe\'s',notes:'Jade making the arrangements · aim for blue & white blooms — hydrangeas, delphiniums, white roses, eucalyptus',done:false},
+  {name:'Assemble floral arrangements',notes:'DIY centerpieces & bud vases · do the day before so they\'re fresh',done:false},
+  {name:'Set up mimosa bar',notes:'Mom (Lucy) handling wine · Jade handling food · need OJ + mixers + garnishes · label everything',done:false},
+  {name:'Bridal shower dress',notes:'Need before Aug 15',done:false},
+  {name:'Blue-themed decorations',notes:'Balloons, table runner, napkins, signage — lean into the Something Blue palette',done:false},
+  {name:'Game prizes for winners',notes:'Small gift bags for Scratch Off & Ring game winners',done:false},
+  {name:'Photo spot / backdrop',notes:'Blue backdrop or decorated corner for group shots',done:false},
+];
+const bsNeeded=[
+  {name:'Confirm headcount with Tammy',notes:'29 RSVPs still pending — set a cutoff so Tammy can finalize the table & chair order',status:'needed'},
+  {name:'Finalize mimosa bar menu',notes:'Confirm with mom on wine selection + decide OJ/juice flavors and any blue mixers',status:'needed'},
+  {name:'Decide food order',notes:'Jade handling — figure out what to order and from where once headcount is clearer',status:'needed'},
+];
+const bsSaved=JSON.parse(localStorage.getItem('bs-checks')||'{}');
+// Pre-check items marked done:true if not yet overridden by user
+bsItems.forEach((item,i)=>{ if(item.done && bsSaved[i]===undefined) bsSaved[i]=true; });
+document.getElementById('bs-checklist').innerHTML=bsItems.map((item,i)=>`
+  <div class="bs-item">
+    <div class="bs-check${bsSaved[i]?' checked':''}" onclick="toggleBs(${i})">${bsSaved[i]?'✓':''}</div>
+    <div class="bs-label">
+      <div class="bs-name" style="${bsSaved[i]?'text-decoration:line-through;color:var(--mid);':''}">${item.name}</div>
+      <div class="bs-notes">${item.notes}</div>
+    </div>
+  </div>`).join('');
+document.getElementById('bs-needed').innerHTML=bsNeeded.map(item=>`
+  <div class="bs-item">
+    <div style="flex:1;">
+      <div class="bs-name">${item.name}</div>
+      <div class="bs-notes">${item.notes}</div>
+    </div>
+    <span class="bs-status-needed">Action Needed</span>
+  </div>`).join('');
+function toggleBs(i){
+  const saved=JSON.parse(localStorage.getItem('bs-checks')||'{}');
+  saved[i]=!saved[i];
+  localStorage.setItem('bs-checks',JSON.stringify(saved));
+  document.getElementById('bs-checklist').innerHTML=bsItems.map((item,idx)=>`
+    <div class="bs-item">
+      <div class="bs-check${saved[idx]?' checked':''}" onclick="toggleBs(${idx})">${saved[idx]?'✓':''}</div>
+      <div class="bs-label">
+        <div class="bs-name" style="${saved[idx]?'text-decoration:line-through;color:var(--mid);':''}">${item.name}</div>
+        <div class="bs-notes">${item.notes}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ---- VENDORS ----
+const vendors=[
+  {type:'Venue & Catering',name:'FivePine Lodge & Event Center',location:'Sisters, OR',contact:'ap@fivepinelodge.com'},
+  {type:'Photographer',name:'Sarah Photographs',location:'Corvallis, OR',contact:'sarahvorderbrueggen@gmail.com'},
+  {type:'DJ & Photo Booth',name:'Noteworthy DJs & Photo Booths',location:'Portland, OR',contact:'info@noteworthydjs.com'},
+  {type:'Hair & Makeup',name:'Brilliant Beauty By Bri',location:'Portland, OR',contact:'zola: brilliant-beauty-by-bri'},
+  {type:'Cakes & Desserts',name:'Nothing Bundt Cakes',location:'Bend, OR',contact:''},
+  {type:'Rentals',name:'Central Event Rentals',location:'',contact:'rentals@centraleventrentals.com'},
+  {type:'Venue / Lodging',name:'Skyliner Lodge',location:'Bend, OR',contact:'stacy.kelley@hdesd.org'},
+  {type:'Officiant',name:'Anton Soderquist',location:'',contact:''},
+  {type:'Florist',name:'Beau & Bloom Florals',location:'Orange, CA (ships to RDM)',contact:'Jackie Wojnowski (Mayesh) · 888.462.9374 · Main order $1,604.13 via Delta → RDM Oct 7 · Garlands $432.56 via FedEx (3×8\' mixed euc) · Total $2,036.69'},
+];
+document.getElementById('vendor-grid').innerHTML=vendors.map(v=>`
+  <div class="vendor-card">
+    <div class="vendor-type">${v.type}</div>
+    <div class="vendor-name">${v.name}</div>
+    ${v.location?`<div class="vendor-location">📍 ${v.location}</div>`:''}
+    ${v.contact?`<div class="vendor-contact">✉ ${v.contact}</div>`:''}
+    <div class="vendor-confirmed">✓ Confirmed & Booked</div>
+  </div>
+`).join('');
+
+</script></body></html>
