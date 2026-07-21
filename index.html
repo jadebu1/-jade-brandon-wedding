@@ -1085,6 +1085,16 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     .shop-link { font-size:11px;color:#fff;background:var(--sage);border-radius:4px;padding:2px 8px;text-decoration:none;white-space:nowrap; }
     .shop-link:hover { opacity:.85; }
     .shop-note { font-size:10px;color:var(--amber);background:#FFF8EE;border:1px solid #FDECC8;border-radius:4px;padding:2px 7px;font-weight:600; }
+
+    .shop-add-btn { background:none;border:1px dashed var(--border);color:var(--mid);font-size:11px;padding:6px 14px;border-radius:6px;cursor:pointer;width:100%;margin-top:4px;transition:all .15s; }
+    .shop-add-btn:hover { border-color:var(--sage);color:var(--sage); }
+    .shop-form { background:#F7F7F5;border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:8px;display:flex;flex-direction:column;gap:6px; }
+    .shop-form-input { font-size:12px;padding:6px 10px;border:1px solid var(--border);border-radius:5px;outline:none;width:100%;box-sizing:border-box; }
+    .shop-form-input:focus { border-color:var(--sage); }
+    .shop-form-save { background:var(--sage);color:#fff;border:none;border-radius:5px;padding:6px 14px;font-size:12px;cursor:pointer;font-weight:600; }
+    .shop-form-cancel { background:none;border:1px solid var(--border);border-radius:5px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--mid); }
+    .shop-delete-btn { background:none;border:none;color:#ccc;font-size:13px;cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0; }
+    .shop-delete-btn:hover { color:#E57373; }
   </style>
 
   <!-- WEDDING -->
@@ -1163,6 +1173,19 @@ table.guest-table tr:hover td{background:#FDFAF6;}
         </div>
       </div>
     </div>
+
+    <div id="shop-custom-wedding"></div>
+    <button class="shop-add-btn" onclick="shopShowForm('wedding')">+ Add item</button>
+    <div class="shop-form" id="shop-form-wedding" style="display:none;">
+      <input class="shop-form-input" id="sf-name-wedding" placeholder="Item name *" />
+      <input class="shop-form-input" id="sf-desc-wedding" placeholder="Description (optional)" />
+      <input class="shop-form-input" id="sf-url-wedding" placeholder="Link URL (optional)" />
+      <input class="shop-form-input" id="sf-cost-wedding" placeholder="Cost (optional, e.g. $50)" style="width:120px;" />
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="shop-form-save" onclick="shopAddItem('wedding')">Add</button>
+        <button class="shop-form-cancel" onclick="shopHideForm('wedding')">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <!-- BACHELORETTE -->
@@ -1203,6 +1226,19 @@ table.guest-table tr:hover td{background:#FDFAF6;}
           <span class="shop-cost">~$150-200</span>
           <a class="shop-link" href="https://www.costco.com" target="_blank">Costco</a>
         </div>
+      </div>
+    </div>
+
+    <div id="shop-custom-bach"></div>
+    <button class="shop-add-btn" onclick="shopShowForm('bach')">+ Add item</button>
+    <div class="shop-form" id="shop-form-bach" style="display:none;">
+      <input class="shop-form-input" id="sf-name-bach" placeholder="Item name *" />
+      <input class="shop-form-input" id="sf-desc-bach" placeholder="Description (optional)" />
+      <input class="shop-form-input" id="sf-url-bach" placeholder="Link URL (optional)" />
+      <input class="shop-form-input" id="sf-cost-bach" placeholder="Cost (optional, e.g. $50)" style="width:120px;" />
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="shop-form-save" onclick="shopAddItem('bach')">Add</button>
+        <button class="shop-form-cancel" onclick="shopHideForm('bach')">Cancel</button>
       </div>
     </div>
   </div>
@@ -1258,6 +1294,19 @@ table.guest-table tr:hover td{background:#FDFAF6;}
         </div>
       </div>
     </div>
+
+    <div id="shop-custom-shower"></div>
+    <button class="shop-add-btn" onclick="shopShowForm('shower')">+ Add item</button>
+    <div class="shop-form" id="shop-form-shower" style="display:none;">
+      <input class="shop-form-input" id="sf-name-shower" placeholder="Item name *" />
+      <input class="shop-form-input" id="sf-desc-shower" placeholder="Description (optional)" />
+      <input class="shop-form-input" id="sf-url-shower" placeholder="Link URL (optional)" />
+      <input class="shop-form-input" id="sf-cost-shower" placeholder="Cost (optional, e.g. $50)" style="width:120px;" />
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="shop-form-save" onclick="shopAddItem('shower')">Add</button>
+        <button class="shop-form-cancel" onclick="shopHideForm('shower')">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1265,16 +1314,82 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 // ---- SHOPPING CHECKLIST ----
 function shopToggle(id, checked) {
   const el = document.getElementById(id);
+  if(!el) return;
   if(checked) el.classList.add('bought'); else el.classList.remove('bought');
   try { localStorage.setItem('shop_'+id, checked ? '1' : '0'); } catch(e){}
+  // also update custom item bought state
+  ['wedding','bach','shower'].forEach(sec => {
+    const items = shopGetCustom(sec);
+    const item = items.find(i => i.id === id);
+    if(item) { item.bought = checked; shopSaveCustom(sec, items); }
+  });
+}
+function shopShowForm(sec) {
+  document.getElementById('shop-form-'+sec).style.display='flex';
+  document.getElementById('sf-name-'+sec).focus();
+}
+function shopHideForm(sec) {
+  document.getElementById('shop-form-'+sec).style.display='none';
+  ['name','desc','url','cost'].forEach(f => document.getElementById('sf-'+f+'-'+sec).value='');
+}
+function shopGetCustom(sec) {
+  try { return JSON.parse(localStorage.getItem('shop_custom_'+sec)||'[]'); } catch(e){ return []; }
+}
+function shopSaveCustom(sec, items) {
+  try { localStorage.setItem('shop_custom_'+sec, JSON.stringify(items)); } catch(e){}
+}
+function shopAddItem(sec) {
+  const name = document.getElementById('sf-name-'+sec).value.trim();
+  if(!name) { document.getElementById('sf-name-'+sec).focus(); return; }
+  const desc = document.getElementById('sf-desc-'+sec).value.trim();
+  const url  = document.getElementById('sf-url-'+sec).value.trim();
+  const cost = document.getElementById('sf-cost-'+sec).value.trim();
+  const id = 'si-custom-'+sec+'-'+Date.now();
+  const items = shopGetCustom(sec);
+  items.push({id, name, desc, url, cost, bought: false});
+  shopSaveCustom(sec, items);
+  shopRenderCustomItem(sec, {id, name, desc, url, cost, bought: false});
+  shopHideForm(sec);
+}
+function shopDeleteCustom(sec, id) {
+  const items = shopGetCustom(sec).filter(i => i.id !== id);
+  shopSaveCustom(sec, items);
+  const el = document.getElementById(id);
+  if(el) el.remove();
+  try { localStorage.removeItem('shop_'+id); } catch(e){}
+}
+function shopRenderCustomItem(sec, item) {
+  const container = document.getElementById('shop-custom-'+sec);
+  const div = document.createElement('div');
+  div.className = 'shop-item' + (item.bought ? ' bought' : '');
+  div.id = item.id;
+  div.innerHTML = \`
+    <input type="checkbox" \${item.bought?'checked':''} onchange="shopToggle('\${item.id}',this.checked)">
+    <div class="shop-item-body">
+      <div class="shop-item-name">\${item.name}</div>
+      \${item.desc ? \`<div class="shop-item-desc">\${item.desc}</div>\` : ''}
+      <div class="shop-item-meta">
+        \${item.cost ? \`<span class="shop-cost">\${item.cost}</span>\` : ''}
+        \${item.url ? \`<a class="shop-link" href="\${item.url}" target="_blank">Shop</a>\` : ''}
+      </div>
+    </div>
+    <button class="shop-delete-btn" onclick="shopDeleteCustom('\${sec}','\${item.id}')" title="Remove">&#10005;</button>
+  \`;
+  container.appendChild(div);
 }
 function shopInit() {
-  document.querySelectorAll('#tab-shopping .shop-item').forEach(el => {
+  // restore built-in checkboxes
+  document.querySelectorAll('#tab-shopping .shop-item[id^=si-]').forEach(el => {
     const val = localStorage.getItem('shop_'+el.id);
     if(val === '1') {
       el.classList.add('bought');
-      el.querySelector('input[type=checkbox]').checked = true;
+      const cb = el.querySelector('input[type=checkbox]');
+      if(cb) cb.checked = true;
     }
+  });
+  // render custom items
+  ['wedding','bach','shower'].forEach(sec => {
+    shopGetCustom(sec).forEach(item => shopRenderCustomItem(sec, item));
   });
 }
 document.addEventListener('DOMContentLoaded', shopInit);
