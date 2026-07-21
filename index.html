@@ -1363,18 +1363,16 @@ function shopRenderCustomItem(sec, item) {
   const div = document.createElement('div');
   div.className = 'shop-item' + (item.bought ? ' bought' : '');
   div.id = item.id;
-  div.innerHTML = \`
-    <input type="checkbox" \${item.bought?'checked':''} onchange="shopToggle('\${item.id}',this.checked)">
-    <div class="shop-item-body">
-      <div class="shop-item-name">\${item.name}</div>
-      \${item.desc ? \`<div class="shop-item-desc">\${item.desc}</div>\` : ''}
-      <div class="shop-item-meta">
-        \${item.cost ? \`<span class="shop-cost">\${item.cost}</span>\` : ''}
-        \${item.url ? \`<a class="shop-link" href="\${item.url}" target="_blank">Shop</a>\` : ''}
-      </div>
-    </div>
-    <button class="shop-delete-btn" onclick="shopDeleteCustom('\${sec}','\${item.id}')" title="Remove">&#10005;</button>
-  \`;
+  const descHtml = item.desc ? '<div class="shop-item-desc">'+item.desc+'</div>' : '';
+  const costHtml = item.cost ? '<span class="shop-cost">'+item.cost+'</span>' : '';
+  const linkHtml = item.url ? '<a class="shop-link" href="'+item.url+'" target="_blank">Shop</a>' : '';
+  div.innerHTML = '<input type="checkbox" '+(item.bought?'checked':'')+' onchange="shopToggle(\''+item.id+'\',this.checked)">'
+    + '<div class="shop-item-body">'
+    + '<div class="shop-item-name">'+item.name+'</div>'
+    + descHtml
+    + '<div class="shop-item-meta">'+costHtml+linkHtml+'</div>'
+    + '</div>'
+    + '<button class="shop-delete-btn" onclick="shopDeleteCustom(\''+sec+'\',\''+item.id+'\')" title="Remove">&#10005;</button>';
   container.appendChild(div);
 }
 function shopInit() {
