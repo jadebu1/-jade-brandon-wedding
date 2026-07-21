@@ -281,6 +281,86 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 .agenda-icon{font-size:13px;flex-shrink:0;width:20px;}
 .agenda-dance{color:var(--amber);font-weight:600;}
 @media(max-width:900px){.kanban-grid{grid-template-columns:1fr 1fr;}.budget-chart-row{grid-template-columns:1fr;}.rsvp-summary{grid-template-columns:1fr;}.registry-grid{grid-template-columns:1fr;}.diy-grid{grid-template-columns:1fr;}}
+
+/* ---- HONEYMOON LODGE EXPLORER ---- */
+.hm-tab-bar{display:flex;gap:0;border-bottom:2px solid var(--light-border);background:#f5f1ea;margin:-20px -24px 20px;padding:0 24px;}
+.hm-tab{padding:12px 22px;font-size:12px;font-weight:600;color:#777;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;user-select:none;display:flex;align-items:center;gap:7px;}
+.hm-tab:hover{color:var(--sage);}
+.hm-tab.hm-active{color:var(--sage);border-bottom-color:var(--sage);}
+.hm-tab-badge{background:var(--urgent);color:white;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;}
+.hm-page{display:none;}
+.hm-page.hm-active{display:block;}
+.hm-h1{font-size:18px;font-weight:700;color:var(--sage);margin-bottom:4px;font-family:Georgia,'Times New Roman',serif;}
+.hm-subtitle{font-size:12px;color:#666;margin-bottom:16px;}
+.hm-filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;align-items:center;}
+.hm-filter-label{font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.hm-filter-btn{padding:5px 13px;border-radius:20px;border:1.5px solid var(--sage-light);background:white;color:var(--sage);font-size:11px;cursor:pointer;transition:all .15s;font-weight:500;}
+.hm-filter-btn:hover{background:#eef2e6;}
+.hm-filter-btn.hm-active{background:var(--sage);color:white;border-color:var(--sage);}
+.hm-sep{width:1px;height:22px;background:#ccc;flex-shrink:0;}
+.hm-count{font-size:11px;color:#888;margin-bottom:14px;}
+.hm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.hm-card{background:white;border-radius:8px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1.5px solid var(--light-border);display:flex;flex-direction:column;gap:9px;transition:box-shadow .15s;}
+.hm-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.13);}
+.hm-card.hm-favorited{border-color:#e8b4b4;}
+.hm-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;}
+.hm-card-name{font-size:14px;font-weight:700;color:var(--sage);line-height:1.2;flex:1;}
+.hm-header-right{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.hm-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+.hm-badge{border-radius:12px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap;}
+.hm-b-state{background:#eef2e6;color:var(--sage);}
+.hm-b-ranch{background:#fdf0e0;color:#8b4513;}
+.hm-b-lodge{background:#e8f0f8;color:#1a4a6e;}
+.hm-b-glamping{background:#f0e8f8;color:#5a1a8e;}
+.hm-b-resort{background:#f8e8e8;color:#8e1a1a;}
+.hm-b-ai{background:#fff3cd;color:#7a5a00;}
+.hm-b-nai{background:#d4edda;color:#155724;}
+.hm-location{font-size:11px;color:#888;}
+.hm-price-row{display:flex;align-items:center;gap:8px;}
+.hm-dots{display:flex;gap:3px;}
+.hm-dot{width:9px;height:9px;border-radius:50%;background:#ddd;}
+.hm-dot.hm-on{background:#8b6914;}
+.hm-price-label{font-size:11px;color:#888;}
+.hm-fish-chip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block;}
+.hm-fish-yes{background:#e0f5eb;color:#1a6e4a;}
+.hm-fish-no{background:#eef2e6;color:var(--sage);}
+.hm-desc{font-size:12px;color:#555;line-height:1.5;}
+.hm-partner-note{font-size:11px;color:#5a3a1e;background:#fdf5ec;padding:5px 8px;border-radius:6px;border-left:3px solid var(--amber);line-height:1.4;}
+.hm-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid #f0e8de;gap:8px;}
+.hm-vibe{font-size:11px;color:#888;font-style:italic;flex:1;}
+.hm-link-btn{display:inline-block;padding:5px 12px;background:var(--sage);color:white;border-radius:6px;font-size:11px;text-decoration:none;font-weight:600;transition:background .15s;white-space:nowrap;flex-shrink:0;}
+.hm-link-btn:hover{background:var(--sage-light);color:var(--sage);}
+.hm-fav-btn{background:none;border:none;cursor:pointer;font-size:16px;line-height:1;padding:2px 3px;transition:transform .15s;}
+.hm-fav-btn:hover{transform:scale(1.25);}
+.hm-none{grid-column:1/-1;text-align:center;color:#aaa;padding:48px;font-size:12px;}
+.hm-price-group{margin-bottom:32px;}
+.hm-price-group-header{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--light-border);}
+.hm-price-group-title{font-size:15px;font-weight:700;color:var(--sage);}
+.hm-price-group-range{font-size:11px;color:#aaa;}
+.hm-price-group-count{font-size:10px;color:#bbb;margin-left:auto;}
+.hm-fav-page-header{margin-bottom:20px;}
+.hm-fav-h2{font-size:16px;font-weight:700;color:var(--sage);margin-bottom:4px;font-family:Georgia,'Times New Roman',serif;}
+.hm-fav-p{font-size:11px;color:#888;}
+.hm-fav-empty-state{text-align:center;padding:60px 24px;color:#aaa;}
+.hm-fav-empty-state .hm-big{font-size:2.5rem;margin-bottom:12px;}
+.hm-fav-empty-state p{font-size:12px;}
+.hm-rank-list{display:flex;flex-direction:column;gap:10px;max-width:700px;}
+.hm-rank-item{background:white;border-radius:8px;border:1.5px solid var(--light-border);padding:14px 16px;display:flex;align-items:flex-start;gap:14px;cursor:grab;transition:box-shadow .15s,border-color .15s;user-select:none;}
+.hm-rank-item:active{cursor:grabbing;}
+.hm-rank-item.hm-dragging{opacity:.45;border-color:var(--sage-light);box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.hm-rank-item.hm-drag-over{border-color:var(--sage);box-shadow:0 0 0 2px rgba(96,97,58,.25);}
+.hm-rank-num{font-size:1.6rem;font-weight:800;color:#ddd;min-width:36px;line-height:1;padding-top:2px;}
+.hm-rank-num.hm-top{color:#c8a84b;}
+.hm-rank-body{flex:1;min-width:0;}
+.hm-rank-name{font-size:13px;font-weight:700;color:var(--sage);margin-bottom:3px;}
+.hm-rank-meta{font-size:11px;color:#888;margin-bottom:6px;}
+.hm-rank-desc{font-size:11px;color:#666;line-height:1.45;}
+.hm-rank-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.hm-rank-visit{padding:4px 12px;background:var(--sage);color:white;border-radius:6px;font-size:11px;text-decoration:none;font-weight:600;white-space:nowrap;}
+.hm-rank-rm{background:none;border:none;cursor:pointer;color:#ccc;font-size:13px;padding:2px 4px;}
+.hm-rank-rm:hover{color:var(--urgent);}
+.hm-drag-handle{color:#ccc;font-size:13px;margin-top:4px;cursor:grab;flex-shrink:0;}
+.hm-rank-hint{font-size:11px;color:#aaa;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
 </style></head><body>
 <div class="header">
   <div>
@@ -320,6 +400,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div class="tab" onclick="showTab('events')">🎉 Events</div>
   <div class="tab" onclick="showTab('registry')">🎁 Registry<span class="tab-badge">6</span></div>
   <div class="tab" onclick="showTab('vendors')">🤝 Vendors</div>
+  <div class="tab" onclick="showTab('honeymoon')">🏔️ Honeymoon</div>
 </div>
 
 <!-- DASHBOARD -->
@@ -923,6 +1004,66 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div class="vendor-grid" id="vendor-grid"></div>
 </div>
 
+<!-- HONEYMOON -->
+<div class="panel" id="tab-honeymoon">
+  <div class="hm-tab-bar">
+    <div class="hm-tab hm-active" id="hm-tab-explore" onclick="hmSwitchTab('explore')">🗺️ Explore Lodges <span id="hmTotalBadge" style="font-size:11px;color:#aaa;font-weight:400;"></span></div>
+    <div class="hm-tab" id="hm-tab-favorites" onclick="hmSwitchTab('favorites')">❤️ My Favorites <span class="hm-tab-badge" id="hmFavBadge" style="display:none">0</span></div>
+  </div>
+
+  <div class="hm-page hm-active" id="hm-page-explore">
+    <div class="hm-h1">🏔️ Honeymoon Lodge Explorer</div>
+    <div class="hm-subtitle">Pacific Northwest &amp; Rockies · October · Mountain Views, Rivers, Outdoor Adventure</div>
+
+    <div class="hm-filter-row">
+      <span class="hm-filter-label">State:</span>
+      <button class="hm-filter-btn hm-active" data-group="state" data-val="all">All</button>
+      <button class="hm-filter-btn" data-group="state" data-val="MT">Montana</button>
+      <button class="hm-filter-btn" data-group="state" data-val="ID">Idaho</button>
+      <button class="hm-filter-btn" data-group="state" data-val="WY">Wyoming</button>
+      <button class="hm-filter-btn" data-group="state" data-val="WA">Washington</button>
+      <button class="hm-filter-btn" data-group="state" data-val="OR">Oregon</button>
+    </div>
+    <div class="hm-filter-row">
+      <span class="hm-filter-label">Price:</span>
+      <button class="hm-filter-btn hm-active" data-group="price" data-val="all">All</button>
+      <button class="hm-filter-btn" data-group="price" data-val="1">$ Budget</button>
+      <button class="hm-filter-btn" data-group="price" data-val="2">$$ Moderate</button>
+      <button class="hm-filter-btn" data-group="price" data-val="3">$$$ Upscale</button>
+      <button class="hm-filter-btn" data-group="price" data-val="4">$$$$ Luxury</button>
+      <div class="hm-sep"></div>
+      <span class="hm-filter-label">Type:</span>
+      <button class="hm-filter-btn hm-active" data-group="type" data-val="all">All</button>
+      <button class="hm-filter-btn" data-group="type" data-val="Ranch">Ranch</button>
+      <button class="hm-filter-btn" data-group="type" data-val="Lodge">Lodge</button>
+      <button class="hm-filter-btn" data-group="type" data-val="Resort">Resort</button>
+      <button class="hm-filter-btn" data-group="type" data-val="Glamping">Glamping</button>
+    </div>
+    <div class="hm-filter-row">
+      <span class="hm-filter-label">Pricing:</span>
+      <button class="hm-filter-btn hm-active" data-group="ai" data-val="all">All</button>
+      <button class="hm-filter-btn" data-group="ai" data-val="yes">All-Inclusive</button>
+      <button class="hm-filter-btn" data-group="ai" data-val="no">À La Carte</button>
+      <div class="hm-sep"></div>
+      <span class="hm-filter-label">Fishing:</span>
+      <button class="hm-filter-btn hm-active" data-group="fish" data-val="all">All</button>
+      <button class="hm-filter-btn" data-group="fish" data-val="yes">🎣 Fishing Focus</button>
+      <button class="hm-filter-btn" data-group="fish" data-val="no">Partner-Friendly</button>
+    </div>
+
+    <div class="hm-count" id="hmCount"></div>
+    <div id="hmGrid"></div>
+  </div>
+
+  <div class="hm-page" id="hm-page-favorites">
+    <div class="hm-fav-page-header">
+      <div class="hm-fav-h2">❤️ My Favorites</div>
+      <div class="hm-fav-p">Heart a lodge on the Explore tab to add it here. Drag to rank them.</div>
+    </div>
+    <div id="hm-fav-content"></div>
+  </div>
+</div>
+
 <script>
 // ---- TAB SWITCHING ----
 function showTab(id) {
@@ -992,6 +1133,7 @@ const tasks = [
   {name:'Finalize reception playlist with Noteworthy DJs',cat:'Music',owner:'Both',priority:'High',due:'2026-09-01',status:'Not Started',notes:''},
   {name:'Share do-not-play list with DJ',cat:'Music',owner:'Both',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:''},
   {name:'Confirm sound equipment with DJ',cat:'Music',owner:'Brandon',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Musicians must bring own equipment per FivePine policy'},
+  {name:'Send wedding info to DJ',cat:'Music',owner:'Both',priority:'High',due:'2026-09-01',status:'Not Started',notes:'Send day-of timeline, venue address, load-in time, song lists & any special requests to Noteworthy DJs'},
   // HAIR & MAKEUP
   {name:'Confirm hair/makeup timeline with Bri',cat:'Attire',owner:'Jade',priority:'High',due:'2026-09-01',status:'Not Started',notes:'$875 total · $100 paid'},
   {name:'Schedule hair & makeup trial',cat:'Attire',owner:'Jade',priority:'Normal',due:'2026-08-01',status:'Done',notes:'Trial: July 24 · time TBD · Brilliant Beauty by Bri ✓'},
@@ -1015,6 +1157,7 @@ const tasks = [
   // ADMIN
   {name:'Help Brian Wheeler book hotel for wedding weekend',cat:'Admin',owner:'Brandon',priority:'High',due:'2026-08-01',status:'Not Started',notes:'Cabin block releases Aug 26 — book before then'},
   {name:'Get marriage license',cat:'Admin',owner:'Both',priority:'Urgent',due:'2026-09-15',status:'Not Started',notes:'Oregon: apply within 60 days, valid 60 days — Sep 15 is safe window'},
+  {name:'Get wedding insurance',cat:'Admin',owner:'Both',priority:'High',due:'2026-08-15',status:'Not Started',notes:'Event/wedding liability insurance — covers cancellation, vendor no-shows, liability. WedSafe, Markel, or Travelers are common providers'},
   {name:'Book honeymoon',cat:'Admin',owner:'Both',priority:'Normal',due:'2026-08-01',status:'Not Started',notes:''},
   {name:'Arrange transportation / shuttle for guests',cat:'Admin',owner:'Brandon',priority:'Normal',due:'2026-09-01',status:'Not Started',notes:''},
   {name:'Day-of emergency kit',cat:'Admin',owner:'Jade',priority:'Normal',due:'2026-09-30',status:'Not Started',notes:'Safety pins, fashion tape, stain remover, pain reliever, etc.'},
@@ -1668,5 +1811,363 @@ document.getElementById('vendor-grid').innerHTML=vendors.map(v=>`
     <div class="vendor-confirmed">✓ Confirmed & Booked</div>
   </div>
 `).join('');
+
+// ---- HONEYMOON LODGE EXPLORER ----
+const hmLodges = [
+  // MONTANA
+  {name:"Triple Creek Ranch",state:"MT",location:"Darby, MT — Bitterroot Mountains",price:4,type:"Ranch",ai:true,fish:false,
+   priceNote:"~$1,050–$1,800+/night (all-inclusive)",
+   desc:"Voted #1 Hotel in the World by T+L. 25 private log cabins with wood-burning fireplaces and private hot tubs. All meals, wine, spirits & most activities included. Adults-only (16+). Surrounded by 1.6M acres of national forest.",
+   partner:"Spa, horseback riding, yoga, hiking, and sapphire panning while you fish. The top honeymoon pick in Montana consistently.",
+   vibe:"The gold standard Montana honeymoon",url:"https://www.triplecreekranch.com"},
+  {name:"The Ranch at Rock Creek",state:"MT",location:"Philipsburg, MT — SW Montana",price:4,type:"Ranch",ai:true,fish:false,
+   priceNote:"~$900–$1,500+/night (all-inclusive)",
+   desc:"6,600 wild Montana acres with log cabins, glamping tents, or a 19th-century barn conversion. 35+ included activities. Silver Dollar Saloon, bowling alley, and a four-lane shooting range. 5-star across the board.",
+   partner:"Sapphire mining, nature safaris, spa, and archery — a genuinely huge activity menu for non-fishers.",
+   vibe:"Western adventure meets five-star luxury",url:"https://theranchatrockcreek.com"},
+  {name:"Sage Lodge",state:"MT",location:"Pray, MT — Paradise Valley / Yellowstone River",price:3,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$350–$700/night (activities à la carte)",
+   desc:"Montana's only Michelin 3-Key property. On the Yellowstone River in Paradise Valley, 35 min from Yellowstone NP. Two restaurants, full spa, private ranch houses available. October brings elk rut and stunning fall colors.",
+   partner:"Easy Yellowstone day trips, incredible wildlife, exceptional spa. Feels all-inclusive but isn't.",
+   vibe:"Upscale basecamp for Paradise Valley & Yellowstone",url:"https://sagelodge.com"},
+  {name:"Chico Hot Springs Resort",state:"MT",location:"Pray, MT — Paradise Valley",price:2,type:"Resort",ai:false,fish:false,
+   priceNote:"~$120–$350/night (activities à la carte)",
+   desc:"Historic hot springs resort on the National Register of Historic Places, 30 min from Yellowstone. Two natural geothermal pools, award-winning dining, and private North 40 luxury cabins with king beds and spa tubs overlooking Paradise Valley.",
+   partner:"Soaking in natural hot springs after hiking or fishing is the classic October evening here. Unique and very Montana.",
+   vibe:"Historic hot springs retreat near Yellowstone",url:"https://www.chicohotsprings.com"},
+  {name:"The Meadows on Rock Creek",state:"MT",location:"Hall, MT — Western Montana",price:3,type:"Ranch",ai:true,fish:false,
+   priceNote:"~$500–$800/night (all-inclusive)",
+   desc:"Intimate all-inclusive ranch on Blue Ribbon Rock Creek — max 40 guests. 10 private cabins with full kitchens, spa bathrooms, and mountain views. Multiple honeymoon reviewers call it their favorite trip ever.",
+   partner:"Small, personal, and genuinely warm. Horseback, hiking, and campfire evenings are the rhythm.",
+   vibe:"Hidden gem — intimate and deeply personal",url:"https://themeadowsonrockcreek.com"},
+  {name:"Lone Mountain Ranch",state:"MT",location:"Big Sky, MT — near Yellowstone",price:3,type:"Ranch",ai:false,fish:false,
+   priceNote:"~$400–$700/night (packages available)",
+   desc:"Historic log cabins in Big Sky with gourmet farm-to-table dining, spa, horseback riding, whitewater rafting, and fly fishing. Dedicated honeymoon packages available. October is peak fall foliage with elk activity.",
+   partner:"Whitewater rafting, horseback, and Yellowstone tours work great without any fishing interest.",
+   vibe:"Classic western ranch with Yellowstone access",url:"https://www.lonemountainranch.com"},
+  {name:"Rainbow Ranch Lodge",state:"MT",location:"Gallatin Gateway, MT — Gallatin River / Big Sky",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$150–$300/night (breakfast included)",
+   desc:"Intimate 21-room lodge on the Gallatin River with an award-winning gourmet restaurant and one of the finest wine cellars in Montana. Between Big Sky Resort and Yellowstone. Breakfast included daily. Best value option on the list.",
+   partner:"Big Sky hiking, Yellowstone day trips, Gallatin River rafting — all great options without fishing.",
+   vibe:"Great-value romantic lodge on a legendary river",url:"https://www.rainbowranchlodge.com"},
+  {name:"320 Guest Ranch",state:"MT",location:"Gallatin Gateway, MT — Gallatin Canyon",price:2,type:"Ranch",ai:false,fish:false,
+   priceNote:"~$150–$350/night (breakfast included, activities à la carte)",
+   desc:"Rustic riverfront log cabins on 2 miles of Blue Ribbon Gallatin River. Wood-burning fireplaces and mountain views. Complimentary breakfast daily. Right down the road from Rainbow Ranch — worth comparing both.",
+   partner:"Horseback riding, whitewater rafting, Yellowstone day trips, and Big Sky activities all bookable through the concierge.",
+   vibe:"Classic Gallatin Canyon ranch cabin experience",url:"https://www.320ranch.com"},
+  {name:"Lodge at Whitefish Lake",state:"MT",location:"Whitefish, MT — near Glacier National Park",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$250–$600/night",
+   desc:"AAA Four Diamond lakeside resort on Whitefish Lake, 25 miles from Glacier National Park. Spacious suites, full-service spa, fine dining, boating, kayaking, and easy access to one of North America's most spectacular national parks.",
+   partner:"Glacier NP day trips are world-class — Going-to-the-Sun Road, wildlife, hiking. Spa and the lake itself are excellent too.",
+   vibe:"Lakeside luxury gateway to Glacier",url:"https://www.lodgeatwhitefishlake.com"},
+  {name:"Belton Chalet",state:"MT",location:"West Glacier, MT — Glacier National Park entrance",price:1,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$170–$270/night",
+   desc:"1910 National Historic Landmark — the original Great Northern Railway gateway lodge to Glacier National Park. Known for exceptional farm-to-table dining and rustic character. Private Adobe House cottage is the romantic pick.",
+   partner:"Glacier NP is literally across the highway — world-class hiking, Lake McDonald, and Going-to-the-Sun Road within minutes.",
+   vibe:"Historic character lodge at Glacier's doorstep",url:"https://www.glacierparkcollection.com/lodging/belton-chalet/"},
+  {name:"Under Canvas — North Yellowstone",state:"MT",location:"Livingston, MT — Paradise Valley",price:2,type:"Glamping",ai:false,fish:false,
+   priceNote:"~$300–$600/night (dining & activities à la carte)",
+   desc:"Luxury safari-style tents on the Yellowstone River with private ensuite bathrooms, king beds, wood-burning stoves, and private decks. Stargazer tent has a skylight over the bed. October is quiet and beautiful — peak colors and elk rut nearby.",
+   partner:"Waking up to bald eagles on the Yellowstone River is hard to beat. Most unique experience on the Montana list.",
+   vibe:"Safari glamping under Montana stars",url:"https://www.undercanvas.com/camps/north-yellowstone/"},
+  {name:"Firehole Ranch",state:"MT",location:"West Yellowstone, MT — Hebgen Lake",price:4,type:"Lodge",ai:true,fish:true,
+   priceNote:"~$800–$1,200+/night (all-inclusive)",
+   desc:"Forbes & Orvis award-winning lodge on Hebgen Lake. Access to the Madison, Henry's Fork, Gallatin, and Firehole rivers. All meals and expert guides bundled in. Primarily a serious fly fishing destination.",
+   partner:"Honest assessment: primarily for dedicated anglers. Beautiful setting and excellent food, but limited non-fishing structure.",
+   vibe:"Premier fly fishing lodge",url:"https://www.fireholeranch.com"},
+  // IDAHO
+  {name:"Three Rivers Ranch",state:"ID",location:"Warm River, ID — SE Idaho",price:4,type:"Lodge",ai:true,fish:true,
+   priceNote:"~$700–$1,100/night (all-inclusive)",
+   desc:"The original Orvis-endorsed lodge, in a private canyon on Robinson Creek. Henrys Fork, South Fork Snake & Teton River all within reach. Season closes mid-October — timing matters. Primarily a fly fishing experience.",
+   partner:"Beautiful setting and great hospitality, but limited non-fishing activities — be aware going in.",
+   vibe:"Gold standard for dedicated fly fishers",url:"https://threeriversranch.com"},
+  {name:"South Fork Lodge",state:"ID",location:"Swan Valley, ID",price:3,type:"Lodge",ai:false,fish:true,
+   priceNote:"~$400–$700/night (guided fishing extra)",
+   desc:"On the legendary South Fork of the Snake River with exclusive river access. Exceptional food program by nationally recognized chefs and a whiskey bar that rivals any city spot. Primarily a fly fishing destination.",
+   partner:"Outstanding dining and a beautiful canyon setting — partner will enjoy the food and scenery even without fishing interest.",
+   vibe:"Foodie angler's dream lodge",url:"https://www.southforklodge.com"},
+  {name:"Redfish Lake Lodge",state:"ID",location:"Stanley, ID — Sawtooth Mountains",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$150–$350/night (activities à la carte)",
+   desc:"Iconic lodge on glacier-carved Redfish Lake with the Sawtooth Mountains as a backdrop. Cabins, on-site restaurant, boat rentals, kayaks, paddleboards, and horseback riding. No TV or WiFi in rooms. Reviewers love it in October — quiet, stunning fall colors.",
+   partner:"Boating and kayaking on Redfish Lake, Sawtooth hikes, Central Idaho Dark Sky Reserve stargazing — genuinely great for non-fishers.",
+   vibe:"Iconic mountain lake lodge — unplug and explore",url:"https://redfishlake.com"},
+  // WYOMING
+  {name:"The Resort at Paws Up",state:"WY",location:"Saratoga, WY — Platte River Valley",price:4,type:"Ranch",ai:true,fish:false,
+   priceNote:"~$1,000–$2,000+/night (all-inclusive)",
+   desc:"Condé Nast #1 Dude Ranch in the USA, Michelin 2-Key. 37,000 acres. 70+ activities including fly fishing, horseback, spa, ATV, archery, and more. Stay in luxury cabins or safari-style glamping tents.",
+   partner:"Best option for partners who want maximum activity variety — will genuinely never run out of things to do.",
+   vibe:"Activity paradise — something for everyone",url:"https://www.thepawsup.com"},
+  {name:"Spring Creek Ranch",state:"WY",location:"Jackson, WY — above Jackson Hole",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$400–$900/night (activities à la carte)",
+   desc:"Perched 1,000 feet above Jackson Hole on a wildlife sanctuary. Jaw-dropping Teton views, cabins and suites only (no hotel rooms), full spa, horseback riding. October is prime elk rut — wildlife viewing from your cabin is common and stunning.",
+   partner:"Stunning wildlife sanctuary, excellent non-fishing activities, Teton views. Strong pick for partners who'd rather hike and wildlife-watch.",
+   vibe:"Romantic Teton views above it all",url:"https://www.springcreekranch.com"},
+  {name:"Amangani",state:"WY",location:"Jackson Hole, WY",price:4,type:"Resort",ai:false,fish:false,
+   priceNote:"~$1,500–$3,000+/night (activities à la carte)",
+   desc:"Minimalist ultra-luxury Aman resort high above the Snake River Valley. Stone, wood, and glass design — cocooning luxury. All suites. World-class spa. The most refined option on the entire list.",
+   partner:"Aman-level pampering for the non-fishing partner. Best on the list if fly fishing is secondary to the overall luxury experience.",
+   vibe:"The most refined luxury on the list",url:"https://www.aman.com/resorts/amangani"},
+  {name:"Tammah Jackson Hole — Geodomes",state:"WY",location:"Jackson Hole, WY — near Grand Teton NP",price:2,type:"Glamping",ai:false,fish:false,
+   priceNote:"~$200–$450/night",
+   desc:"Private geodesic domes with floor-to-ceiling panoramic windows framing the Tetons. Gas fireplaces, private sauna, and a telescope for stargazing. Quiet, intimate, and genuinely unique — very different from the big ranches.",
+   partner:"Perfect base for hiking, Snake River floats, kayaking, and Grand Teton exploration together.",
+   vibe:"Intimate and unique — Tetons through a skylight",url:"https://www.tammah.co"},
+  {name:"Jenny Lake Lodge",state:"WY",location:"Grand Teton National Park, WY — at the foot of the Tetons",price:4,type:"Lodge",ai:true,fish:false,
+   priceNote:"~$900–$1,200+/night (all-inclusive: meals, horseback, bikes)",
+   desc:"AAA Four Diamond lodge inside Grand Teton National Park itself, at the foot of the Tetons. 37 private log cabins with handmade quilts and wood-burning stoves. Gourmet breakfast and five-course rotating dinner included nightly, plus horseback rides and cruiser bikes. Open June–early October — timing matters. Reviewers describe fall visits as magical, with total seclusion and ink-black stargazing skies.",
+   partner:"Literally inside the most dramatic national park in the Rockies — hiking to glacial lakes, Jenny Lake kayaking, and wildlife everywhere. No fishing required.",
+   vibe:"Most dramatic national park lodge on the entire list",url:"https://www.gtlc.com/lodges/jenny-lake-lodge"},
+  {name:"Rustic Inn Creekside Resort & Spa",state:"WY",location:"Jackson, WY — creek-side, steps from downtown",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$300–$600/night (spa & activities à la carte)",
+   desc:"12-acre property on Flat Creek in Jackson with private cabins, spa suites, a full-service spa, outdoor pool, hot tub, sauna, and a 7-acre nature preserve with an on-site fishing hole. Gourmet breakfast buffet voted #1 in Wyoming. Walkable to Jackson's restaurants and nightlife. Voted #1 hotel in Jackson Hole on TripAdvisor. Combines seclusion and private cabin feel with easy access to Grand Teton.",
+   partner:"Full spa, nature preserve walks, pool, sauna, and downtown Jackson all within steps. Great balance of nature and amenities for a non-fisher.",
+   vibe:"Top-rated spa cabin resort in Jackson Hole",url:"https://rusticinnatjh.com"},
+  {name:"Rusty Parrot Lodge & Spa",state:"WY",location:"Jackson, WY — downtown Jackson Hole",price:3,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$300–$600/night (spa à la carte)",
+   desc:"Forbes Four-Star lodge in downtown Jackson, featured in T+L World's Best Awards and Condé Nast Gold List. Private rooms with gas fireplaces and balconies, award-winning Body Sage Spa, and gourmet breakfast included. Grand Teton NP is a short drive. October brings elk rut, golden aspens, and the quietest weeks of the year in Jackson.",
+   partner:"Body Sage Spa is exceptional, Grand Teton and downtown Jackson are steps away. Excellent for partners who want culture, dining, and spa alongside nature.",
+   vibe:"Forbes Four-Star intimacy in the heart of Jackson",url:"https://www.rustyparrot.com"},
+  // WASHINGTON
+  {name:"Sun Mountain Lodge",state:"WA",location:"Winthrop, WA — Methow Valley / North Cascades",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$250–$450/night (activities à la carte)",
+   desc:"1,500 acres above the Methow Valley with Patterson Lake on property and sweeping North Cascades views. AAA Four Diamond dining, full spa, horseback, canoeing. October is peak golden larch season — one of the best fall color destinations in the Pacific Northwest.",
+   partner:"Canoeing on Patterson Lake, horseback riding, and the spa are strong draws. October fall color is the non-fishing highlight.",
+   vibe:"Mountain resort amid peak fall color",url:"https://sunmountainlodge.com"},
+  {name:"Sleeping Lady Mountain Resort",state:"WA",location:"Leavenworth, WA — Icicle Canyon / Cascades",price:2,type:"Resort",ai:false,fish:false,
+   priceNote:"~$200–$380/night (dining à la carte)",
+   desc:"67 forested acres on the banks of Icicle Creek, 3 miles from Bavarian-themed Leavenworth. Contemporary cabin complexes, on-site spa, pool, hot tub, and the Kingfisher Restaurant. October is peak fall color — reviewers give it 9.9/10 for couples.",
+   partner:"Leavenworth's Bavarian charm, Cascade hikes, the Icicle River trail, and a lovely spa — excellent without fishing.",
+   vibe:"Forested Cascade retreat near Bavarian Leavenworth",url:"https://www.sleepinglady.com"},
+  {name:"Alderbrook Resort & Spa",state:"WA",location:"Union, WA — Hood Canal / Olympic Mountains",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$250–$500/night (spa & activities à la carte)",
+   desc:"Historic resort on Hood Canal since 1913, surrounded by the Olympic Mountains. Private waterfront cottages with gas fireplaces, full kitchens, and direct canal views. Full-service spa, kayaks and paddleboards, fishing off the dock, and a restaurant featuring Pacific Northwest seafood. Deep soaking tubs in many rooms. Reviewers consistently describe it as unexpectedly luxurious. October is ideal — fall color, no crowds, and crisp mountain air.",
+   partner:"Kayaking Hood Canal, Olympic Mountain hikes, spa, and the kind of Pacific NW setting most people only see in photos. One of the best non-fishing options in WA.",
+   vibe:"Pacific Northwest waterfront elegance on Hood Canal",url:"https://www.alderbrookresort.com"},
+  {name:"Skamania Lodge",state:"WA",location:"Stevenson, WA — Columbia River Gorge",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$250–$500/night (activities à la carte)",
+   desc:"Full-service resort inside the Columbia River Gorge National Scenic Area. Private forest cabins, treehouses, glamping tents, and lodge rooms — all in Douglas Fir forest above the Columbia River. Spa, indoor pool, zip-lining, axe throwing, golf, and e-bikes on property. October is spectacular — Gorge fall colors, cooler temps, and minimal crowds. Reviewers love the glamping tents and treehouses specifically for couples.",
+   partner:"Ziplining, hiking, e-bike rides through the Gorge, and the spa — October fall colors in the Columbia River Gorge are a serious bucket list item.",
+   vibe:"Forest resort in one of the PNW's most dramatic landscapes",url:"https://www.skamania.com"},
+  {name:"Carson Ridge Luxury Cabins",state:"WA",location:"White Salmon, WA — Columbia River Gorge",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$200–$400/night (breakfast delivered to cabin)",
+   desc:"Top-rated on TripAdvisor — 9 acres of landscaped gardens and evergreen forest in the Columbia River Gorge. Luxury cabins for two only, with jetted soaking tubs, fireplaces, porch swings, and plush robes. In-cabin breakfast delivered every morning. In-cabin couples massage available. Just 1 hour from Portland. October Gorge colors are extraordinary — stunning hike access from the property.",
+   partner:"Designed exclusively for couples — quiet, private, spa-like without the resort price. Waterfalls, Gorge hiking, Hood River wine country, and the White Salmon River all nearby.",
+   vibe:"Most intimate and spa-focused couples retreat on the WA list",url:"https://carsonridgecabins.com"},
+  // OREGON
+  {name:"Tu Tu' Tun Lodge",state:"OR",location:"Gold Beach, OR — Rogue River",price:3,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$350–$650/night (activities à la carte)",
+   desc:"Intimate high-end retreat on the Wild & Scenic Rogue River with new river-view glass cabins. Max 24 guests at a time — feels like a private estate. Exceptional food. October brings prime steelhead and spectacular fall canyon colors.",
+   partner:"Most romantic setting on the Oregon list. Great food, river walks, kayaking — works wonderfully without fishing.",
+   vibe:"The most romantic spot in Oregon",url:"https://www.tututun.com"},
+  {name:"Brasada Ranch",state:"OR",location:"Powell Butte, OR — Central Oregon / Bend area",price:3,type:"Ranch",ai:false,fish:false,
+   priceNote:"~$250–$550/night (activities à la carte)",
+   desc:"Named 'Most Romantic Honeymoon Cabin in the USA' by Brides Magazine. 1,800 acres of Central Oregon high desert with Cascade Mountain views. Private bungalows with outdoor hot tubs, ranch-to-table dining, spa, horseback riding, golf, and pools.",
+   partner:"Spa Brasada, horseback riding, outdoor hot tubs under the stars, and easy Bend day trips — excellent for non-fishers.",
+   vibe:"Award-winning romantic ranch retreat near Bend",url:"https://www.brasadaranch.com"},
+  {name:"The Suttle Lodge & Boathouse",state:"OR",location:"Camp Sherman, OR — Deschutes National Forest",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$150–$350/night (dining à la carte)",
+   desc:"Michelin Guide-selected lakeside retreat by the Ace Hotel group on Suttle Lake in Deschutes National Forest. Described as a grown-up summer camp with Portland-quality food and cocktails. Kayaks and canoes, a 4-mile lake trail, and the legendary Metolius River minutes away.",
+   partner:"Kayaking on Suttle Lake, the Metolius River trail, Sisters hiking, and excellent food — great couples lodge without fishing.",
+   vibe:"Grown-up summer camp with exceptional food",url:"https://thesuttlelodge.com"},
+  {name:"FivePine Lodge & Cabins",state:"OR",location:"Sisters, OR — Central Oregon",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$200–$450/night (spa & activities à la carte)",
+   desc:"AAA Four Diamond lodge in Sisters with 44 luxury craftsman-style cabins among Ponderosa pines with Three Sisters mountain views. On-site Shibui Spa, brewery, movie theater, and hiking trails. Honeymoon packages available. Metolius River fly fishing minutes away.",
+   partner:"Spa, brewery, movie theater, and mountain biking — Sisters is a genuinely fun and beautiful town to explore together.",
+   vibe:"Romantic cabin resort in the heart of Sisters",url:"https://www.fivepine.com"},
+  {name:"Morrison's Rogue Wilderness Lodge",state:"OR",location:"Galice, OR — Rogue River",price:2,type:"Lodge",ai:false,fish:true,
+   priceNote:"~$200–$400/night (guided fishing extra)",
+   desc:"Oregon's only Orvis-endorsed fly fishing lodge on the Wild & Scenic Rogue. October is peak steelhead season. Walk directly from your cabin to the river. Multi-day lodge-to-lodge float trips are a unique option.",
+   partner:"Primarily fishing-focused. Beautiful river setting — partner can kayak or hike independently.",
+   vibe:"Classic steelhead lodge",url:"https://www.morrisons-lodge.com"},
+  {name:"Lonesome Duck Ranch",state:"OR",location:"Chiloquin, OR — near Crater Lake",price:2,type:"Lodge",ai:false,fish:true,
+   priceNote:"~$200–$350/night",
+   desc:"Bordered by the Williamson River and Winema National Forest. Fish averaging 20\"+ from your cabin door. Canoes and rowboats included free for guests. Crater Lake National Park is 30–40 min away for non-fishing days.",
+   partner:"Canoes and rowboats are a fun shared activity. Crater Lake is one of the most stunning day trips in the US.",
+   vibe:"Secluded anglers' hideaway with Crater Lake nearby",url:"https://www.lonesomeduck.com"},
+  {name:"Shore Lodge",state:"ID",location:"McCall, ID — Payette Lake / Brundage Mountain",price:3,type:"Resort",ai:false,fish:false,
+   priceNote:"~$250–$500/night (spa & activities à la carte)",
+   desc:"Named a Top 20 Mountain West Resort by Condé Nast Traveler and Top 15 Resort in the West by T+L in 2025. On the southern shore of Payette Lake, framed by Brundage Mountain. Full-service spa (The Cove), three restaurants, marina with boat and kayak rentals, movie theater, game room, saltwater pools, and a private golf course. October brings fall color and near-solitude — very few crowds.",
+   partner:"Payette Lake boating, spa treatments, hiking, and the charming mountain town of McCall — genuinely excellent for non-fishers.",
+   vibe:"Top-rated mountain lake resort — polished and welcoming",url:"https://www.shorelodge.com"},
+  {name:"North Forty Resort",state:"MT",location:"Columbia Falls, MT — near Glacier National Park & Whitefish",price:2,type:"Lodge",ai:false,fish:false,
+   priceNote:"~$150–$300/night (activities à la carte)",
+   desc:"40 wooded acres near Whitefish and 20 min from Glacier NP's West Entrance. 23 handcrafted log cabins with full kitchens, wood-burning fireplaces, private porches, luxurious linens, and full-size spa on property. Hot tubs, sauna, and hiking trails woven through the forest. Extremely private — each cabin feels like its own wooded sanctuary. October is off-peak, quiet, and gorgeous.",
+   partner:"Full spa, hot tubs, sauna, and Glacier NP 20 min away — stunning for non-fishers wanting nature immersion and privacy.",
+   vibe:"Private forested cabin sanctuary near Glacier",url:"https://www.northfortyresort.com"},
+];
+
+const hmPriceLabels={1:"Budget",2:"Moderate",3:"Upscale",4:"Luxury"};
+const hmTypeCls={Ranch:"hm-b-ranch",Lodge:"hm-b-lodge",Resort:"hm-b-resort",Glamping:"hm-b-glamping"};
+const hmPriceGroups=[
+  {level:4,label:'💎 Luxury',range:'$700 – $2,000+/night'},
+  {level:3,label:'✦ Upscale',range:'$350 – $700/night'},
+  {level:2,label:'◆ Moderate',range:'$150 – $450/night'},
+  {level:1,label:'◇ Budget',range:'Under $300/night'},
+];
+let hmS='all',hmP='all',hmT='all',hmA='all',hmF='all';
+let hmFavorites=[];
+try{ hmFavorites=JSON.parse(localStorage.getItem('hmoon-favs')||'[]'); }catch(e){ hmFavorites=[]; }
+
+document.getElementById('hmTotalBadge').textContent=hmLodges.length+' lodges';
+
+function hmSwitchTab(tab){
+  document.querySelectorAll('.hm-tab').forEach(t=>t.classList.remove('hm-active'));
+  document.querySelectorAll('.hm-page').forEach(p=>p.classList.remove('hm-active'));
+  document.getElementById('hm-tab-'+tab).classList.add('hm-active');
+  document.getElementById('hm-page-'+tab).classList.add('hm-active');
+  if(tab==='favorites') hmRenderFavPage();
+}
+
+function hmIsFav(name){ return hmFavorites.includes(name); }
+
+function hmToggleFav(name){
+  if(hmIsFav(name)){ hmFavorites=hmFavorites.filter(n=>n!==name); }
+  else{ hmFavorites.push(name); hmSwitchTab('favorites'); }
+  hmSaveFavs(); hmUpdateFavBadge(); hmRender(); hmRenderFavPage();
+}
+
+function hmRemoveFav(name){
+  hmFavorites=hmFavorites.filter(n=>n!==name);
+  hmSaveFavs(); hmUpdateFavBadge(); hmRender(); hmRenderFavPage();
+}
+
+function hmSaveFavs(){ try{ localStorage.setItem('hmoon-favs', JSON.stringify(hmFavorites)); }catch(e){} }
+
+function hmUpdateFavBadge(){
+  const badge=document.getElementById('hmFavBadge');
+  badge.textContent=hmFavorites.length;
+  badge.style.display=hmFavorites.length?'inline':'none';
+}
+
+document.querySelectorAll('#tab-honeymoon .hm-filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll(`#tab-honeymoon .hm-filter-btn[data-group="${btn.dataset.group}"]`).forEach(b=>b.classList.remove('hm-active'));
+    btn.classList.add('hm-active');
+    const g=btn.dataset.group, v=btn.dataset.val;
+    if(g==='state') hmS=v; if(g==='price') hmP=v;
+    if(g==='type') hmT=v; if(g==='ai') hmA=v; if(g==='fish') hmF=v;
+    hmRender();
+  });
+});
+
+function hmMakeCard(l){
+  const fav=hmIsFav(l.name);
+  const dots=[1,2,3,4].map(i=>`<div class="hm-dot ${i<=l.price?'hm-on':''}"></div>`).join('');
+  const aiChip=l.ai?`<span class="hm-badge hm-b-ai">All-Inclusive</span>`:`<span class="hm-badge hm-b-nai">À La Carte</span>`;
+  const fishChip=l.fish?`<span class="hm-fish-chip hm-fish-yes">🎣 Fishing Focus</span>`:`<span class="hm-fish-chip hm-fish-no">✦ Partner-Friendly</span>`;
+  const safe=l.name.replace(/'/g,"\\'");
+  return `<div class="hm-card${fav?' hm-favorited':''}">
+    <div class="hm-card-header">
+      <div class="hm-card-name">${l.name}</div>
+      <div class="hm-header-right">
+        <button class="hm-fav-btn" onclick="hmToggleFav('${safe}')" title="${fav?'Remove from favorites':'Save to favorites'}">${fav?'❤️':'🤍'}</button>
+        <div class="hm-badges"><span class="hm-badge hm-b-state">${l.state}</span><span class="hm-badge ${hmTypeCls[l.type]}">${l.type}</span>${aiChip}</div>
+      </div>
+    </div>
+    <div class="hm-location">${l.location}</div>
+    <div class="hm-price-row"><div class="hm-dots">${dots}</div><span class="hm-price-label">${l.priceNote}</span></div>
+    <div>${fishChip}</div>
+    <div class="hm-desc">${l.desc}</div>
+    <div class="hm-partner-note">👫 <strong>For your partner:</strong> ${l.partner}</div>
+    <div class="hm-card-footer"><span class="hm-vibe">✦ ${l.vibe}</span><a href="${l.url}" target="_blank" class="hm-link-btn">Visit Site →</a></div>
+  </div>`;
+}
+
+function hmRender(){
+  const container=document.getElementById('hmGrid');
+  const count=document.getElementById('hmCount');
+  const filtered=hmLodges.filter(l=>
+    (hmS==='all'||l.state===hmS)&&
+    (hmP==='all'||l.price===parseInt(hmP))&&
+    (hmT==='all'||l.type===hmT)&&
+    (hmA==='all'||(hmA==='yes'?l.ai:!l.ai))&&
+    (hmF==='all'||(hmF==='yes'?l.fish:!l.fish))
+  );
+  count.textContent=`Showing ${filtered.length} of ${hmLodges.length} lodges`;
+  if(!filtered.length){ container.innerHTML='<div class="hm-none">No lodges match those filters.</div>'; return; }
+
+  if(hmP!=='all'){
+    container.innerHTML=`<div class="hm-grid">${filtered.map(hmMakeCard).join('')}</div>`;
+    return;
+  }
+
+  const groups=hmPriceGroups.map(g=>({...g,items:filtered.filter(l=>l.price===g.level)})).filter(g=>g.items.length>0);
+  container.innerHTML=groups.map(g=>`
+    <div class="hm-price-group">
+      <div class="hm-price-group-header">
+        <span class="hm-price-group-title">${g.label}</span>
+        <span class="hm-price-group-range">${g.range}</span>
+        <span class="hm-price-group-count">${g.items.length} lodge${g.items.length!==1?'s':''}</span>
+      </div>
+      <div class="hm-grid">${g.items.map(hmMakeCard).join('')}</div>
+    </div>`).join('');
+}
+
+function hmRenderFavPage(){
+  const container=document.getElementById('hm-fav-content');
+  if(!hmFavorites.length){
+    container.innerHTML=`<div class="hm-fav-empty-state"><div class="hm-big">🏕️</div><p>Tap the 🤍 on any lodge to add it here,<br>then drag to rank them.</p></div>`;
+    return;
+  }
+  const items=hmFavorites.map((name,idx)=>{
+    const l=hmLodges.find(x=>x.name===name);
+    if(!l) return '';
+    const dots=[1,2,3,4].map(i=>`<div class="hm-dot ${i<=l.price?'hm-on':''}"></div>`).join('');
+    const safe=name.replace(/'/g,"\\'");
+    const numClass=idx===0?'hm-rank-num hm-top':'hm-rank-num';
+    const medal=idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':`${idx+1}`;
+    return `<div class="hm-rank-item" draggable="true" data-name="${name}">
+      <div class="hm-drag-handle">⠿</div>
+      <div class="${numClass}">${medal}</div>
+      <div class="hm-rank-body">
+        <div class="hm-rank-name">${l.name}</div>
+        <div class="hm-rank-meta">${l.state} · ${l.location.split('—')[0].trim()} · ${hmPriceLabels[l.price]} · ${l.ai?'All-Inclusive':'À La Carte'}</div>
+        <div class="hm-price-row" style="margin-bottom:4px"><div class="hm-dots">${dots}</div><span style="font-size:11px;color:#aaa">${l.priceNote}</span></div>
+        <div class="hm-rank-desc">${l.desc}</div>
+      </div>
+      <div class="hm-rank-actions">
+        <a href="${l.url}" target="_blank" class="hm-rank-visit">Visit →</a>
+        <button class="hm-rank-rm" onclick="hmRemoveFav('${safe}')" title="Remove">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML=`<div class="hm-rank-hint">⠿ Drag cards to reorder your ranking</div><div class="hm-rank-list" id="hmRankList">${items}</div>`;
+  hmInitDrag();
+}
+
+function hmInitDrag(){
+  const list=document.getElementById('hmRankList');
+  if(!list) return;
+  let dragEl=null;
+  list.querySelectorAll('.hm-rank-item').forEach(item=>{
+    item.addEventListener('dragstart',e=>{
+      dragEl=item;
+      setTimeout(()=>item.classList.add('hm-dragging'),0);
+      e.dataTransfer.effectAllowed='move';
+    });
+    item.addEventListener('dragend',()=>{
+      item.classList.remove('hm-dragging');
+      list.querySelectorAll('.hm-rank-item').forEach(i=>i.classList.remove('hm-drag-over'));
+      const newOrder=[...list.querySelectorAll('.hm-rank-item')].map(i=>i.dataset.name);
+      hmFavorites=newOrder;
+      hmSaveFavs(); hmUpdateFavBadge(); hmRender(); hmRenderFavPage();
+    });
+    item.addEventListener('dragover',e=>{
+      e.preventDefault();
+      if(item===dragEl) return;
+      list.querySelectorAll('.hm-rank-item').forEach(i=>i.classList.remove('hm-drag-over'));
+      item.classList.add('hm-drag-over');
+      const rect=item.getBoundingClientRect();
+      const mid=rect.top+rect.height/2;
+      if(e.clientY<mid) list.insertBefore(dragEl,item);
+      else list.insertBefore(dragEl,item.nextSibling);
+    });
+  });
+}
+
+hmUpdateFavBadge();
+hmRender();
+hmRenderFavPage();
 
 </script></body></html>
