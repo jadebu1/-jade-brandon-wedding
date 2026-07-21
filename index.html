@@ -401,6 +401,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div class="tab" onclick="showTab('registry')">🎁 Registry<span class="tab-badge">6</span></div>
   <div class="tab" onclick="showTab('vendors')">🤝 Vendors</div>
   <div class="tab" onclick="showTab('honeymoon')">🏔️ Honeymoon</div>
+  <div class="tab" onclick="showTab('shopping')">🛒 Shopping</div>
 </div>
 
 <!-- DASHBOARD -->
@@ -1063,6 +1064,222 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     <div id="hm-fav-content"></div>
   </div>
 </div>
+
+<!-- SHOPPING LIST -->
+<div class="panel" id="tab-shopping">
+  <div class="section-header" style="margin-bottom:4px;">🛒 Need to Buy</div>
+  <p style="font-size:12px;color:var(--mid);margin:0 0 20px 0;">Check items off as you order them — progress saves in your browser.</p>
+
+  <style>
+    .shop-section { margin-bottom: 28px; }
+    .shop-section-header { font-size:13px;font-weight:700;color:var(--dark);letter-spacing:.3px;border-bottom:2px solid var(--border);padding-bottom:8px;margin-bottom:12px;display:flex;align-items:center;gap:8px; }
+    .shop-item { display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:#FAFAF8;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;transition:opacity .2s; }
+    .shop-item.bought { opacity:.45; }
+    .shop-item input[type=checkbox] { margin-top:2px;width:16px;height:16px;accent-color:var(--sage);flex-shrink:0;cursor:pointer; }
+    .shop-item-body { flex:1;min-width:0; }
+    .shop-item-name { font-size:13px;font-weight:600;color:var(--dark);margin-bottom:2px; }
+    .shop-item.bought .shop-item-name { text-decoration:line-through;color:var(--mid); }
+    .shop-item-desc { font-size:11px;color:var(--mid);line-height:1.5; }
+    .shop-item-meta { display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap; }
+    .shop-cost { font-size:11px;font-weight:700;color:var(--sage);background:#F0F4F0;border-radius:4px;padding:2px 7px; }
+    .shop-link { font-size:11px;color:#fff;background:var(--sage);border-radius:4px;padding:2px 8px;text-decoration:none;white-space:nowrap; }
+    .shop-link:hover { opacity:.85; }
+    .shop-note { font-size:10px;color:var(--amber);background:#FFF8EE;border:1px solid #FDECC8;border-radius:4px;padding:2px 7px;font-weight:600; }
+  </style>
+
+  <!-- WEDDING -->
+  <div class="shop-section">
+    <div class="shop-section-header">💍 Wedding</div>
+
+    <div class="shop-item" id="si-rings">
+      <input type="checkbox" onchange="shopToggle('si-rings',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Wedding Rings</div>
+        <div class="shop-item-desc">Purchase wedding bands for both Jade and Brandon before the big day.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">TBD</span>
+          <span class="shop-note">&#9201; Don't forget!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-bundt">
+      <input type="checkbox" onchange="shopToggle('si-bundt',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Nothing Bundt Cakes — Wedding Cake</div>
+        <div class="shop-item-desc">Order opens August 11. 3-tier bundtlet tower or large bundts. Confirm flavors and quantity for ~90 guests.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$353</span>
+          <a class="shop-link" href="https://www.nothingbundtcakes.com" target="_blank">nothingbundtcakes.com</a>
+          <span class="shop-note">&#128197; Order opens Aug 11</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-kit">
+      <input type="checkbox" onchange="shopToggle('si-kit',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Day-of Emergency Kit</div>
+        <div class="shop-item-desc">Stain remover pen, safety pins, fashion tape, pain reliever, hair pins, clear nail polish, tide pen, bandaids, blotting papers, mini sewing kit.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$50</span>
+          <a class="shop-link" href="https://www.amazon.com/s?k=wedding+emergency+kit" target="_blank">Amazon</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-frames">
+      <input type="checkbox" onchange="shopToggle('si-frames',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">In Memoriam Picture Frames</div>
+        <div class="shop-item-desc">Display photos of loved ones no longer with us. 2-4 frames in a coordinating style for the ceremony or reception space.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$30</span>
+          <a class="shop-link" href="https://www.target.com/s?searchTerm=picture+frames" target="_blank">Target</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-cricut">
+      <input type="checkbox" onchange="shopToggle('si-cricut',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Cricut Materials — Signs &amp; Place Cards</div>
+        <div class="shop-item-desc">Vinyl, cardstock, transfer tape for welcome sign, seating chart, table numbers, and escort cards.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$40</span>
+          <a class="shop-link" href="https://www.amazon.com/s?k=cricut+vinyl+cardstock" target="_blank">Amazon</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-tips">
+      <input type="checkbox" onchange="shopToggle('si-tips',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Cash for Vendor Tips</div>
+        <div class="shop-item-desc">Envelopes with cash tips for day-of vendors: DJ, caterer/servers, coordinator, bartenders, officiant, photographer. Pull from ATM 1-2 days before.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">$500-750</span>
+          <span class="shop-note">&#128205; ATM before Oct 9</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACHELORETTE -->
+  <div class="shop-section">
+    <div class="shop-section-header">🤠 Bachelorette</div>
+
+    <div class="shop-item" id="si-shirts">
+      <input type="checkbox" onchange="shopToggle('si-shirts',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Custom T-Shirts — Wagon Whore's Last Rodeo</div>
+        <div class="shop-item-desc">Western font, cowboy hat graphic. Order 1-2 weeks before Aug 21. Still need sizes from: Lauren Butler, Taylor Scharbach, Kylie Gordon, Dillon Wright.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$15-25/shirt</span>
+          <a class="shop-link" href="https://www.customink.com" target="_blank">CustomInk</a>
+          <span class="shop-note">&#9888; 4 sizes still TBD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-bachsupplies">
+      <input type="checkbox" onchange="shopToggle('si-bachsupplies',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Bach Party Supplies &amp; Decor</div>
+        <div class="shop-item-desc">Cowboy hats, bandanas, custom koozies, hangover kits, balloons, sashes, ring game rings, scratch-off cards, festive cups, paper straws.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$80-120</span>
+          <a class="shop-link" href="https://www.amazon.com/s?k=bachelorette+party+supplies+western" target="_blank">Amazon</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-margarita">
+      <input type="checkbox" onchange="shopToggle('si-margarita',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Marg &amp; Taco Bar Supplies — Night 1</div>
+        <div class="shop-item-desc">Tequila (blanco + reposado), triple sec, limes, simple syrup, tajin, tortillas, taco fillings, toppings, chips, queso. Shop day before or in Bend.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$150-200</span>
+          <a class="shop-link" href="https://www.costco.com" target="_blank">Costco</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDAL SHOWER -->
+  <div class="shop-section">
+    <div class="shop-section-header">🌸 Bridal Shower (Aug 15)</div>
+
+    <div class="shop-item" id="si-charcuterie">
+      <input type="checkbox" onchange="shopToggle('si-charcuterie',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Costco Luxe Bites Charcuterie Board</div>
+        <div class="shop-item-desc">Pre-made charcuterie board — serves a crowd, upscale presentation. Order or pick up from Costco ahead of the shower.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">$209.99</span>
+          <a class="shop-link" href="https://www.costco.com/luxe-bites.html" target="_blank">Costco</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-jimmyjohns">
+      <input type="checkbox" onchange="shopToggle('si-jimmyjohns',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Jimmy John's Party Box Sandwiches</div>
+        <div class="shop-item-desc">Mini sandwich party box — easy, crowd-pleasing, can be ordered ahead and picked up day-of.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$60</span>
+          <a class="shop-link" href="https://www.jimmyjohns.com/catering/" target="_blank">jimmyjohns.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-sweet">
+      <input type="checkbox" onchange="shopToggle('si-sweet',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Sweet Treat Platter</div>
+        <div class="shop-item-desc">Dessert option — Costco bakery platter or Moklava (local: 22612 Bothell Everett Hwy). Baklava, cookies, or mixed sweets.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$50</span>
+          <a class="shop-link" href="https://www.costco.com" target="_blank">Costco</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item" id="si-showerdecore">
+      <input type="checkbox" onchange="shopToggle('si-showerdecore',this.checked)">
+      <div class="shop-item-body">
+        <div class="shop-item-name">Shower Decor &amp; Game Supplies</div>
+        <div class="shop-item-desc">Blue-themed balloons, florals or faux flowers, scratch-off cards (Perfect Match game), rings for the ring game, mimosa bar supplies, tablecloths, napkins.</div>
+        <div class="shop-item-meta">
+          <span class="shop-cost">~$60-100</span>
+          <a class="shop-link" href="https://www.amazon.com/s?k=bridal+shower+blue+decorations" target="_blank">Amazon</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- SHOPPING CHECKLIST ----
+function shopToggle(id, checked) {
+  const el = document.getElementById(id);
+  if(checked) el.classList.add('bought'); else el.classList.remove('bought');
+  try { localStorage.setItem('shop_'+id, checked ? '1' : '0'); } catch(e){}
+}
+function shopInit() {
+  document.querySelectorAll('#tab-shopping .shop-item').forEach(el => {
+    const val = localStorage.getItem('shop_'+el.id);
+    if(val === '1') {
+      el.classList.add('bought');
+      el.querySelector('input[type=checkbox]').checked = true;
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', shopInit);
+</script>
+
 
 <script>
 // ---- TAB SWITCHING ----
