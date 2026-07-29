@@ -508,10 +508,10 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-budget">
   <div class="budget-summary">
     <div class="budget-card"><div class="budget-card-label">Original Budget</div><div class="budget-card-value">$17,000</div></div>
-    <div class="budget-card"><div class="budget-card-label">Total Cost (est.)</div><div class="budget-card-value">$31,801</div></div>
-    <div class="budget-card"><div class="budget-card-label">Over Budget</div><div class="budget-card-value" style="color:var(--urgent);">+$14,801</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Cost (est.)</div><div class="budget-card-value">$30,701</div></div>
+    <div class="budget-card"><div class="budget-card-label">Over Budget</div><div class="budget-card-value" style="color:var(--urgent);">+$96</div></div>
     <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$9,272</div></div>
-    <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$22,529</div></div>
+    <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$15,309</div></div>
   </div>
   <div class="budget-chart-row">
     <div class="chart-box"><h3>Actual Cost by Category</h3><canvas id="budget-pie"></canvas></div>
@@ -521,7 +521,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     <table class="budget-table">
       <thead><tr><th>Category</th><th class="num">Budgeted</th><th class="num">Actual</th><th class="num">Paid</th><th class="num">Balance Due</th><th class="num">Difference</th></tr></thead>
       <tbody id="budget-tbody"></tbody>
-      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td class="num">$28,405</td><td class="num">$31,801</td><td class="num">$9,272</td><td class="num">$22,529</td><td class="num">+$3,396</td></tr></tfoot>
+      <tfoot><tr style="font-weight:700;background:#F0EBE3;"><td>TOTAL</td><td class="num">$30,605</td><td class="num">$30,701</td><td class="num">$15,392</td><td class="num">$15,309</td><td class="num">+$96</td></tr></tfoot>
     </table>
   </div>
   <div style="margin-top:16px;background:white;border-radius:8px;border:1px solid var(--light-border);overflow:hidden;">
@@ -1759,7 +1759,7 @@ document.getElementById('agenda-list').innerHTML=agendas.map(a=>`
 
 // ---- BUDGET ----
 const budgetItems=[
-  {cat:'Venue & Catering',budgeted:17000,actual:20300,paid:6200},
+  {cat:'Venue & Catering',budgeted:19200,actual:19200,paid:12320},
   {cat:'Photographer',budgeted:3150,actual:2800,paid:700},
   {cat:'Band & DJ',budgeted:2210,actual:2200,paid:400},
   {cat:'Tips',budgeted:1700,actual:1000,paid:0},
