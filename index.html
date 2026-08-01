@@ -407,11 +407,11 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <!-- DASHBOARD -->
 <div class="panel active" id="tab-dashboard">
   <div class="stats-row">
-    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">7</div><div class="stat-sub">of 106 invited · Wedding</div></div>
-    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">78</div><div class="stat-sub">21 declined</div></div>
+    <div class="stat-card urgent"><div class="stat-label">RSVPs Pending</div><div class="stat-value">9</div><div class="stat-sub">of 106 invited · Wedding</div></div>
+    <div class="stat-card good"><div class="stat-label">Confirmed Attending</div><div class="stat-value">76</div><div class="stat-sub">21 declined</div></div>
     <div class="stat-card urgent"><div class="stat-label">Thank-Yous Pending</div><div class="stat-value">6</div><div class="stat-sub">$911.87 in gifts received</div></div>
     <div class="stat-card"><div class="stat-label">Days to Wedding</div><div class="stat-value" id="dash-days">—</div><div class="stat-sub">October 10, 2026</div></div>
-    <div class="stat-card good"><div class="stat-label">Vendors Confirmed</div><div class="stat-value">8</div><div class="stat-sub">All booked ✓</div></div>
+    <div class="stat-card good"><div class="stat-label">Vendors Confirmed</div><div class="stat-value">9</div><div class="stat-sub">All booked ✓</div></div>
     <div class="stat-card"><div class="stat-label">Gifts Received</div><div class="stat-value">9</div><div class="stat-sub">$911.87 total value</div></div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -495,7 +495,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     <div class="budget-card"><div class="budget-card-label">Original Budget</div><div class="budget-card-value">$17,000</div></div>
     <div class="budget-card"><div class="budget-card-label">Total Cost (est.)</div><div class="budget-card-value">$32,700</div></div>
     <div class="budget-card"><div class="budget-card-label">Over Budget</div><div class="budget-card-value" style="color:var(--urgent);">+$96</div></div>
-    <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$9,272</div></div>
+    <div class="budget-card"><div class="budget-card-label">Total Paid</div><div class="budget-card-value" style="color:var(--sage);">$16,391</div></div>
     <div class="budget-card"><div class="budget-card-label">Balance Due</div><div class="budget-card-value">$16,309</div></div>
   </div>
   <div class="budget-chart-row">
@@ -1098,11 +1098,11 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     <div class="shop-item" id="si-rings">
       <input type="checkbox" onchange="shopToggle('si-rings',this.checked)">
       <div class="shop-item-body">
-        <div class="shop-item-name">Wedding Rings</div>
-        <div class="shop-item-desc">Purchase wedding bands for both Jade and Brandon before the big day.</div>
+        <div class="shop-item-name">Buy Brandon's Wedding Ring</div>
+        <div class="shop-item-desc">Jade is wearing her grandmother's ring — no purchase needed there. Brandon has already been sized and picked one out — just need to go buy it.</div>
         <div class="shop-item-meta">
           <span class="shop-cost">TBD</span>
-          <span class="shop-note">&#9201; Don't forget!</span>
+          <span class="shop-note">&#9201; Selected — just need to purchase</span>
         </div>
       </div>
     </div>
@@ -1478,7 +1478,7 @@ const tasks = [
   {name:'Central Event Rentals final payment ($305.37)',cat:'Rentals',owner:'Both',priority:'High',due:'2026-10-07',status:'Not Started',notes:'Total $610.75 · deposit $305.38 paid'},
   {name:'Confirm delivery window with Central Event Rentals',cat:'Rentals',owner:'Jade',priority:'Normal',due:'2026-09-15',status:'Not Started',notes:'Delivery Oct 9, pickup Oct 11'},
   // GUESTS & ZOLA
-  {name:'Send thank-you notes (6 pending)',cat:'Zola',owner:'Jade',priority:'Urgent',due:'2026-07-01',status:'Done',notes:'Sent July 7 ✓ · Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + surprise',zola:true},
+  {name:'Send all thank-you notes',cat:'Zola',owner:'Jade',priority:'Normal',due:'2026-10-24',status:'Not Started',notes:'Decided to wait and send all thank-yous together after the wedding (2026-10-10), rather than sending the 6 pending ones early · Barry Dorrans, Mary Feider, Susan Kearnes, Sonya Orleth, Christie Streit + surprise, plus all wedding gifts',zola:true},
   {name:'Chase RSVPs — 47 guests haven\'t responded',cat:'Zola',owner:'Both',priority:'Urgent',due:'2026-08-01',status:'Not Started',notes:'Wedding: 47 pending · Rehearsal: 7 pending · Bridal shower: 29 pending',zola:true},
   {name:'Set Rehearsal Dinner venue in Zola',cat:'Zola',owner:'Brandon',priority:'High',due:'2026-07-15',status:'Done',notes:'Sisters Saloon & Ranch Grill · 190 E Cascade Ave, Sisters OR ✓',zola:true},
   {name:'Set RSVP deadline on Zola website',cat:'Zola',owner:'Jade',priority:'High',due:'2026-07-15',status:'Done',notes:'August 1 deadline set in Zola and on invites ✓',zola:true},
@@ -2153,10 +2153,9 @@ const vendors=[
   {type:'Hair & Makeup',name:'Brilliant Beauty By Bri',location:'Portland, OR',contact:'zola: brilliant-beauty-by-bri'},
   {type:'Cakes & Desserts',name:'Nothing Bundt Cakes',location:'Bend, OR',contact:''},
   {type:'Rentals',name:'Central Event Rentals',location:'',contact:'rentals@centraleventrentals.com'},
-  {type:'Venue / Lodging',name:'Skyliner Lodge',location:'Bend, OR',contact:'stacy.kelley@hdesd.org'},
   {type:'Officiant',name:'Anton Soderquist',location:'',contact:''},
   {type:'Florist',name:'Beau & Bloom Florals',location:'Orange, CA (ships to RDM)',contact:'Jackie Wojnowski (Mayesh) · 888.462.9374 · Main order $1,604.13 via Delta → RDM Oct 7 · Garlands $432.56 via FedEx (3×8\' mixed euc) · Total $2,036.69'},
-  {type:'Day-of Coordinator',name:'Silk & Shadows',location:'Portland, OR',contact:'Ava D\'arcy · ava@sspdx.com · 8 AM–midnight Oct 10 · includes rehearsal coordination · $1,999 total · $999.50 paid'},
+  {type:'Day-of Coordinator',name:'Silk & Shadows',location:'Portland, OR',contact:'Ava D\'arcy · ava@sspdx.com · 8 AM–midnight Oct 10 · includes rehearsal coordination · handles collecting cards/gift box at end of night · $1,999 total · $999.50 paid'},
 ];
 document.getElementById('vendor-grid').innerHTML=vendors.map(v=>`
   <div class="vendor-card">
