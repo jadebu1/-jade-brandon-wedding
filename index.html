@@ -554,13 +554,33 @@ table.guest-table tr:hover td{background:#FDFAF6;}
 <div class="panel" id="tab-seating">
   <div class="seating-alerts">
     <h3>📋 Seating Notes</h3>
-    <div class="seating-alert-row"><span style="font-size:14px;">⚠️</span><div><strong>Unnamed plus-ones:</strong> Nick Peterson's guest, Markus Sullivan's guest — confirm names before printing place cards.</div></div>
-    <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct names.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">📝</span><div><strong>Name discrepancies (spreadsheet vs. Zola):</strong> "Katie Mountain" = <strong>Katie Molloy</strong> · "Sandy Lynch" = <strong>Sandy Nguyen</strong> · "Hank Balargeon" = <strong>Hank Baillargeon</strong>. Update place cards with correct spellings.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">🇬🇧</span><div><strong>UK guests — all declined:</strong> Hamish &amp; Val Robb, Anna Phillips, Rob &amp; Lys Donelan. Freed seats available for late RSVPs.</div></div>
     <div class="seating-alert-row"><span style="font-size:14px;">✅</span><div><strong>Doris Wheeler:</strong> Uses Brian Wheeler's mailing address — no separate address needed.</div></div>
+    <div class="seating-alert-row"><span style="font-size:14px;">❓</span><div><strong>Table 4 (Mt Rainier):</strong> Markus Sullivan's parents listed as "Markus Mom" / "Markus Dad" — confirm names for place cards.</div></div>
   </div>
-  <div class="section-header">Table Assignments — 11 Tables + Sweetheart</div>
-  <div class="seating-grid" id="seating-grid"></div>
+  <style>
+  .tc-card{background:white;border-radius:12px;border:1px solid var(--light-border);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+  .tc-visual{position:relative;height:230px;background:var(--cream);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;}
+  .tc-inner{position:relative;width:260px;height:230px;flex-shrink:0;}
+  .tc-table-disk{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:2;}
+  .tc-seat{position:absolute;font-size:9px;font-weight:500;background:white;border:1px solid #D8D0C8;border-radius:10px;padding:2px 5px;white-space:nowrap;max-width:74px;overflow:hidden;text-overflow:ellipsis;transform:translate(-50%,-50%);text-align:center;line-height:1.25;z-index:3;cursor:default;transition:max-width .15s,box-shadow .15s;}
+  .tc-seat:hover{max-width:160px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .tc-seat.role-seat{border-color:var(--amber);font-weight:700;background:#FFF8EE;}
+  .tc-seat.flag-seat{border-color:var(--urgent);color:var(--urgent);}
+  .tc-info{padding:10px 14px;border-top:1px solid var(--light-border);}
+  .tc-name{font-size:12px;font-weight:700;color:var(--dark);}
+  .tc-count{font-size:10px;color:var(--mid);margin-top:2px;}
+  .waptus-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#5B21B6;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  .waptus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+  .other-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  .other-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+  </style>
+  <div class="section-header">Table Assignments — 12 Tables</div>
+  <div class="waptus-label">🏔️ Waptus Lake — Head &amp; Kings Tables</div>
+  <div class="waptus-grid" id="seating-grid-waptus"></div>
+  <div class="other-label">🔢 Tables 1–9</div>
+  <div class="other-grid" id="seating-grid-other"></div>
 </div>
 
 <!-- DIY CHECKLIST -->
@@ -1994,19 +2014,38 @@ function exportGuestsCSV(allergyOnly){
 
 // ---- SEATING CHART ----
 const tables=[
-  {name:'Sweetheart Table — Waptus Lake',type:'sweetheart',cls:'table-header-sweetheart',seats:[
+  // --- WAPTUS LAKE ---
+  {name:'Head Table — Waptus Lake',type:'sweetheart',seats:[
     {name:'Jade Butler',role:'Bride'},
     {name:'Brandon Wheeler',role:'Groom'},
   ]},
-  {name:'Lake Colchuck — Groom Family',type:'groom',cls:'table-header-groom',seats:[
+  {name:'Kings Table 1 — Waptus Lake',type:'kings',seats:[
+    {name:'Kyle Kraushaar'},
+    {name:"McKenna O'Leary"},
+    {name:'Nick Peterson'},
+    {name:'Chandler Wooley'},
+    {name:'Nathalie Lecaros'},
+    {name:'Anton Soderquist'},
+  ]},
+  {name:'Kings Table 2 — Waptus Lake',type:'kings',seats:[
+    {name:'Lauren Butler'},
+    {name:'Taylor Wood'},
+    {name:'Kylie Gordon'},
+    {name:'Nick Pribble'},
+    {name:'Taylor Scharbach'},
+    {name:'Zach Scharbach'},
+    {name:'Brooke Wheeler'},
+  ]},
+  // --- NUMBERED TABLES 1–9 ---
+  {name:'1 Lake Colchuck — Groom Family',type:'groom',seats:[
     {name:'Tammy Wheeler'},
     {name:'Brian Wheeler'},
-    {name:'Doris Wheeler',note:'Uses Brian\'s address'},
-    {name:'Leslie Rodriguez',note:'Brian\'s guest'},
-    {name:'Tom Wheeler'},
+    {name:'Doris Wheeler',note:"Uses Brian's address"},
     {name:'Jere Batten'},
+    {name:'Noah Dimit'},
+    {name:'Brenda McGuire-Brown'},
   ]},
-  {name:'Mt Bachelor — Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+  {name:'2 Mt Bachelor — Couple Friends',type:'friends',seats:[
     {name:'Connor Bryant'},
     {name:'Caroline Heath'},
     {name:'Dillon Wright'},
@@ -2016,104 +2055,118 @@ const tables=[
     {name:'Sam Nepali'},
     {name:'Ashley Kirby'},
   ]},
-  {name:'Park Butte — Bride Family',type:'bride',cls:'table-header-bride',seats:[
-    {name:'Lucy Butler'},
+  {name:'3 Park Butte — Bride Family',type:'bride',seats:[
     {name:'Steve Butler'},
     {name:'Rosalind Scott'},
     {name:'Bella Vasquez'},
-    {name:'Brandon Blazer'},
-    {name:'Mary Frances Feider-Blazer'},
     {name:'Nikki Dorrans'},
     {name:'Barry Dorrans'},
   ]},
-  {name:'Kings Table 1 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Kyle Kraushaar'},
-    {name:'McKenna O\'Leary'},
-    {name:'Nick Peterson'},
-    {name:'Nick\'s Guest',flag:'⚠ Name needed'},
-    {name:'Chandler Wooley'},
-    {name:'Nathalia Lecaros'},
-    {name:'Anton Soderquist'},
-  ]},
-  {name:'Mt Rainier — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
-    {name:'Noah Dimit'},
+  {name:'4 Mt Rainier — Groom Family & Friends',type:'groom',seats:[
     {name:'Brent Sleep'},
     {name:'Tonni Sleep'},
     {name:'Bruce Sleep'},
     {name:'Candace Sleep'},
-    {name:'Brenda McGuire-Brown'},
+    {name:'Cliff Kraushaar'},
+    {name:'Susan Kraushaar'},
+    {name:'Markus Mom',flag:'⚠ Confirm name'},
+    {name:'Markus Dad',flag:'⚠ Confirm name'},
   ]},
-  {name:'Alpental — Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+  {name:'5 Alpental — Couple Friends',type:'friends',seats:[
     {name:'Kali Clark'},
     {name:'Max Edwards'},
     {name:'Hank Baillargeon',note:'Spreadsheet: "Balargeon"'},
     {name:'Katie Molloy',note:'Spreadsheet: "Katie Mountain"'},
     {name:'Nate Lynch'},
     {name:'Sandy Nguyen',note:'Spreadsheet: "Sandy Lynch"'},
-    {name:'Sean Powell'},
-    {name:'Britta Powell'},
+    {name:'Shamber Safai'},
+    {name:'Cameron Safai'},
   ]},
-  {name:'Deschutes River — Bride Family & Friends',type:'bride',cls:'table-header-bride',seats:[
+  {name:'6 Deschutes River — Bride Family & Friends',type:'bride',seats:[
     {name:'Aurora Paz'},
     {name:'Andres Paz'},
     {name:'Jeremiah Andrick'},
     {name:'Rebecca Andrick'},
-    {name:'Nikolai Bjorner'},
-    {name:'Bodil Bjorner'},
-    {name:'Robert Orleth'},
-    {name:'Sonya Orleth'},
+    {name:'Brandon Blazer'},
+    {name:'Mary Frances Blazer'},
+    {name:'Kathy Goldstein'},
   ]},
-  {name:'Kings Table 2 — Waptus Lake',type:'kings',cls:'table-header-kings',seats:[
-    {name:'Lauren Butler'},
-    {name:'Taylor Wood'},
-    {name:'Brooke Wheeler'},
-    {name:'Kylie Gordon'},
-    {name:'Nicholas Pribble'},
-    {name:'Taylor Scharbach'},
-    {name:'Zach Scharbach'},
-  ]},
-  {name:'Vantage — Groom Family & Friends',type:'groom',cls:'table-header-groom',seats:[
+  {name:'7 Vantage — Groom Family & Friends',type:'groom',seats:[
     {name:'Steve Carlsen'},
     {name:'Chris Carlsen'},
     {name:'Tim Welch'},
     {name:'Kyleen Welch'},
-    {name:'Cliff Kraushaar'},
-    {name:'Susan Kraushaar'},
-    {name:'Markus Sullivan'},
-    {name:'Markus\'s Guest',flag:'⚠ Name needed'},
+    {name:'Ellie Carlsen'},
+    {name:'Jake Carlsen'},
+    {name:'Tyler Welch'},
   ]},
-  {name:'Orcas Island — Groom & Couple Friends',type:'friends',cls:'table-header-friends',seats:[
+  {name:'8 Orcas Island — Groom & Couple Friends',type:'friends',seats:[
+    {name:'Markus Sullivan'},
     {name:'Nick Mutolo'},
     {name:'Kylie Rardin'},
     {name:'Megan Lambert'},
     {name:"Gavin O'Donnell"},
     {name:'Sofia Stoughton'},
     {name:'Alessandro Scott'},
-    {name:'Cassidy Isaacson'},
-    {name:'Alex James'},
   ]},
-  {name:'Blue Lake — Bride Friends',type:'bride',cls:'table-header-bride',seats:[
-    {name:'Kathy Goldstein'},
-    {name:'Shamber Safai'},
-    {name:'Cameron Safai'},
-    {name:'Julia James'},
-    {name:'Charlotte Nash'},
-    {name:'Charlotte\'s Guest',flag:'⚠ Name needed'},
-    {name:'Tiffany Neiman'},
-    {name:'Marcus Neiman'},
+  {name:'9 Blue Lake — Bride Friends',type:'bride',seats:[
+    {name:'Nikolai Bjorner'},
+    {name:'Bodil Bjorner'},
+    {name:'Robert Orleth'},
+    {name:'Sonya Orleth'},
+    {name:'Gina Masoero'},
+    {name:'Susan Schneider'},
   ]},
 ];
-document.getElementById('seating-grid').innerHTML=tables.map(t=>`
-  <div class="table-card">
-    <div class="table-card-header ${t.cls}">${t.name} <span style="font-size:10px;opacity:.8;">(${t.seats.length} seats)</span></div>
-    <div class="table-card-body">
-      ${t.seats.map((s,i)=>`<div class="seat-row">
-        <div class="seat-num">${i+1}</div>
-        <div style="flex:1;font-weight:${s.role?700:400};">${s.name}${s.role?` <span style="font-size:10px;color:var(--amber);font-weight:600;">${s.role}</span>`:''}${s.note?` <span style="font-size:10px;color:var(--mid);">·  ${s.note}</span>`:''}${s.flag?`<span class="seat-flag">${s.flag}</span>`:''}</div>
-      </div>`).join('')}
+
+// ---- CIRCULAR TABLE RENDERER ----
+function tcShortName(name){
+  if(!name) return '—';
+  if(name.length<=12) return name;
+  const p=name.split(' ');
+  if(p.length===1) return name.substring(0,11);
+  return p[0]+' '+p[p.length-1][0]+'.';
+}
+function renderCircTable(t){
+  const n=t.seats.length;
+  const cx=130,cy=113;
+  const tableR=n<=2?52:40;
+  const seatR=n<=2?0:n<=4?70:n<=6?78:n<=7?83:87;
+  const pal={sweetheart:'#020C45',kings:'#5B21B6',groom:'#1A3A5C',bride:'#7B3F2B',friends:'#9F3E1F'};
+  const bg=pal[t.type]||pal.friends;
+  const numMatch=t.name.match(/^(\d+)\s/);
+  const num=numMatch?numMatch[1]:'';
+  const locWords=t.name.split('—')[0].trim().replace(/^\d+\s+/,'').split(' ');
+  const loc=locWords.slice(0,3).join(' ');
+  let seatsHTML='';
+  if(n<=2){
+    t.seats.forEach((s,i)=>{
+      const x=cx+(i===0?-56:56),y=cy+tableR+22;
+      seatsHTML+=`<div class="tc-seat role-seat" style="left:${x}px;top:${y}px;" title="${s.name}">${s.role||tcShortName(s.name)}</div>`;
+    });
+  } else {
+    t.seats.forEach((s,i)=>{
+      const angle=(i/n)*2*Math.PI-Math.PI/2;
+      const x=cx+Math.cos(angle)*seatR,y=cy+Math.sin(angle)*seatR;
+      const cls=s.role?'role-seat':s.flag?'flag-seat':'';
+      const label=s.flag?'⚠ '+tcShortName(s.name):tcShortName(s.name);
+      seatsHTML+=`<div class="tc-seat ${cls}" style="left:${x}px;top:${y}px;" title="${s.name}${s.note?' · '+s.note:''}${s.flag?' · '+s.flag:''}">${label}</div>`;
+    });
+  }
+  return `<div class="tc-card"><div class="tc-visual"><div class="tc-inner">
+    <div class="tc-table-disk" style="left:${cx-tableR}px;top:${cy-tableR}px;width:${tableR*2}px;height:${tableR*2}px;background:${bg};">
+      ${num?`<div style="font-size:15px;font-weight:900;color:white;line-height:1;">${num}</div>`:''}
+      <div style="font-size:7.5px;font-weight:600;color:rgba(255,255,255,.78);text-align:center;padding:0 5px;line-height:1.4;">${loc}</div>
     </div>
-  </div>
-`).join('');
+    ${seatsHTML}
+  </div></div>
+  <div class="tc-info"><div class="tc-name">${t.name}</div><div class="tc-count">${n} seat${n===1?'':'s'}</div></div>
+</div>`;
+}
+const waptusTables=tables.filter(t=>t.type==='sweetheart'||t.type==='kings');
+const otherTables=tables.filter(t=>t.type!=='sweetheart'&&t.type!=='kings');
+document.getElementById('seating-grid-waptus').innerHTML=waptusTables.map(renderCircTable).join('');
+document.getElementById('seating-grid-other').innerHTML=otherTables.map(renderCircTable).join('');
 
 // ---- DIY CHECKLIST ----
 const diyGroups=[
