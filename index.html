@@ -402,6 +402,7 @@ table.guest-table tr:hover td{background:#FDFAF6;}
   <div class="tab" onclick="showTab('vendors')">🤝 Vendors</div>
   <div class="tab" onclick="showTab('honeymoon')">🏔️ Honeymoon</div>
   <div class="tab" onclick="showTab('shopping')">🛒 Shopping</div>
+  <div class="tab" onclick="showTab('logistics')">🚗 Arrivals</div>
 </div>
 
 <!-- DASHBOARD -->
@@ -1316,6 +1317,119 @@ table.guest-table tr:hover td{background:#FDFAF6;}
     </div>
   </div>
 </div>
+
+<!-- ARRIVALS & LODGING -->
+<div class="panel" id="tab-logistics">
+<style>
+.log-table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;border:1px solid var(--light-border);margin-bottom:24px;}
+.log-table th{background:#F0EBE3;padding:9px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mid);}
+.log-table td{padding:8px 12px;border-top:1px solid var(--light-border);font-size:12px;vertical-align:middle;}
+.log-table tr:hover td{background:#FDFAF6;}
+.log-table td[contenteditable]{cursor:text;transition:background .1s;min-width:60px;}
+.log-table td[contenteditable]:hover{background:#FFF8EE;}
+.log-table td[contenteditable]:focus{outline:2px solid var(--amber);outline-offset:-2px;background:white;}
+.log-table td[contenteditable]:empty::before{content:attr(data-ph);color:#C8BFBA;font-style:italic;}
+.log-name-cell{font-weight:600;}
+.log-role-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block;white-space:nowrap;}
+.log-role-bride{background:#FDF0E8;color:#8B4513;}
+.log-role-groom{background:#E8EFF8;color:#1A3A5C;}
+.log-sub-header{font-size:13px;font-weight:700;color:var(--dark);margin:20px 0 10px;padding-bottom:7px;border-bottom:2px solid var(--light-border);}
+.log-zola-tag{font-size:10px;font-weight:600;background:#EDE9FE;color:#5B21B6;border-radius:10px;padding:1px 7px;}
+.log-alert-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:12px;color:#92400E;line-height:1.7;}
+</style>
+
+  <div class="section-header">🚗 Arrival &amp; Lodging Tracker</div>
+  <p style="font-size:12px;color:var(--mid);margin:0 0 14px 0;">Track when bridal party &amp; immediate family are arriving and where they're staying. <strong>Click any cell to edit</strong> — saves in your browser.</p>
+
+  <div class="log-alert-box">
+    ⚠️ <strong>Still need info from:</strong> Brian Wheeler &nbsp;·&nbsp; Doris Wheeler &nbsp;·&nbsp; Steve Butler &amp; Lucy Butler &nbsp;·&nbsp; Tom Wheeler<br>
+    Also fill in bridal party names in the rows below if anyone is missing.
+  </div>
+
+  <div class="log-sub-header">💐 Bridal Party</div>
+  <table class="log-table">
+    <thead><tr>
+      <th style="width:24%">Name</th>
+      <th style="width:12%">Role</th>
+      <th style="width:19%">Arriving</th>
+      <th style="width:21%">Where Staying</th>
+      <th style="width:9%">Source</th>
+      <th>Notes</th>
+    </tr></thead>
+    <tbody id="log-party-tbody"></tbody>
+  </table>
+
+  <div class="log-sub-header">👨‍👩‍👧 Immediate Family</div>
+  <table class="log-table">
+    <thead><tr>
+      <th style="width:24%">Name</th>
+      <th style="width:12%">Role</th>
+      <th style="width:19%">Arriving</th>
+      <th style="width:21%">Where Staying</th>
+      <th style="width:9%">Source</th>
+      <th>Notes</th>
+    </tr></thead>
+    <tbody id="log-family-tbody"></tbody>
+  </table>
+
+  <p style="font-size:11px;color:var(--mid);margin-top:2px;">✏️ Click any cell to edit &nbsp;·&nbsp; <span class="log-zola-tag">Zola ✓</span> = answered on your wedding website &nbsp;·&nbsp; changes save in your browser</p>
+</div>
+
+<script>
+// ---- ARRIVALS & LODGING TRACKER ----
+const logPartyData=[
+  {id:'l-lauren',  name:'Lauren Butler + Taylor Wood',role:'MOH',        cls:'bride',arriving:'',                 staying:'FivePine Lodge',src:'zola',   notes:''},
+  {id:'l-bm2',     name:'',                           role:'Bridesmaid', cls:'bride',arriving:'',                 staying:'',              src:'',       notes:'Add name →'},
+  {id:'l-bm3',     name:'',                           role:'Bridesmaid', cls:'bride',arriving:'',                 staying:'',              src:'',       notes:'Add name →'},
+  {id:'l-bestman', name:'',                           role:'Best Man',   cls:'groom',arriving:'',                 staying:'',              src:'',       notes:'Add name →'},
+  {id:'l-gm2',     name:'',                           role:'Groomsman',  cls:'groom',arriving:'',                 staying:'',              src:'',       notes:'Add name →'},
+  {id:'l-gm3',     name:'',                           role:'Groomsman',  cls:'groom',arriving:'',                 staying:'',              src:'',       notes:'Add name →'},
+];
+const logFamilyData=[
+  {id:'l-kathy',  name:'Kathy Goldstein',             role:"Jade's Mom",       cls:'bride',arriving:'',                 staying:'FivePine Lodge',src:'zola',   notes:''},
+  {id:'l-steve',  name:'Steve Butler + Lucy Butler',  role:"Jade's Dad",       cls:'bride',arriving:'',                 staying:'',              src:'',       notes:''},
+  {id:'l-brian',  name:'Brian Wheeler',               role:"Brandon's Dad",    cls:'groom',arriving:'',                 staying:'',              src:'',       notes:''},
+  {id:'l-doris',  name:'Doris Wheeler',               role:"Brandon's Mom",    cls:'groom',arriving:'',                 staying:'',              src:'',       notes:''},
+  {id:'l-tammy',  name:'Tammy Wheeler + Jere Batten', role:"Brandon's Family", cls:'groom',arriving:'Thursday morning',  staying:'FivePine Lodge',src:'zola',   notes:''},
+  {id:'l-brooke', name:'Brooke Wheeler',              role:"Brandon's Sister", cls:'groom',arriving:'Wednesday the 8th', staying:'FivePine Lodge',src:'zola',   notes:'(Oct 8 = Thursday)'},
+  {id:'l-tom',    name:'Tom Wheeler',                 role:"Brandon's Family", cls:'groom',arriving:'',                 staying:'',              src:'no-rsvp',notes:'No RSVP yet'},
+];
+function lGet(id,f,def){try{const v=localStorage.getItem('logv1_'+id+'_'+f);return v!==null?v:def;}catch(e){return def;}}
+function lSet(id,f,v){try{localStorage.setItem('logv1_'+id+'_'+f,v);}catch(e){}}
+function logEC(td,id,f,def){
+  td.contentEditable='true';
+  td.setAttribute('data-ph', td.getAttribute('data-ph')||'—');
+  td.textContent=lGet(id,f,def);
+  td.addEventListener('blur',()=>lSet(id,f,td.textContent.trim()));
+}
+function logRow(row){
+  const tr=document.createElement('tr');
+  // Name
+  const n=document.createElement('td');n.className='log-name-cell';n.setAttribute('data-ph','Enter name…');logEC(n,row.id,'name',row.name);tr.appendChild(n);
+  // Role badge
+  const rb=document.createElement('td');rb.innerHTML='<span class="log-role-badge log-role-'+row.cls+'">'+row.role+'</span>';tr.appendChild(rb);
+  // Arriving
+  const a=document.createElement('td');a.setAttribute('data-ph','When arriving…');logEC(a,row.id,'arriving',row.arriving);tr.appendChild(a);
+  // Staying
+  const s=document.createElement('td');s.setAttribute('data-ph','Where staying…');logEC(s,row.id,'staying',row.staying);tr.appendChild(s);
+  // Source
+  const src=document.createElement('td');
+  if(row.src==='zola')src.innerHTML='<span class="log-zola-tag">Zola ✓</span>';
+  else if(row.src==='no-rsvp')src.innerHTML='<span style="font-size:10px;color:var(--urgent);font-weight:600;">No RSVP</span>';
+  else src.innerHTML='<span style="font-size:10px;color:#ccc;">—</span>';
+  tr.appendChild(src);
+  // Notes
+  const nd=document.createElement('td');nd.setAttribute('data-ph','Notes…');logEC(nd,row.id,'notes',row.notes);tr.appendChild(nd);
+  return tr;
+}
+function logInit(){
+  const p=document.getElementById('log-party-tbody');
+  const f=document.getElementById('log-family-tbody');
+  if(p)logPartyData.forEach(r=>p.appendChild(logRow(r)));
+  if(f)logFamilyData.forEach(r=>f.appendChild(logRow(r)));
+}
+document.addEventListener('DOMContentLoaded',logInit);
+</script>
 
 <script>
 // ---- SHOPPING CHECKLIST ----
